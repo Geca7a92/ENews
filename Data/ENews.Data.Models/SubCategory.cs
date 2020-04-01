@@ -10,7 +10,7 @@ namespace ENews.Data.Models
     {
         public SubCategory()
         {
-            this.Articles = new HashSet<Article>();
+            this.Articles = new HashSet<ArticleSubCategory>();
         }
 
         public string Title { get; set; }
@@ -20,6 +20,6 @@ namespace ENews.Data.Models
         [Required]
         public int CategoryId { get; set; }
 
-        public ICollection<Article> Articles { get; set; }
+        public virtual ICollection<ArticleSubCategory> Articles { get; set; }
     }
 }

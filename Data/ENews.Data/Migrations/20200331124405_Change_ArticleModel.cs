@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ENews.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Change_ArticleModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,6 +33,8 @@ namespace ENews.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
                     Desctription = table.Column<string>(maxLength: 200, nullable: true)
                 },
@@ -88,6 +90,7 @@ namespace ENews.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -97,6 +100,42 @@ namespace ENews.Data.Migrations
                         name: "FK_SubCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ArticleCategory",
+                columns: table => new
+                {
+                    ArticleId = table.Column<int>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArticleCategory", x => new { x.ArticleId, x.CategoryId });
+                    table.ForeignKey(
+                        name: "FK_ArticleCategory_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ArticleSubCategory",
+                columns: table => new
+                {
+                    ArticleId = table.Column<int>(nullable: false),
+                    SubCategoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArticleSubCategory", x => new { x.ArticleId, x.SubCategoryId });
+                    table.ForeignKey(
+                        name: "FK_ArticleSubCategory_SubCategories_SubCategoryId",
+                        column: x => x.SubCategoryId,
+                        principalTable: "SubCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -190,7 +229,7 @@ namespace ENews.Data.Migrations
                     LastName = table.Column<string>(maxLength: 30, nullable: true),
                     Biography = table.Column<string>(maxLength: 500, nullable: true),
                     AddressId = table.Column<int>(nullable: false),
-                    ProfilePictureId = table.Column<int>(nullable: false)
+                    ProfilePictureId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -241,8 +280,6 @@ namespace ENews.Data.Migrations
                     PictureId = table.Column<int>(nullable: false),
                     GalleryId = table.Column<int>(nullable: true),
                     AuthorId = table.Column<string>(nullable: false),
-                    SubCategoryId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false),
                     Area = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -255,21 +292,9 @@ namespace ENews.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Articles_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Articles_Images_PictureId",
                         column: x => x.PictureId,
                         principalTable: "Images",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Articles_SubCategories_SubCategoryId",
-                        column: x => x.SubCategoryId,
-                        principalTable: "SubCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -367,14 +392,14 @@ namespace ENews.Data.Migrations
                 filter: "[ApplicationUserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ArticleCategory_CategoryId",
+                table: "ArticleCategory",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Articles_AuthorId",
                 table: "Articles",
                 column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Articles_CategoryId",
-                table: "Articles",
-                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_IsDeleted",
@@ -387,8 +412,8 @@ namespace ENews.Data.Migrations
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Articles_SubCategoryId",
-                table: "Articles",
+                name: "IX_ArticleSubCategory_SubCategoryId",
+                table: "ArticleSubCategory",
                 column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
@@ -446,6 +471,11 @@ namespace ENews.Data.Migrations
                 column: "ProfilePictureId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Categories_IsDeleted",
+                table: "Categories",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_ArticleId",
                 table: "Comments",
                 column: "ArticleId");
@@ -492,6 +522,22 @@ namespace ENews.Data.Migrations
                 column: "CategoryId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_ArticleCategory_Articles_ArticleId",
+                table: "ArticleCategory",
+                column: "ArticleId",
+                principalTable: "Articles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ArticleSubCategory_Articles_ArticleId",
+                table: "ArticleSubCategory",
+                column: "ArticleId",
+                principalTable: "Articles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Comments_AspNetUsers_UserId",
                 table: "Comments",
                 column: "UserId",
@@ -523,19 +569,17 @@ namespace ENews.Data.Migrations
                 table: "Articles");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Articles_Categories_CategoryId",
-                table: "Articles");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_SubCategories_Categories_CategoryId",
-                table: "SubCategories");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Articles_Images_PictureId",
-                table: "Articles");
+                name: "FK_Galleries_Articles_ArticleId",
+                table: "Galleries");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "ArticleCategory");
+
+            migrationBuilder.DropTable(
+                name: "ArticleSubCategory");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -559,25 +603,25 @@ namespace ENews.Data.Migrations
                 name: "Settings");
 
             migrationBuilder.DropTable(
+                name: "SubCategories");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Articles");
 
             migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
                 name: "Galleries");
-
-            migrationBuilder.DropTable(
-                name: "Articles");
-
-            migrationBuilder.DropTable(
-                name: "SubCategories");
         }
     }
 }

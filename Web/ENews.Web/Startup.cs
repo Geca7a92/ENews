@@ -73,6 +73,7 @@
 
                 if (env.IsDevelopment())
                 {
+                    dbContext.Database.EnsureDeleted();
                     dbContext.Database.Migrate();
                 }
 

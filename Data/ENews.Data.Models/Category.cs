@@ -6,11 +6,12 @@ using System.Text;
 
 namespace ENews.Data.Models
 {
-    public class Category : BaseModel<int>
+    public class Category : BaseDeletableModel<int>
     {
         public Category()
         {
             this.SubCategories = new HashSet<SubCategory>();
+            this.Articles = new HashSet<ArticleCategory>();
         }
 
         [Required]
@@ -20,6 +21,8 @@ namespace ENews.Data.Models
         [MaxLength(200)]
         public string Desctription { get; set; }
 
-        public ICollection<SubCategory> SubCategories { get; set; }
+        public virtual ICollection<ArticleCategory> Articles { get; set; }
+
+        public virtual ICollection<SubCategory> SubCategories { get; set; }
     }
 }
