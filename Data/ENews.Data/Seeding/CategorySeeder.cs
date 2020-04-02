@@ -11,13 +11,16 @@ namespace ENews.Data.Seeding
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            await SeedCategoryAsync(dbContext, "Business");
-            await SeedCategoryAsync(dbContext, "Politics");
-            await SeedCategoryAsync(dbContext, "World");
-            await SeedCategoryAsync(dbContext, "Society");
-            await SeedCategoryAsync(dbContext, "Sport");
-            await SeedCategoryAsync(dbContext, "Culture");
-            await SeedCategoryAsync(dbContext, "Bulgaria");
+            if (!dbContext.Categories.Any())
+            {
+                await SeedCategoryAsync(dbContext, "Business");
+                await SeedCategoryAsync(dbContext, "Politics");
+                await SeedCategoryAsync(dbContext, "World");
+                await SeedCategoryAsync(dbContext, "Society");
+                await SeedCategoryAsync(dbContext, "Sport");
+                await SeedCategoryAsync(dbContext, "Culture");
+                await SeedCategoryAsync(dbContext, "Bulgaria");
+            }
         }
 
         private static async Task SeedCategoryAsync(ApplicationDbContext dbContext, string categotyName)
@@ -25,7 +28,7 @@ namespace ENews.Data.Seeding
             var category = dbContext.Categories.FirstOrDefault(x => x.Title == categotyName);
             if (category == null)
             {
-                var result = await dbContext.Categories.AddAsync(new Category
+                await dbContext.Categories.AddAsync(new Category
                 {
                     Title = categotyName,
                     Desctription = categotyName,

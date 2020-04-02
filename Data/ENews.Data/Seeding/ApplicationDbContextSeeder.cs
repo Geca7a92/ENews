@@ -29,6 +29,7 @@
                               new SettingsSeeder(),
                               new CategorySeeder(),
                               new SubCategorySeeder(),
+                              new ImageSeeder(),
                           };
 
             foreach (var seeder in seeders)

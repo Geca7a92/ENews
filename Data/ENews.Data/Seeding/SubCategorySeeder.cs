@@ -12,13 +12,15 @@ namespace ENews.Data.Seeding
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            var asd = new List<string>();
-            await SeedSubCategoryAsync(dbContext, "Business", GlobalConstants.BussinesSubcategories);
-            await SeedSubCategoryAsync(dbContext, "Politics", GlobalConstants.PoliticsSubcategories);
-            await SeedSubCategoryAsync(dbContext, "World", GlobalConstants.WorldSubcategories);
-            await SeedSubCategoryAsync(dbContext, "Society", GlobalConstants.SocietySubcategories);
-            await SeedSubCategoryAsync(dbContext, "Sport", GlobalConstants.SportSubcategories);
-            await SeedSubCategoryAsync(dbContext, "Culture", GlobalConstants.CultureSubcategories);
+            if (!dbContext.SubCategories.Any())
+            {
+                await SeedSubCategoryAsync(dbContext, "Business", GlobalConstants.BussinesSubcategories);
+                await SeedSubCategoryAsync(dbContext, "Politics", GlobalConstants.PoliticsSubcategories);
+                await SeedSubCategoryAsync(dbContext, "World", GlobalConstants.WorldSubcategories);
+                await SeedSubCategoryAsync(dbContext, "Society", GlobalConstants.SocietySubcategories);
+                await SeedSubCategoryAsync(dbContext, "Sport", GlobalConstants.SportSubcategories);
+                await SeedSubCategoryAsync(dbContext, "Culture", GlobalConstants.CultureSubcategories);
+            }
         }
 
         private static async Task SeedSubCategoryAsync(ApplicationDbContext dbContext, string categoryName, ICollection<string> subCategoryNames)

@@ -1,7 +1,7 @@
 ﻿namespace ENews.Web
 {
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using ENews.Data;
     using ENews.Data.Common;
     using ENews.Data.Common.Repositories;
@@ -49,6 +49,14 @@
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            var cloudinaryAccount = new Account(
+                this.configuration["Cloudinary:AppName"],
+                this.configuration["Cloudinary:AppKey"],
+                this.configuration["Cloudinary:AppSecret"]);
+
+            var cloudinary = new Cloudinary(cloudinaryAccount);
+
+            services.AddSingleton(cloudinary);
             services.AddSingleton(this.configuration);
 
             // Data repositories
@@ -73,7 +81,7 @@
 
                 if (env.IsDevelopment())
                 {
-                    dbContext.Database.EnsureDeleted();
+                    //dbContext.Database.EnsureDeleted();
                     dbContext.Database.Migrate();
                 }
 
