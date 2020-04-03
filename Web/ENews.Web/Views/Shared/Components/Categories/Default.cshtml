@@ -1,0 +1,10 @@
+﻿@model ENews.Web.ViewModels.CategoriesViewModel
+
+<ul class="navbar-nav flex-grow-1">
+    @foreach (var category in Model.Categories)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Categories" asp-action="Index" asp-route-name="@category.Title">@category.Title</a>
+        </li>
+    }
+</ul>
