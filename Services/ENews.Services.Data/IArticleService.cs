@@ -11,5 +11,7 @@ namespace ENews.Services.Data
         IEnumerable<T> GetAllByCreatedOn<T>(int? count = null);
 
         IEnumerable<T> GetArticlesBySubCategoryName<T>(string name);
+
+        IEnumerable<T> GetArticlesByCategoryName<T>(string name);
     }
 }

@@ -11,18 +11,20 @@ namespace ENews.Web.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly ICategoriesService categoriesService;
         private readonly IArticleService articleService;
 
-        public CategoriesController(ICategoriesService categoriesService, IArticleService articleService)
+        public CategoriesController(IArticleService articleService)
         {
-            this.categoriesService = categoriesService;
             this.articleService = articleService;
         }
 
         public IActionResult Index(string name)
         {
-            var viewModel = this.categoriesService.GetCategoryByName<CategoryViewModel>(name);
+            var viewModel = new MainCategoryArticlesViewModel()
+            {
+                Articles = this.articleService.GetArticlesByCategoryName<ArticleViewModel>(name),
+                Title = name,
+            };
             return this.View(viewModel);
         }
 

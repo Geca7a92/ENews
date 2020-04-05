@@ -9,7 +9,5 @@ namespace ENews.Web.ViewModels
         public string Title { get; set; }
 
         public IEnumerable<SubCategoryViewModel> SubCategories { get; set; }
-
-        public IEnumerable<ArticleViewModel> Articles { get; set; }
     }
 }

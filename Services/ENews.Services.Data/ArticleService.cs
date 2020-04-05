@@ -41,10 +41,18 @@
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetArticlesByCategoryName<T>(string name)
+        {
+            IQueryable<Article> query
+                = this.articleRepository.All().Where(a => a.Category.Title == name).OrderByDescending(a => a.CreatedOn);
+
+            return query.To<T>().ToList();
+        }
+
         public IEnumerable<T> GetArticlesBySubCategoryName<T>(string name)
         {
             IQueryable<Article> query
-                = this.articleRepository.All().Where(a => a.SubCategory.Title == name);
+                = this.articleRepository.All().Where(a => a.SubCategory.Title == name).OrderByDescending(a => a.CreatedOn);
 
             return query.To<T>().ToList();
         }
