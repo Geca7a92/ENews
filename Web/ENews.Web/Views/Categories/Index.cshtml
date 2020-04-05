@@ -3,21 +3,23 @@
 @{
     this.ViewData["Title"] = Model.Title;
 }
-<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container">
-        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-            <ul class="navbar-nav flex-grow-1">
-                @foreach (var subCategory in Model.SubCategories)
-                {
-                    <li class="nav-item">
-                        @*<a class="nav-link text-dark" href="@subCategory.Url">@subCategory.Title</a>*@
-                        <a asp-controller="Categories" asp-action="BySubCategory" asp-route-name="@subCategory.Title" class="nav-link text-dark">@subCategory.Title</a>
-                    </li>
-                }
-            </ul>
+
+@*<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    @foreach (var subCategory in Model.SubCategories)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@subCategory.Url">@subCategory.Title</a>
+                            <a asp-controller="Categories" asp-action="BySubCategory" asp-route-name="@subCategory.Title" class="nav-link text-dark">@subCategory.Title</a>
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>*@
+
 <h1>Hello From @Model.Title</h1>
 
 @foreach (var article in Model.Articles)

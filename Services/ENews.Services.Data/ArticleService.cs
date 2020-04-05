@@ -32,7 +32,7 @@
         public IEnumerable<T> GetAllByCreatedOn<T>(int? count = null)
         {
             IQueryable<Article> query
-                = this.articleRepository.All().OrderBy(x => x.CreatedOn);
+                = this.articleRepository.All().OrderByDescending(x => x.CreatedOn);
             if (count != null)
             {
                 query = query.Take(count.Value);

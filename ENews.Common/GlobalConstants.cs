@@ -8,7 +8,7 @@ namespace ENews.Common
 
         public const string AdministratorRoleName = "Administrator";
 
-        public const string EdditorRoleName = "Edditor";
+        public const string AuthorRoleName = "Author";
 
         public const string LogedingUserRoleName = "User";
 
