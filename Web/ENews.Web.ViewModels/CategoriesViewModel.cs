@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels
+﻿namespace ENews.Web.ViewModels
 {
+    using System.Collections.Generic;
+
     public class CategoriesViewModel
     {
-        public ICollection<CategoryViewModel> Categories { get; set; }
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
     }
 }

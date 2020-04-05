@@ -11,7 +11,7 @@ namespace ENews.Data.Models
         public Category()
         {
             this.SubCategories = new HashSet<SubCategory>();
-            this.Articles = new HashSet<ArticleCategory>();
+            this.Articles = new HashSet<Article>();
         }
 
         [Required]
@@ -21,7 +21,7 @@ namespace ENews.Data.Models
         [MaxLength(200)]
         public string Desctription { get; set; }
 
-        public virtual ICollection<ArticleCategory> Articles { get; set; }
+        public virtual ICollection<Article> Articles { get; set; }
 
         public virtual ICollection<SubCategory> SubCategories { get; set; }
     }

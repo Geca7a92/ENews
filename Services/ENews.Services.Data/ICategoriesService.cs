@@ -7,6 +7,6 @@ namespace ENews.Services.Data
     {
         IEnumerable<T> GetAll<T>(int? count = null);
 
-        T GetByName<T>(string name);
+        T GetCategoryByName<T>(string name);
     }
 }

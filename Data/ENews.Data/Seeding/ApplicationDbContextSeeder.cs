@@ -30,6 +30,7 @@
                               new CategorySeeder(),
                               new SubCategorySeeder(),
                               new ImageSeeder(),
+                              new ArticleSeeder(),
                           };
 
             foreach (var seeder in seeders)

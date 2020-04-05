@@ -11,8 +11,6 @@
         public Article()
         {
             this.Comments = new HashSet<Comment>();
-            this.Categories = new HashSet<ArticleCategory>();
-            this.SubCategories = new HashSet<ArticleSubCategory>();
         }
 
         [Required]
@@ -40,9 +38,15 @@
 
         public virtual ApplicationUser Author { get; set; }
 
-        public virtual ICollection<ArticleSubCategory> SubCategories { get; set; }
+        [Required]
+        public int SubCategoryId { get; set; }
 
-        public virtual ICollection<ArticleCategory> Categories { get; set; }
+        public SubCategory SubCategory { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }
+
+        public Category Category { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
 

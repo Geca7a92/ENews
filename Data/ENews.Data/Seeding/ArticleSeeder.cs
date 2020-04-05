@@ -1,5 +1,4 @@
 ﻿using ENews.Data.Models;
-using ENews.Data.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,44 +9,43 @@ namespace ENews.Data.Seeding
 {
     public class ArticleSeeder : ISeeder
     {
+        public const string TestString = "Historically certain manufacturing industries have gone into a decline due to various economic factors, including the development of replacement technology or the loss of competitive advantage. " +
+            "An example of the former is the decline in carriage manufacturing when the automobile was mass-produced.A recent trend has been the migration of prosperous, industrialized nations towards a post-industrial society. " +
+            "This is manifested by an increase in the service sector at the expense of manufacturing, and the development of an information-based economy, the so-called informational revolution. " +
+            "In a post-industrial society, manufacturers relocate to more profitable locations through a process of off-shoring.Measurements of manufacturing industries outputs and economic effect are not historically stable. " +
+            "Traditionally, success has been measured in the number of jobs created. " +
+            "The reduced number of employees in the manufacturing sector has been assumed to result from a decline in the competitiveness of the sector, or the introduction of the lean manufacturing process. " +
+            "Related to this change is the upgrading of the quality of the product being manufactured. " +
+            "While it is possible to produce a low-technology product with low-skill labour, the ability to manufacture high-technology products well is dependent on a highly skilled staff.";
+
+        public const string UserId = "c20642a0-ba04-480c-9b17-19973564bb2e";
+
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            if (!dbContext.Articles.Any())
+            if (dbContext.Articles.Count() < 3)
             {
-                await SeedArticleAsync(dbContext, "Dogs", "Content with CuteDogs");
-                await SeedArticleAsync(dbContext, "Mooncake", "Content for Mooncake");
-                await SeedArticleAsync(dbContext, "Boat", "Content for Boat");
+                await SeedArticleAsync(dbContext, "Some Test Name", TestString, UserId, 2, 1, 18);
+                await SeedArticleAsync(dbContext, "Some Test Name Two", TestString, UserId, 3, 1, 18);
+                await SeedArticleAsync(dbContext, "Some Test Name AnotherOne", TestString, UserId, 1, 1, 19);
             }
         }
 
-        private static async Task SeedArticleAsync(ApplicationDbContext dbContext, string title, string content)
+        private static async Task SeedArticleAsync(ApplicationDbContext dbContext, string articleName, string content, string authorId, int picureId, int categoryId, int subCategoryId)
         {
-            var article = dbContext.Articles.FirstOrDefault(c => c.Title == title);
-            if (article == null)
+            await dbContext.Articles.AddAsync(new Article
             {
-                var adminId = dbContext.Users.FirstOrDefault().Id;
-                var picture = dbContext.Images.FirstOrDefault(p => p.Description == title).Id;
-                var newArticle = await dbContext.Articles.AddAsync(new Article
-                {
-                    Title = title,
-                    Content = content,
-                    AuthorId = adminId,
-                    PictureId = picture,
-                    Area = Models.Enums.Area.Sofia,
-                });
-                newArticle.Entity.Categories.Add(new ArticleCategory
-                {
-                    ArticleId = newArticle.Entity.Id,
-                    CategoryId = 6,
-                });
-
-                newArticle.Entity.SubCategories.Add(new ArticleSubCategory
-                {
-                    ArticleId = newArticle.Entity.Id,
-                    SubCategoryId = 1,
-                });
-                dbContext.SaveChanges();
-            }
+                Title = articleName,
+                Content = content,
+                AuthorId = authorId,
+                PictureId = picureId,
+                CategoryId = categoryId,
+                SubCategoryId = subCategoryId,
+            });
         }
     }
 }
+
+// MC Bussines ID = 1
+// SC Energy ID = 18
+// SC Industry ID = 19
+

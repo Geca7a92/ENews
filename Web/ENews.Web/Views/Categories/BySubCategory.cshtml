@@ -1,1 +1,25 @@
-﻿<h1>FromSub</h1>
+﻿@model ENews.Web.ViewModels.Categories.SubCategoryArticlesViewModel
+
+<h1>FromSub @Model.Title</h1>
+
+@foreach (var article in Model.Articles)
+{
+    <article>
+        <div class="topic">
+            <div class="topic-information">
+                <img src="@article.PictureImageUrl" height="100" width="177" />
+                <h2>
+                    @article.Title - C(@article.CategoryTitle) SubC(@article.SubCategoryTitle)
+                </h2>
+                <p class="text">
+                    @article.ContetPreview
+                </p>
+            </div>
+            <div>
+                <p align="right">
+                    @article.CreatedOn
+                </p>
+            </div>
+        </div>
+    </article>
+}

@@ -1,10 +1,11 @@
-﻿using ENews.Data.Common.Repositories;
-using ENews.Data.Models;
-using System.Collections.Generic;
-using System.Linq;
-using ENews.Services.Mapping;
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using ENews.Data.Common.Repositories;
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
 
     public class CategoriesService : ICategoriesService
     {
@@ -27,7 +28,7 @@ namespace ENews.Services.Data
             return query.To<T>().ToList();
         }
 
-        public T GetByName<T>(string name)
+        public T GetCategoryByName<T>(string name)
         {
             var category = this.categoryRepository.All()
                 .Where(x => x.Title == name)

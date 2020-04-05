@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ENews.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200331124405_Change_ArticleModel")]
-    partial class Change_ArticleModel
+    [Migration("20200403151521_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -205,6 +205,9 @@ namespace ENews.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(2000)")
@@ -228,6 +231,9 @@ namespace ENews.Data.Migrations
                     b.Property<int>("PictureId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(150)")
@@ -240,41 +246,15 @@ namespace ENews.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("PictureId");
 
-                    b.ToTable("Articles");
-                });
-
-            modelBuilder.Entity("ENews.Data.Models.ArticleCategory", b =>
-                {
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArticleId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ArticleCategory");
-                });
-
-            modelBuilder.Entity("ENews.Data.Models.ArticleSubCategory", b =>
-                {
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubCategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArticleId", "SubCategoryId");
-
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("ArticleSubCategory");
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("ENews.Data.Models.Category", b =>
@@ -611,33 +591,15 @@ namespace ENews.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ENews.Data.Models.Image", "Picture")
-                        .WithMany()
-                        .HasForeignKey("PictureId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ENews.Data.Models.ArticleCategory", b =>
-                {
-                    b.HasOne("ENews.Data.Models.Article", "Article")
-                        .WithMany("Categories")
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ENews.Data.Models.Category", "Category")
                         .WithMany("Articles")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("ENews.Data.Models.ArticleSubCategory", b =>
-                {
-                    b.HasOne("ENews.Data.Models.Article", "Article")
-                        .WithMany("SubCategories")
-                        .HasForeignKey("ArticleId")
+                    b.HasOne("ENews.Data.Models.Image", "Picture")
+                        .WithMany()
+                        .HasForeignKey("PictureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
