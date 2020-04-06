@@ -10,6 +10,6 @@ namespace ENews.Web.ViewModels.Categories
     {
         public string Title { get; set; }
 
-        public IEnumerable<ArticleViewModel> Articles { get; set; }
+        public IEnumerable<ArticlePreviewViewModel> Articles { get; set; }
     }
 }

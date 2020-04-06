@@ -1,7 +1,8 @@
 ﻿namespace ENews.Data.Models
 {
-    using ENews.Data.Common.Models;
     using System.ComponentModel.DataAnnotations;
+
+    using ENews.Data.Common.Models;
 
     public class Comment : BaseDeletableModel<int>
     {

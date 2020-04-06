@@ -19,7 +19,7 @@
         {
             var model = new IndexViewModel()
             {
-                LatestFiveArticles = this.articleService.GetAllByCreatedOn<ArticleViewModel>(5),
+                LatestFiveArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(5),
             };
             return this.View(model);
         }

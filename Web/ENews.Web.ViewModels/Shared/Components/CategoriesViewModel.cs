@@ -1,4 +1,4 @@
-﻿namespace ENews.Web.ViewModels
+﻿namespace ENews.Web.ViewModels.Shared.Components
 {
     using System.Collections.Generic;
 

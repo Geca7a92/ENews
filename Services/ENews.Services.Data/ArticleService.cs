@@ -6,6 +6,7 @@
     using ENews.Data.Common.Repositories;
     using ENews.Data.Models;
     using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Articles;
     using ENews.Web.ViewModels.Categories;
 
     public class ArticleService : IArticleService
@@ -29,7 +30,7 @@
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllByCreatedOn<T>(int? count = null)
+        public IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null)
         {
             IQueryable<Article> query
                 = this.articleRepository.All().OrderByDescending(x => x.CreatedOn);
@@ -55,6 +56,12 @@
                 = this.articleRepository.All().Where(a => a.SubCategory.Title == name).OrderByDescending(a => a.CreatedOn);
 
             return query.To<T>().ToList();
+        }
+
+        public T PreviewArticleById<T>(int id)
+        {
+            var model = this.articleRepository.All().Where(a => a.Id == id).To<T>().FirstOrDefault();
+            return model;
         }
     }
 }

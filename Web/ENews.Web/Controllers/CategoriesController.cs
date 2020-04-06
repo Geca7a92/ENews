@@ -22,7 +22,7 @@ namespace ENews.Web.Controllers
         {
             var viewModel = new MainCategoryArticlesViewModel()
             {
-                Articles = this.articleService.GetArticlesByCategoryName<ArticleViewModel>(name),
+                Articles = this.articleService.GetArticlesByCategoryName<ArticlePreviewViewModel>(name),
                 Title = name,
             };
             return this.View(viewModel);
@@ -32,7 +32,7 @@ namespace ENews.Web.Controllers
         {
             var viewModel = new SubCategoryArticlesViewModel()
             {
-                Articles = this.articleService.GetArticlesBySubCategoryName<ArticleViewModel>(name),
+                Articles = this.articleService.GetArticlesBySubCategoryName<ArticlePreviewViewModel>(name),
                 Title = name,
             };
             return this.View(viewModel);

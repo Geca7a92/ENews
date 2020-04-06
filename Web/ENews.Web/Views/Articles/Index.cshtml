@@ -1,0 +1,39 @@
+﻿@model ENews.Web.ViewModels.Articles.ArticleViewModel
+<article>
+    <div class="topic">
+        <div class="topic-information">
+            <img src="@Model.PictureImageUrl" height="500" width="885" />
+            <h2>
+                @Model.Title
+            </h2>
+            <p class="text">
+                @Model.Content
+            </p>
+        </div>
+        <div>
+            <p align="right">
+                @Model.AuthorFullName
+            </p>
+            <p align="right">
+                @Model.CreatedOn
+            </p>
+        </div>
+    </div>
+</article>
+<div>
+    <h2>Comments</h2>
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="topic">
+            <h3>@comment.UserFirstName @comment.UserLastName</h3>
+            <p class="text">
+                @comment.Content
+            </p>
+        </div>
+        <div>
+            <p align="right">
+                @comment.CreatedOn
+            </p>
+        </div>
+    }
+</div>
