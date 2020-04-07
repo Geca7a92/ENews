@@ -11,10 +11,6 @@ namespace ENews.Services.Data
 
         IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null);
 
-        IEnumerable<T> GetArticlesBySubCategoryName<T>(string name);
-
-        IEnumerable<T> GetArticlesByCategoryName<T>(string name);
-
         T PreviewArticleById<T>(int id);
     }
 }

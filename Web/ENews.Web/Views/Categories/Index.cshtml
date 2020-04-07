@@ -24,22 +24,23 @@
 
 @foreach (var article in Model.Articles)
 {
-    <article>
-        <div class="topic">
-            <div class="topic-information">
-                <img src="@article.PictureImageUrl" height="100" width="177" />
-                <h2>
-                    @article.Title - C(@article.CategoryTitle) SubC(@article.SubCategoryTitle)
-                </h2>
-                <p class="text">
-                    @article.ContetPreview
-                </p>
-            </div>
-            <div>
-                <p align="right">
-                    @article.CreatedOn
-                </p>
-            </div>
-        </div>
-    </article>
+    @await Html.PartialAsync("_ArticlePartial", article)
 }
+@*<div class="topic">
+        <div class="topic-information">
+            <a asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id">
+                <img src="@article.PictureImageUrl" height="100" width="177" />
+                <h4>
+                    @article.PreviewTitle - C(@article.CategoryTitle) SubC(@article.SubCategoryTitle)
+                </h4>
+            </a>
+            <p class="text">
+                @article.ContetPreview
+            </p>
+        </div>
+        <div>
+            <p align="right">
+                @article.CreatedOn
+            </p>
+        </div>
+    </div>*@

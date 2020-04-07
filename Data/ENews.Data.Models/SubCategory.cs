@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ENews.Data.Models
 {
-    public class SubCategory : BaseModel<int>
+    public class SubCategory : BaseDeletableModel<int>
     {
         public SubCategory()
         {

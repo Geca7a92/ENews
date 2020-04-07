@@ -4,6 +4,7 @@ using System;
 
 namespace ENews.Web.ViewModels
 {
+
     public class ArticlePreviewViewModel : IMapFrom<Article>
     {
         public int Id { get; set; }

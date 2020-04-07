@@ -8,5 +8,7 @@ namespace ENews.Services.Data
         IEnumerable<T> GetAll<T>(int? count = null);
 
         T GetCategoryByName<T>(string name);
+
+        T GetSubCategoryByName<T>(string name);
     }
 }

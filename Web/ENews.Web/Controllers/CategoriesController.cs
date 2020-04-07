@@ -11,30 +11,22 @@ namespace ENews.Web.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly IArticleService articleService;
+        private readonly ICategoriesService categoriesService;
 
-        public CategoriesController(IArticleService articleService)
+        public CategoriesController(ICategoriesService categoriesService)
         {
-            this.articleService = articleService;
+            this.categoriesService = categoriesService;
         }
 
         public IActionResult Index(string name)
         {
-            var viewModel = new MainCategoryArticlesViewModel()
-            {
-                Articles = this.articleService.GetArticlesByCategoryName<ArticlePreviewViewModel>(name),
-                Title = name,
-            };
+            var viewModel = this.categoriesService.GetCategoryByName<MainCategoryArticlesViewModel>(name);
             return this.View(viewModel);
         }
 
         public IActionResult BySubCategory(string name)
         {
-            var viewModel = new SubCategoryArticlesViewModel()
-            {
-                Articles = this.articleService.GetArticlesBySubCategoryName<ArticlePreviewViewModel>(name),
-                Title = name,
-            };
+            var viewModel = this.categoriesService.GetSubCategoryByName<SubCategoryArticlesViewModel>(name);
             return this.View(viewModel);
         }
     }

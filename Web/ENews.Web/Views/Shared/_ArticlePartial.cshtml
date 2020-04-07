@@ -1,0 +1,20 @@
+﻿@model ENews.Web.ViewModels.ArticlePreviewViewModel
+
+<div class="topic">
+    <div class="topic-information">
+        <a asp-controller="Articles" asp-action="Index" asp-route-id="@Model.Id">
+            <img src="@Model.PictureImageUrl" height="100" width="177" />
+            <h4>
+                @Model.PreviewTitle - C(@Model.CategoryTitle) SubC(@Model.SubCategoryTitle)
+            </h4>
+        </a>
+        <p class="text">
+            @Model.ContetPreview
+        </p>
+    </div>
+    <div>
+        <p align="right">
+            @Model.CreatedOn
+        </p>
+    </div>
+</div>
