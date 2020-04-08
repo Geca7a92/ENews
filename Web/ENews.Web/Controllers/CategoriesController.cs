@@ -11,10 +11,12 @@ namespace ENews.Web.Controllers
 {
     public class CategoriesController : Controller
     {
+        private readonly IArticleService articleService;
         private readonly ICategoriesService categoriesService;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public CategoriesController(IArticleService articleService, ICategoriesService categoriesService)
         {
+            this.articleService = articleService;
             this.categoriesService = categoriesService;
         }
 

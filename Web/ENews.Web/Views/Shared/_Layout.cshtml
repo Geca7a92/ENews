@@ -36,10 +36,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||this.User.IsInRole(GlobalConstants.ReporterRoleName))
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ReporterRoleName))
                         {
                             <li class="nav-item alert-primary">
-                                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Members Area</a>
+                                <a class="nav-link text-dark" asp-area="MembersArea" asp-controller="Home" asp-action="Index">Members Area</a>
+                            </li>
+                        }
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <li class="nav-item alert-primary">
+                                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Administration</a>
                             </li>
                         }
                     </ul>
