@@ -1,6 +1,7 @@
 ﻿using ENews.Common;
 using ENews.Data.Common.Repositories;
 using ENews.Data.Models;
+using ENews.Services.Data;
 using ENews.Web.ViewModels.Articles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,14 +17,14 @@ namespace ENews.Web.Areas.MembersArea.Controllers
     [Area("MembersArea")]
     public class ArticleController : Controller
     {
-        private readonly IDeletableEntityRepository<Article> articlesRepository;
+        private readonly IArticleService articleService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ArticleController(
-            IDeletableEntityRepository<Article> articlesRepository,
+            IArticleService articleService,
             UserManager<ApplicationUser> userManager)
         {
-            this.articlesRepository = articlesRepository;
+            this.articleService = articleService;
             this.userManager = userManager;
         }
 
@@ -33,30 +34,18 @@ namespace ENews.Web.Areas.MembersArea.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ArticleCreateInputModel model)
+        public async Task<IActionResult> Create(ArticleCreateInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(model);
+                return this.View(input);
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            model.AuthorName = user.FirstName + " " + user.LastName;
-            var article = new Article
-            {
-                AuthorId = user.Id,
-                Title = model.Title,
-                Content = model.Content,
-                CategoryId = model.CategoryId,
-                SubCategoryId = model.SubCategoryId,
-                PictureId = 2,
-            };
+            var articleId = await this.articleService.CreateAsync(input, user.Id);
 
-            await this.articlesRepository.AddAsync(article);
-            await this.articlesRepository.SaveChangesAsync();
-
-            return this.RedirectToAction("Index", "Articles", new { area = string.Empty, id = article.Id });
+            return this.RedirectToAction("Index", "Articles", new { area = string.Empty, id = articleId });
         }
     }
 }

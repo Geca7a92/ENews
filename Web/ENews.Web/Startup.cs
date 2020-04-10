@@ -1,6 +1,7 @@
 ﻿namespace ENews.Web
 {
     using System.Reflection;
+
     using CloudinaryDotNet;
     using ENews.Data;
     using ENews.Data.Common;
@@ -61,6 +62,7 @@
             var cloudinary = new Cloudinary(cloudinaryAccount);
 
             services.AddSingleton(cloudinary);
+
             services.AddSingleton(this.configuration);
 
             // Data repositories
@@ -73,6 +75,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IArticleService, ArticleService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
