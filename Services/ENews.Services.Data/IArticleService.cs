@@ -2,6 +2,7 @@
 using ENews.Web.ViewModels.Categories;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ENews.Services.Data
 {
@@ -12,5 +13,7 @@ namespace ENews.Services.Data
         IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null);
 
         T PreviewArticleById<T>(int id);
+
+        Task<int> CreateAsync(ArticleCreateInputModel model, string userId);
     }
 }
