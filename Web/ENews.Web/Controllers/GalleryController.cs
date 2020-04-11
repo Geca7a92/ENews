@@ -17,10 +17,9 @@ namespace ENews.Web.Controllers
             this.galleryService = galleryService;
         }
 
-        public IActionResult Preview(int id, int articleId)
+        public IActionResult Preview(int id)
         {
             var model = this.galleryService.PreviewGalleryById<GalleryPreviewViewModel>(id);
-            model.ArticleId = articleId;
             return this.View(model);
         }
     }

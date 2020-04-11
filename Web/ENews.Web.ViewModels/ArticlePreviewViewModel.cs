@@ -17,6 +17,12 @@ namespace ENews.Web.ViewModels
 
         public string PictureImageUrl { get; set; }
 
+        public string AuthorFirstName { get; set; }
+
+        public string AuthorLastName { get; set; }
+
+        public string AuthorFullName => $"{this.AuthorFirstName} {this.AuthorLastName}";
+
         public int? GalleryId { get; set; }
 
         public Gallery Gallery { get; set; }
