@@ -11,10 +11,10 @@ namespace ENews.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Article> builder)
         {
-            builder
-                .HasOne(a => a.Gallery)
-                .WithOne(g => g.Article)
-                .HasForeignKey<Gallery>(g => g.ArticleId);
+            //builder
+            //    .HasOne(a => a.Gallery)
+            //    .WithOne(g => g.Article)
+            //    .HasForeignKey<Gallery>(g => g.ArticleId);
         }
     }
 }

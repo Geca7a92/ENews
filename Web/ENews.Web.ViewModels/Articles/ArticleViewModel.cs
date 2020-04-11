@@ -8,6 +8,8 @@ namespace ENews.Web.ViewModels.Articles
 {
     public class ArticleViewModel : IMapFrom<Article>
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public string CategoryTitle { get; set; }

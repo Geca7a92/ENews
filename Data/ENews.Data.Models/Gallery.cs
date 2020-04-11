@@ -12,12 +12,6 @@ namespace ENews.Data.Models
             this.Images = new HashSet<Image>();
         }
 
-        public string Description { get; set; }
-
-        public int ArticleId { get; set; }
-
-        public Article Article { get; set; }
-
         public ICollection<Image> Images { get; set; }
     }
 }

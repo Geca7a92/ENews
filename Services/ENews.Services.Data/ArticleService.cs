@@ -13,30 +13,34 @@
     {
         private readonly IDeletableEntityRepository<Article> articleRepository;
         private readonly IDeletableEntityRepository<Image> imageRepository;
+        private readonly IGalleryService galleryService;
         private readonly ICloudinaryService cloudinaryService;
 
         public ArticleService(
             IDeletableEntityRepository<Article> articleRepository,
             IDeletableEntityRepository<Image> imageRepository,
+            IGalleryService galleryService,
             ICloudinaryService cloudinaryService)
         {
             this.articleRepository = articleRepository;
             this.imageRepository = imageRepository;
+            this.galleryService = galleryService;
             this.cloudinaryService = cloudinaryService;
         }
 
         //To DO fix
         public async Task<int> CreateAsync(ArticleCreateInputModel model, string userId)
         {
-            var imageUrl = this.cloudinaryService.UploadPictureAsync(model.MainImage);
+            var mainImageUrl = this.cloudinaryService.UploadPictureAsync(model.MainImage);
             var mainImage = new Image()
             {
-                ImageUrl = imageUrl.Result,
-                Description = imageUrl.Result,
+                ImageUrl = mainImageUrl.Result,
+                Description = mainImageUrl.Result,
             };
 
             await this.imageRepository.AddAsync(mainImage);
             await this.imageRepository.SaveChangesAsync();
+
             var article = new Article
             {
                 AuthorId = userId,
@@ -46,6 +50,12 @@
                 SubCategoryId = model.SubCategoryId,
                 PictureId = mainImage.Id,
             };
+
+            if (model.GalleryContent != null)
+            {
+                int galleryId = await this.galleryService.CreateAsync(model.GalleryContent, mainImage);
+                article.GalleryId = galleryId;
+            }
 
             await this.articleRepository.AddAsync(article);
             await this.articleRepository.SaveChangesAsync();

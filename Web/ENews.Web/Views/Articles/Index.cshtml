@@ -12,7 +12,7 @@
         </div>
         @if (Model.GalleryId!=null)
         {
-            <a asp-controller="Gallery" asp-action="Preview" asp-area="" asp-route-id="@Model.GalleryId">Go To Gallery</a>
+            <a asp-controller="Gallery" asp-action="Preview" asp-area="" asp-route-id="@Model.GalleryId" asp-route-articleId="@Model.Id">Go To Gallery</a>
         }
         <div>
             <p align="right">
