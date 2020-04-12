@@ -18,19 +18,27 @@ namespace ENews.Web.Areas.MembersArea.Controllers
     public class ArticleController : Controller
     {
         private readonly IArticleService articleService;
+        private readonly ICategoriesService categoriesService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ArticleController(
             IArticleService articleService,
+            ICategoriesService categoriesService,
             UserManager<ApplicationUser> userManager)
         {
             this.articleService = articleService;
+            this.categoriesService = categoriesService;
             this.userManager = userManager;
         }
 
         public IActionResult Create()
         {
-            return this.View();
+            var categories = this.categoriesService.GetAll<CategoriesDropDownViewModel>();
+            var viewModel = new ArticleCreateInputModel()
+            {
+                CategoriesDropDown = categories,
+            };
+            return this.View(viewModel);
         }
 
         [HttpPost]

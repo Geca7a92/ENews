@@ -1,6 +1,7 @@
 ﻿using ENews.Data.Models;
 using ENews.Services.Mapping;
 using System;
+using System.Text.RegularExpressions;
 
 namespace ENews.Web.ViewModels
 {
@@ -31,7 +32,15 @@ namespace ENews.Web.ViewModels
 
         public DateTime CreatedOn { get; set; }
 
-        public string ContetPreview => this.Content.Substring(0, (this.Content.Length > 100) ? 100 : this.Content.Length);
+        public string ContetPreview
+        {
+            get
+            {
+                var content = Regex.Replace(this.Content, @"<[^>]+>", string.Empty);
+
+                return content.Length > 100 ? content.Substring(0, 100) + "..." : content;
+            }
+        }
 
         public string PreviewTitle => this.Title + (this.GalleryId != null ? "(Gallery)" : string.Empty);
     }

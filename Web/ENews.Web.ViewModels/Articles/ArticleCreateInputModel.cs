@@ -6,15 +6,19 @@ namespace ENews.Web.ViewModels.Articles
 {
     public class ArticleCreateInputModel
     {
+
         [Required]
         public string Title { get; set; }
 
         [Required]
+        [MaxLength(2000, ErrorMessage = "To long")]
         public string Content { get; set; }
 
         [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
+
+        public IEnumerable<CategoriesDropDownViewModel> CategoriesDropDown { get; set; }
 
         [Required]
         [Display(Name = "SubCategory")]

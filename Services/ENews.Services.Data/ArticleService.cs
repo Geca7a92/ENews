@@ -31,11 +31,11 @@
         //To DO fix
         public async Task<int> CreateAsync(ArticleCreateInputModel model, string userId)
         {
-            var mainImageUrl = this.cloudinaryService.UploadPictureAsync(model.MainImage);
+            var mainImageUrl = await this.cloudinaryService.UploadPictureAsync(model.MainImage);
             var mainImage = new Image()
             {
-                ImageUrl = mainImageUrl.Result,
-                Description = mainImageUrl.Result,
+                ImageUrl = mainImageUrl,
+                Description = mainImageUrl,
             };
 
             await this.imageRepository.AddAsync(mainImage);

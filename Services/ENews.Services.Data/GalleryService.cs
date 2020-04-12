@@ -30,11 +30,11 @@ namespace ENews.Services.Data
 
             foreach (var imageForGallery in imageCollection)
             {
-                var imageUrl = this.cloudinaryService.UploadPictureAsync(imageForGallery);
+                var imageUrl = await this.cloudinaryService.UploadPictureAsync(imageForGallery);
                 var image = new Image()
                 {
-                    ImageUrl = imageUrl.Result,
-                    Description = imageUrl.Result,
+                    ImageUrl = imageUrl,
+                    Description = imageUrl,
                 };
 
                 gallery.Images.Add(image);
