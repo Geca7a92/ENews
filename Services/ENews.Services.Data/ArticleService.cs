@@ -6,8 +6,7 @@
     using ENews.Data.Common.Repositories;
     using ENews.Data.Models;
     using ENews.Services.Mapping;
-    using ENews.Web.ViewModels.Articles;
-    using ENews.Web.ViewModels.Categories;
+    using ENews.Web.ViewModels.MembersArea.Article;
 
     public class ArticleService : IArticleService
     {
@@ -28,7 +27,6 @@
             this.cloudinaryService = cloudinaryService;
         }
 
-        //To DO fix
         public async Task<int> CreateAsync(ArticleCreateInputModel model, string userId)
         {
             var mainImageUrl = await this.cloudinaryService.UploadPictureAsync(model.MainImage);
@@ -87,10 +85,10 @@
             return query.To<T>().ToList();
         }
 
-        public T PreviewArticleById<T>(int id)
+        public T GetArticleById<T>(int id)
         {
-            var model = this.articleRepository.All().Where(a => a.Id == id).To<T>().FirstOrDefault();
-            return model;
+            var article = this.articleRepository.All().Where(a => a.Id == id).To<T>().FirstOrDefault();
+            return article;
         }
     }
 }

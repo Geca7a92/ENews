@@ -1,5 +1,4 @@
-﻿using ENews.Web.ViewModels.Articles;
-using ENews.Web.ViewModels.Categories;
+﻿using ENews.Web.ViewModels.MembersArea.Article;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ namespace ENews.Services.Data
 
         IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null);
 
-        T PreviewArticleById<T>(int id);
+        T GetArticleById<T>(int id);
 
         Task<int> CreateAsync(ArticleCreateInputModel model, string userId);
     }

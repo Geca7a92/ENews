@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ENews.Web.ViewModels.Articles
+namespace ENews.Web.ViewModels.MembersArea.Article
 {
     public class ArticleCreateInputModel
     {
-
         [Required]
         public string Title { get; set; }
 

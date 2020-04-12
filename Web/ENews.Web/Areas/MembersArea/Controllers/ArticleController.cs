@@ -2,7 +2,7 @@
 using ENews.Data.Common.Repositories;
 using ENews.Data.Models;
 using ENews.Services.Data;
-using ENews.Web.ViewModels.Articles;
+using ENews.Web.ViewModels.MembersArea.Article;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

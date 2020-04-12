@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using ENews.Data.Models;
 using ENews.Services.Mapping;
+using Ganss.XSS;
 
 namespace ENews.Web.ViewModels.Articles
 {
@@ -17,6 +18,8 @@ namespace ENews.Web.ViewModels.Articles
         public string PictureImageUrl { get; set; }
 
         public string Content { get; set; }
+
+        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public string AuthorFirstName { get; set; }
 

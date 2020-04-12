@@ -1,4 +1,4 @@
-﻿namespace ENews.Web.ViewModels.Articles
+﻿namespace ENews.Web.ViewModels.MembersArea.Article
 {
     using ENews.Data.Models;
     using ENews.Services.Mapping;

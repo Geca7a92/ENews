@@ -1,5 +1,9 @@
 ﻿@model ENews.Web.ViewModels.Categories.SubCategoryArticlesViewModel
 
+@{
+    this.ViewData["Title"] = Model.Title;
+}
+
 <h1>FromSub @Model.Title</h1>
 
 @foreach (var article in Model.Articles)

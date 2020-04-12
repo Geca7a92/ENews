@@ -1,6 +1,7 @@
 ﻿using ENews.Data.Models;
 using ENews.Services.Mapping;
 using System;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace ENews.Web.ViewModels
@@ -36,7 +37,7 @@ namespace ENews.Web.ViewModels
         {
             get
             {
-                var content = Regex.Replace(this.Content, @"<[^>]+>", string.Empty);
+                var content = WebUtility.HtmlDecode(Regex.Replace(this.Content, @"<[^>]+>", string.Empty));
 
                 return content.Length > 100 ? content.Substring(0, 100) + "..." : content;
             }

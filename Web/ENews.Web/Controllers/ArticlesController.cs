@@ -19,7 +19,12 @@ namespace ENews.Web.Controllers
 
         public IActionResult Index(int id)
         {
-            var model = this.articleService.PreviewArticleById<ArticleViewModel>(id);
+            var model = this.articleService.GetArticleById<ArticleViewModel>(id);
+            if (model == null)
+            {
+                return this.NotFound();
+            }
+
             return this.View(model);
         }
 
