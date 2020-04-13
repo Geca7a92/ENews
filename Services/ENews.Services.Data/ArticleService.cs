@@ -33,7 +33,7 @@
             var mainImage = new Image()
             {
                 ImageUrl = mainImageUrl,
-                Description = mainImageUrl,
+                Description = model.MainImage.FileName,
             };
 
             await this.imageRepository.AddAsync(mainImage);

@@ -1,14 +1,10 @@
 ﻿using ENews.Common;
-using ENews.Data.Common.Repositories;
 using ENews.Data.Models;
 using ENews.Services.Data;
 using ENews.Web.ViewModels.MembersArea.Article;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ENews.Web.Areas.MembersArea.Controllers
@@ -33,7 +29,7 @@ namespace ENews.Web.Areas.MembersArea.Controllers
 
         public IActionResult Create()
         {
-            var categories = this.categoriesService.GetAll<CategoriesDropDownViewModel>();
+            var categories = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
             var viewModel = new ArticleCreateInputModel()
             {
                 CategoriesDropDown = categories,
@@ -46,6 +42,7 @@ namespace ENews.Web.Areas.MembersArea.Controllers
         {
             if (!this.ModelState.IsValid)
             {
+                input.CategoriesDropDown = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
                 return this.View(input);
             }
 
@@ -54,6 +51,13 @@ namespace ENews.Web.Areas.MembersArea.Controllers
             var articleId = await this.articleService.CreateAsync(input, user.Id);
 
             return this.RedirectToAction("Index", "Articles", new { area = string.Empty, id = articleId });
+        }
+
+        public IActionResult GetSubcategories(int id)
+        {
+            var subCategories = this.categoriesService
+                .GetSubCategoriesOfCategoryId<SubCategoriesDropDownViewModel>(id);
+            return this.Json(subCategories);
         }
     }
 }

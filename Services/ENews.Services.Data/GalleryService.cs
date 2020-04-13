@@ -34,7 +34,7 @@ namespace ENews.Services.Data
                 var image = new Image()
                 {
                     ImageUrl = imageUrl,
-                    Description = imageUrl,
+                    Description = imageForGallery.FileName,
                 };
 
                 gallery.Images.Add(image);

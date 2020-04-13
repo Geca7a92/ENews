@@ -2,10 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using ENews.Data.Common.Repositories;
     using ENews.Data.Models;
     using ENews.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
 
     public class CategoriesService : ICategoriesService
     {
@@ -18,14 +19,18 @@
             this.subCategoryRepository = subCategoryRepository;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
+        public IEnumerable<T> GetAllCategories<T>()
         {
             IQueryable<Category> query
                 = this.categoryRepository.All().OrderBy(x => x.Title);
-            if (count != null)
-            {
-                query = query.Take(count.Value);
-            }
+
+            return query.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id)
+        {
+            IQueryable<SubCategory> query
+                = this.subCategoryRepository.All().OrderBy(x => x.Title).Where(x => x.CategoryId == id);
 
             return query.To<T>().ToList();
         }

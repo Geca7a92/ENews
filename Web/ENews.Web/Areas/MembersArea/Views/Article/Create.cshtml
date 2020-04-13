@@ -3,18 +3,9 @@
     this.ViewData["Title"] = "Create article";
     var categories = Model.CategoriesDropDown.Select(c => new SelectListItem(c.Title, c.Id.ToString()));
 }
-
 <h1>@this.ViewData["Title"]</h1>
 
-<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-    tinymce.init({
-        selector: "textarea",
-        plugins: [
-            "image paste table link code media"
-        ]
-    });
-</script>
+@*<script src="~/lib/jquery/dist/jquery.js"></script>*@
 
 <div class="container-fluid">
     <form method="post" asp-area="MembersArea" asp-controller="Article" asp-action="Create" enctype="multipart/form-data">
@@ -30,12 +21,12 @@
         </div>
         <div class="form-group">
             <label asp-for="@Model.CategoryId"></label>
-            <select asp-for="@Model.CategoryId" asp-items="categories" class="form-control"></select>
+            <select id="ddlcategory" asp-for="@Model.CategoryId" asp-items="categories" class="form-control"></select>
             <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="@Model.SubCategoryId"></label>
-            <input asp-for="@Model.SubCategoryId" class="form-control" />
+            <select id="ddlsubCategory" class="form-control" asp-for="@Model.SubCategoryId" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
             <span asp-validation-for="@Model.SubCategoryId" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -52,106 +43,36 @@
                 <span asp-validation-for="@Model.GalleryContent" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="form-group row">
-                <div class="col-sm-10">
-                    <input multiple asp-for="@Model.GalleryContent" class="form-control custom-file-input" />
-                    <label class="custom-file-label">Chose Files</label>
-                </div>
-            </div>*@
-        @*<div class="form-group row">
-                <div class="col-sm-10">
-                    <input multiple asp-for="@Model.GalleryContent" class="form-control custom-file-input" />
-                    <label class="custom-file-label">Chose Files</label>
-                </div>
-            </div>*@
         <input type="submit" class="btn btn-primary" />
     </form>
 </div>
-@*<div>
-        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Upload">
-            <input type="file" name="files" multiple />
-            <button type="submit" class="btn btn-primary" value="Upload">Upload</button>
-        </form>
-    </div>*@
 
-@*<label asp-for="@Model.ImageId">ImageId</label>
-    <input asp-for="@Model.ImageId" class="form-control" />
-    <span asp-validation-for="@Model.ImageId"></span>*@
-@*<input asp-for="Content" />
-    <input asp-for="CategoryId" />
-    <input asp-for="SubCategoryId" />
-    <input asp-for="ImageId" />*@
-@*<div class="form-group">
-        <div class="row justify-content-lg-between">
-            @for (int i = 0; i < 4; i++)
-            {
-                <div class="image mb-2" id="@("preview-picture" + i)">
-                    <input type="file" asp-for="@Model.CreateAdDetailInputModel.Images" class="image-upload" />
-                </div>
-            }
-        </div>
-        <div class="row justify-content-lg-between">
-            @for (int i = 4; i < 8; i++)
-            {
-                <div class="image mb-2" id="@("preview-picture" + i)">
-                    <input type="file" asp-for="@Model.CreateAdDetailInputModel.Images" class="image-upload" />
-                </div>
-            }
-        </div>
-    </div>*@
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>
 
-@*<div class="container-fluid">
-        <form asp-controller="Ads" asp-action="Create" enctype="multipart/form-data" method="post">
-            <div class="offset-2 col-8">
-                <h2 class="text-center">Ad Details</h2>
-                <hr class="hr-sell-me" />
-                <div class="form-group">
-                    <label asp-for="CreateAdDetailInputModel.Title" class="required">Title</label>
-                    <input asp-for="CreateAdDetailInputModel.Title" class="form-control">
-                    <span asp-validation-for="CreateAdDetailInputModel.Title" class="text-danger"></span>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label asp-for="CreateAdDetailInputModel.CategoryId" class="required">Choose Category</label>
-                        <select asp-for="CreateAdDetailInputModel.CategoryId" class="form-control">
-                            <option selected="true" disabled="disabled">--Select--</option>"
-                            <vc:categories-dropdown>
-                            </vc:categories-dropdown>
-                        </select>
-                        <span asp-validation-for="CreateAdDetailInputModel.CategoryId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="required" asp-for="CreateAdDetailInputModel.SubCategoryId">Choose Subcategory</label>
-                        <select asp-for="CreateAdDetailInputModel.SubCategoryId" class="form-control"></select>
-                        <span asp-validation-for="CreateAdDetailInputModel.SubCategoryId" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="required" asp-for="CreateAdDetailInputModel.Price">Price</label>
-                        <input asp-for="CreateAdDetailInputModel.Price" type="number" class="form-control" placeholder="Enter price">
-                        <span asp-validation-for="CreateAdDetailInputModel.Price" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="CreateAdDetailInputModel.Availability">Availability</label>
-                        <input asp-for="CreateAdDetailInputModel.Availability" class="form-control" placeholder="Enter availability">
-                        <span asp-validation-for="CreateAdDetailInputModel.Availability" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="required" asp-for="CreateAdDetailInputModel.ConditionId">Condition</label>
-                    <select asp-for="CreateAdDetailInputModel.ConditionId" class="form-control">
-                        <vc:conditions-dropdown>
-                        </vc:conditions-dropdown>
-                    </select>
-                    <span asp-validation-for="CreateAdDetailInputModel.ConditionId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CreateAdDetailInputModel.Description">Description</label>
-                    <textarea asp-for="CreateAdDetailInputModel.Description" class="form-control" rows="5"></textarea>
-                    <span asp-validation-for="CreateAdDetailInputModel.Description" class="text-danger"></span>
-                </div>
 
-            </div>
-        </form>
-    </div>*@
+@*<script>
+    $(function () {
+        $("#ddlcategory").change(function () {
+            $.getJSON("/MembersArea/Article/GetSubcategories", { id: $("#ddlcategory").val() }, function (d) {
+                var row = "";
+                $("#ddlsubCategory").empty();
+                $.each(d, function (i, v) {
+                    row += "<option value=" + v.id + ">" + v.title + "</option>";
+                });
+                $("#ddlsubCategory").html(row);
+            })
+        })
+    })
+</script>*@
+
+@section Scripts{
+    <script src="~/js/getSubCategories.js" asp-append-version="true"></script>
+}
