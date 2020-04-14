@@ -29,17 +29,19 @@
                     <div class="card-body">
                         <div class="media-body col-12">
                             <img src="@Model.PictureImageUrl" style='height: 100%; width: 100%; object-fit: contain' />
+
+                            @if (Model.GalleryId != null)
+                            {
+                                <div class="col-12">
+                                    <h4 class="text-center">
+                                        <a asp-area="" asp-controller="Gallery" asp-action="Preview" asp-route-id="@Model.GalleryId">
+                                            Go to gallery
+                                        </a>
+                                    </h4>
+                                </div>
+
+                            }
                         </div>
-                        @if (Model.GalleryId != null)
-                        {
-                            <div class="col-12">
-                                <h4 class="text-center">
-                                    <a asp-controller="Gallery" asp-action="Preview" asp-area="" asp-route-id="@Model.GalleryId">
-                                        Go to gallery
-                                    </a>
-                                </h4>
-                            </div>
-                        }
                         <div class="text col-12">
                             @Html.Raw(Model.SanitizedContent)
                         </div>
