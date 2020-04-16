@@ -13,6 +13,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200331114711_Change_ArticleModel.cs" />
     <Compile Remove="Migrations\20200331114711_Change_ArticleModel.Designer.cs" />
+    <Compile Remove="Migrations\20200414165137_fix-Category-Property-Name.cs" />
+    <Compile Remove="Migrations\20200414165137_fix-Category-Property-Name.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

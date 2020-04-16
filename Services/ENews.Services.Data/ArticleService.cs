@@ -6,7 +6,7 @@
     using ENews.Data.Common.Repositories;
     using ENews.Data.Models;
     using ENews.Services.Mapping;
-    using ENews.Web.ViewModels.MembersArea.Article;
+    using ENews.Web.ViewModels.MembersArea.Articles;
 
     public class ArticleService : IArticleService
     {
@@ -73,6 +73,14 @@
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetAllByAtuthorId<T>(string id)
+        {
+            IQueryable<Article> query
+                = this.articleRepository.AllWithDeleted().Where(a => a.AuthorId == id).OrderByDescending(a => a.CreatedOn);
+
+            return query.To<T>().ToList();
+        }
+
         public IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null)
         {
             IQueryable<Article> query
@@ -90,5 +98,6 @@
             var article = this.articleRepository.All().Where(a => a.Id == id).To<T>().FirstOrDefault();
             return article;
         }
+
     }
 }

@@ -1,20 +1,18 @@
 ﻿using ENews.Data.Models;
 using ENews.Services.Mapping;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ENews.Web.ViewModels.Administration.Categories
+namespace ENews.Web.ViewModels.MembersArea.Home
 {
-    public class IndexCategoryViewModel : IMapFrom<Category>
+    public class IndexArticleViewModel : IMapFrom<Article>
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string PictureImageUrl { get; set; }
 
-        public IEnumerable<SubCategory> SubCategories { get; set; }
+        public int? GalleryId { get; set; }
 
         public bool IsDeleted { get; set; }
 

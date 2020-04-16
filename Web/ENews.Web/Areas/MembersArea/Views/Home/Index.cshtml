@@ -1,5 +1,86 @@
-﻿@{
+﻿@model ENews.Web.ViewModels.MembersArea.Home.IndexArticlesViewModel
+
+@{
     this.ViewData["Title"] = "Members home";
 }
 
 <a asp-area="MembersArea" asp-controller="Article" asp-action="Create">Create new article</a>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Articles.FirstOrDefault().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Articles.FirstOrDefault().PictureImageUrl)
+            </th>
+            <th>
+                Gallery
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Articles.FirstOrDefault().IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Articles.FirstOrDefault().DeletedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Articles.FirstOrDefault().CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Articles.FirstOrDefault().ModifiedOn)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Articles)
+        {
+            <tr>
+                <td>
+                    <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </a>
+                </td>
+                <td>
+                    <img src="@item.PictureImageUrl" width="100" />
+                </td>
+                <td>
+                    @if (@item.GalleryId != null)
+                    {
+                        <p>yes</p>
+                    }
+                    else
+                    {
+                        <p>no</p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeletedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedOn)
+                </td>
+                <td>
+                    <ul>
+                        <li>
+                            <a asp-controller="Article" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Article" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

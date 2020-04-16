@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ENews.Data.Models;
+using ENews.Services.Mapping;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ENews.Web.ViewModels.MembersArea.Article
+namespace ENews.Web.ViewModels.MembersArea.Articles
 {
-    public class ArticleCreateInputModel
+    public class ArticleCreateInputModel : IMapFrom<Article>
     {
         [Required]
         public string Title { get; set; }

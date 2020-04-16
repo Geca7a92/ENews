@@ -1,4 +1,4 @@
-﻿using ENews.Web.ViewModels.MembersArea.Article;
+﻿using ENews.Web.ViewModels.MembersArea.Articles;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +8,8 @@ namespace ENews.Services.Data
     public interface IArticleService
     {
         IEnumerable<T> GetAll<T>(int? count = null);
+
+        IEnumerable<T> GetAllByAtuthorId<T>(string id);
 
         IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null);
 

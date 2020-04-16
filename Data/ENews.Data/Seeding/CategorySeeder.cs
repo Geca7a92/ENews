@@ -31,7 +31,7 @@ namespace ENews.Data.Seeding
                 await dbContext.Categories.AddAsync(new Category
                 {
                     Title = categotyName,
-                    Desctription = categotyName,
+                    Description = categotyName,
                 });
             }
         }

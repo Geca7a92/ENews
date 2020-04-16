@@ -1,7 +1,7 @@
 ﻿using ENews.Data.Models;
 using ENews.Services.Mapping;
 
-namespace ENews.Web.ViewModels.MembersArea.Article
+namespace ENews.Web.ViewModels.MembersArea.Articles
 {
     public class SubCategoriesDropDownViewModel : IMapFrom<SubCategory>
     {

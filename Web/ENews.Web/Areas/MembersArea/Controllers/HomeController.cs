@@ -1,5 +1,9 @@
 ﻿using ENews.Common;
+using ENews.Data.Models;
+using ENews.Services.Data;
+using ENews.Web.ViewModels.MembersArea.Home;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,14 +16,26 @@ namespace ENews.Web.Areas.MembersArea.Controllers
     [Area("MembersArea")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IArticleService articleService;
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public HomeController(
+            IArticleService articleService,
+            UserManager<ApplicationUser> userManager)
         {
-            return this.View();
+            this.articleService = articleService;
+            this.userManager = userManager;
         }
 
-        public IActionResult CreateArticle()
+        public async Task<IActionResult> Index()
         {
-            return this.View();
+            var user = await this.userManager.GetUserAsync(this.User);
+            var result = this.articleService.GetAllByAtuthorId<IndexArticleViewModel>(user.Id);
+            var model = new IndexArticlesViewModel()
+            {
+                Articles = result,
+            };
+            return this.View(model);
         }
     }
 }

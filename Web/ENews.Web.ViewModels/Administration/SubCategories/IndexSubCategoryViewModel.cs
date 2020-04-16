@@ -4,17 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ENews.Web.ViewModels.Administration.Categories
+namespace ENews.Web.ViewModels.Administration.SubCategories
 {
-    public class IndexCategoryViewModel : IMapFrom<Category>
+    public class IndexSubCategoryViewModel : IMapFrom<SubCategory>
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
-
-        public IEnumerable<SubCategory> SubCategories { get; set; }
+        public string CategoryTitle { get; set; }
 
         public bool IsDeleted { get; set; }
 

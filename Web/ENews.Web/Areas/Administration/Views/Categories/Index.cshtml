@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ENews.Data.Models.Category>
+﻿@model ENews.Web.ViewModels.Administration.Categories.IndexCategoriesViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -11,35 +11,48 @@
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Desctription)
+                @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
+                @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().SubCategories)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DeletedOn)
+                @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().IsDeleted)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
+                @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().DeletedOn)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModifiedOn)
+                @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().ModifiedOn)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Categories)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Desctription)
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var sc in item.SubCategories)
+                        {
+                            <li>
+                                @Html.DisplayFor(modelItem => sc.Title)
+                            </li>
+                        }
+                    </ul>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IsDeleted)
@@ -54,9 +67,29 @@
                     @Html.DisplayFor(modelItem => item.ModifiedOn)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <ul>
+                        <li>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        </li>
+                        <li>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </li>
+                        @if (!item.IsDeleted)
+                        {
+                            <li>
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-action="Undelete" asp-route-id="@item.Id">Restore</a>
+                            </li>
+                        }
+                        <li>
+                            <a asp-action="HardDelete" asp-route-id="@item.Id">Hard Delete</a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
         }

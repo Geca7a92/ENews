@@ -76,6 +76,7 @@
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IArticleService, ArticleService>();
             services.AddTransient<IGalleryService, GalleryService>();
+            services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 

@@ -1,4 +1,4 @@
-﻿@model ENews.Web.ViewModels.MembersArea.Article.ArticleCreateInputModel
+﻿@model ENews.Web.ViewModels.MembersArea.Articles.ArticleCreateInputModel
 @{
     this.ViewData["Title"] = "Create article";
     var categories = Model.CategoriesDropDown.Select(c => new SelectListItem(c.Title, c.Id.ToString()));

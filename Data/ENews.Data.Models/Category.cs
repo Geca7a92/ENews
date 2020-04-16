@@ -19,7 +19,7 @@ namespace ENews.Data.Models
         public string Title { get; set; }
 
         [MaxLength(200)]
-        public string Desctription { get; set; }
+        public string Description { get; set; }
 
         public virtual ICollection<Article> Articles { get; set; }
 
