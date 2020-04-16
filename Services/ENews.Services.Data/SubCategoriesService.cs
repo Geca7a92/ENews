@@ -2,6 +2,7 @@
 using ENews.Data.Models;
 using ENews.Services.Mapping;
 using ENews.Web.ViewModels.Administration.SubCategories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,36 @@ namespace ENews.Services.Data
                 = this.subCategoryRepository.AllWithDeleted().OrderByDescending(c => c.CreatedOn);
 
             return query.To<T>().ToList();
+        }
+
+        public async Task<T> GetSubCategoryById<T>(int id)
+        {
+            var subCategory = await this.subCategoryRepository.AllWithDeleted().Where(c => c.Id == id)
+                .To<T>().FirstOrDefaultAsync();
+            return subCategory;
+        }
+
+        public async Task HardDeleteById(int id)
+        {
+            var category = await this.subCategoryRepository.GetByIdWithDeletedAsync(id);
+            this.subCategoryRepository.HardDelete(category);
+            await this.subCategoryRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> SubCategoryExistsById(int id)
+        {
+            var category = await this.subCategoryRepository.GetByIdWithDeletedAsync(id);
+            if (category == null || category.IsDeleted)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> SubCategoryExistsByName(string name)
+        {
+            return await this.subCategoryRepository.AllWithDeleted().AnyAsync(c => c.Title.ToLower() == name.ToLower());
         }
     }
 }

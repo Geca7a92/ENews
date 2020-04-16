@@ -1,4 +1,4 @@
-﻿@model ENews.Web.ViewModels.Administration.Categories.IndexCategoryViewModel
+﻿@model ENews.Web.ViewModels.Administration.SubCategories.IndexSubCategoryViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -18,10 +18,10 @@
             @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.CategoryTitle)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.CategoryTitle)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IsDeleted)

@@ -62,8 +62,20 @@
                         <li>
                             <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                         </li>
+                        @if (!item.IsDeleted)
+                        {
+                            <li>
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-action="Undelete" asp-route-id="@item.Id">Restore</a>
+                            </li>
+                        }
                         <li>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a asp-action="HardDelete" asp-route-id="@item.Id">Hard Delete</a>
                         </li>
                     </ul>
                 </td>

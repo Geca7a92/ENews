@@ -55,20 +55,51 @@ namespace ENews.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SubCategoryCreateInputModel inputModel)
         {
+            inputModel.CategoriesDropDown = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
             if (!this.ModelState.IsValid)
             {
-                inputModel.CategoriesDropDown = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
                 return this.View(inputModel);
             }
 
-            var categoryExists = await this.categoriesService.CategoryExistsById(inputModel.CategoryId);
-            if (!categoryExists)
+            if (await this.subCategoriesService.SubCategoryExistsByName(inputModel.Title))
             {
-                inputModel.CategoriesDropDown = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
+                this.ModelState.AddModelError(inputModel.Title, $"Title - {inputModel.Title} already exists");
+                return this.View(inputModel);
+            }
+
+            if (!await this.categoriesService.CategoryExistsById(inputModel.CategoryId))
+            {
+                this.ModelState.AddModelError("Category", "Select appropriate category!");
                 return this.View(inputModel);
             }
 
             await this.subCategoriesService.CreateSubCategoryAsync(inputModel);
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        public async Task<IActionResult> HardDelete(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var subCategory = await this.subCategoriesService.GetSubCategoryById<IndexSubCategoryViewModel>((int)id);
+            if (subCategory == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(subCategory);
+        }
+
+        [HttpPost]
+        [ActionName("HardDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await this.subCategoriesService.HardDeleteById(id);
+
             return this.RedirectToAction(nameof(this.Index));
         }
     }

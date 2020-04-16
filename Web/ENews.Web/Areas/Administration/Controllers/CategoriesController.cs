@@ -95,7 +95,7 @@
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!this.CategoryExists(category.Id))
+                    if (!await this.categoriesService.CategoryExistsById(category.Id))
                     {
                         return this.NotFound();
                     }
@@ -127,6 +127,7 @@
 
             if (await this.categoriesService.CategoryExistsByName(inputModel.Title))
             {
+                this.ModelState.AddModelError(inputModel.Title, $"Title - {inputModel.Title} already exists");
                 return this.View(inputModel);
             }
 
@@ -182,16 +183,6 @@
             await this.categoriesService.HardDeleteById(id);
 
             return this.RedirectToAction(nameof(this.Index));
-        }
-
-        private bool CategoryExists(int id)
-        {
-            return this.context.Categories.Any(e => e.Id == id);
-        }
-
-        public IActionResult IsUserExists(string userName)
-        {
-            return this.Json(new Category());
         }
     }
 }

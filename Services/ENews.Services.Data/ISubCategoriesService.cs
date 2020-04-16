@@ -11,5 +11,12 @@ namespace ENews.Services.Data
 
         Task CreateSubCategoryAsync(SubCategoryCreateInputModel inputModel);
 
+        Task HardDeleteById(int id);
+
+        Task<bool> SubCategoryExistsByName(string name);
+
+        Task<bool> SubCategoryExistsById(int id);
+
+        Task<T> GetSubCategoryById<T>(int id);
     }
 }

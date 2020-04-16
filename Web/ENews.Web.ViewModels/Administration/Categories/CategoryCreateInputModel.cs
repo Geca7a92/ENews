@@ -11,6 +11,7 @@ namespace ENews.Web.ViewModels.Administration.Categories
     {
         [Required]
         [MaxLength(50)]
+
         public string Title { get; set; }
 
         [MaxLength(200)]

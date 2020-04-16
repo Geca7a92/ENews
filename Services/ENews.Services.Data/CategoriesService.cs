@@ -57,7 +57,6 @@
         {
             var category = await this.categoryRepository.AllWithDeleted().Where(c => c.Id == id)
                 .To<T>().FirstOrDefaultAsync();
-
             return category;
         }
 
