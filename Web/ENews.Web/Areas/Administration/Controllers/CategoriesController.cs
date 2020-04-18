@@ -78,6 +78,7 @@
         }
 
         // ToDo Service
+        // Fix Unique Title when Edditing
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Title,Description,ImageUrl,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Category category)

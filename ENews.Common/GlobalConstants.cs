@@ -19,10 +19,18 @@ namespace ENews.Common
         // Admin account info
         public const string AdminPassword = "adminadmin";
 
+        public const string AdminFirstName = "Admin";
+
+        public const string AdminLastName = "Administratov";
+
         public const string AdminEmailName = "admin@abv.bg";
 
         // Reporter account info
         public const string ReporterPassword = "reporter";
+
+        public const string ReporterFirstName = "Reporer";
+
+        public const string ReporterLastName = "Reporerov";
 
         public const string ReporterEmailName = "reporter@abv.bg";
 

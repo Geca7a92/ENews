@@ -32,6 +32,8 @@ namespace ENews.Data.Seeding
             {
                 Email = GlobalConstants.ReporterEmailName,
                 UserName = GlobalConstants.ReporterEmailName,
+                FirstName = GlobalConstants.ReporterFirstName,
+                LastName = GlobalConstants.ReporterLastName,
                 EmailConfirmed = true,
                 PhoneNumber = GlobalConstants.PhoneNumber,
             };
@@ -49,6 +51,8 @@ namespace ENews.Data.Seeding
             {
                 Email = GlobalConstants.AdminEmailName,
                 UserName = GlobalConstants.AdminEmailName,
+                FirstName = GlobalConstants.AdminFirstName,
+                LastName = GlobalConstants.AdminLastName,
                 EmailConfirmed = true,
                 PhoneNumber = GlobalConstants.PhoneNumber,
             };

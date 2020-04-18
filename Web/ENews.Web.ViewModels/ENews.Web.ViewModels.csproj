@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\ENews.Data.Models\ENews.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\ENews.Services.Mapping\ENews.Services.Mapping.csproj" />
+    <ProjectReference Include="..\ENews.Web.Infrastructure\ENews.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using ENews.Data.Models;
+﻿using ENews.Common;
+using ENews.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +19,15 @@ namespace ENews.Data.Seeding
             "Related to this change is the upgrading of the quality of the product being manufactured. " +
             "While it is possible to produce a low-technology product with low-skill labour, the ability to manufacture high-technology products well is dependent on a highly skilled staff.";
 
-        public const string UserId = "c20642a0-ba04-480c-9b17-19973564bb2e";
-
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            var adminRoleId = dbContext.Roles.FirstOrDefault(c => c.Name == GlobalConstants.AdministratorRoleName).Id;
+            var userId = dbContext.Users.Where(u => u.Roles.Any(r => r.RoleId == adminRoleId)).FirstOrDefault().Id;
             if (dbContext.Articles.Count() < 3)
             {
-                await SeedArticleAsync(dbContext, "Some Test Name", TestString, UserId, 2, 1, 18);
-                await SeedArticleAsync(dbContext, "Some Test Name Two", TestString, UserId, 3, 1, 18);
-                await SeedArticleAsync(dbContext, "Some Test Name AnotherOne", TestString, UserId, 1, 1, 19);
+                await SeedArticleAsync(dbContext, "Some Test Name", TestString, userId, 2, 1, 18);
+                await SeedArticleAsync(dbContext, "Some Test Name Two", TestString, userId, 3, 1, 18);
+                await SeedArticleAsync(dbContext, "Some Test Name AnotherOne", TestString, userId, 1, 1, 19);
             }
         }
 
@@ -44,8 +45,3 @@ namespace ENews.Data.Seeding
         }
     }
 }
-
-// MC Bussines ID = 1
-// SC Energy ID = 18
-// SC Industry ID = 19
-
