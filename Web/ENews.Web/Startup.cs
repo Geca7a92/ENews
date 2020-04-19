@@ -123,7 +123,8 @@
                 endpoints =>
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute("category", "{name:minlength(2)}", new { controller = "Categories", action = "Index" });
+                        endpoints.MapControllerRoute("category", "{name}", new { controller = "Categories", action = "Index" });
+                        endpoints.MapControllerRoute("subCategory", "{categoryName}/{subCategoryName}", new { controller = "SubCategories", action = "Index" });
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });

@@ -6,16 +6,18 @@ using System.Text;
 
 namespace ENews.Web.ViewModels.SubCategories
 {
-    public class MainCategoryArticlesViewModel : IMapFrom<Category>
+    public class SubCategoryArticlesViewModel : IMapFrom<SubCategory>
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
+        public string CategoryTitle { get; set; }
+
         public int CurrentPage { get; set; }
 
         public int PagesCount { get; set; }
 
-        public IEnumerable<ArticlePreviewViewModel> CategoryArticles { get; set; }
+        public IEnumerable<ArticlePreviewViewModel> SubCategoryArticles { get; set; }
     }
 }

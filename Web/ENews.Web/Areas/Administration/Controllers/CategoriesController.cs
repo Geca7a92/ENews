@@ -67,14 +67,14 @@
                 return this.NotFound();
             }
 
-            var res = await this.categoryRepository.GetByIdWithDeletedAsync(id);
+            var category = await this.categoryRepository.GetByIdWithDeletedAsync(id);
 
-            if (res == null)
+            if (category == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(res);
+            return this.View(category);
         }
 
         // ToDo Service

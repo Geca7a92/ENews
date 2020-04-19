@@ -39,11 +39,28 @@ namespace ENews.Services.Data
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id)
+        {
+            IQueryable<SubCategory> query
+                = this.subCategoryRepository.All().OrderBy(x => x.Title).Where(x => x.CategoryId == id);
+
+            return query.To<T>().ToList();
+        }
+
         public async Task<T> GetSubCategoryById<T>(int id)
         {
             var subCategory = await this.subCategoryRepository.AllWithDeleted().Where(c => c.Id == id)
                 .To<T>().FirstOrDefaultAsync();
             return subCategory;
+        }
+
+        public T GetSubCategoryByName<T>(string name)
+        {
+            var category = this.subCategoryRepository.All()
+                .Where(x => x.Title == name)
+                .To<T>().FirstOrDefault();
+
+            return category;
         }
 
         public async Task HardDeleteById(int id)

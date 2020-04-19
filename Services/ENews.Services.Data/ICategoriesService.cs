@@ -9,9 +9,9 @@ namespace ENews.Services.Data
     {
         IEnumerable<T> GetAllCategories<T>();
 
-        IEnumerable<T> GetAllWithDeletedCategories<T>();
+        IEnumerable<T> GetAllCategoriesWithAnySubCategories<T>();
 
-        IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id);
+        IEnumerable<T> GetAllWithDeletedCategories<T>();
 
         Task UndeleteById(int id);
 
@@ -28,7 +28,5 @@ namespace ENews.Services.Data
         Task<bool> CategoryExistsByName(string name);
 
         Task<T> GetCategoryById<T>(int id);
-
-        T GetSubCategoryByName<T>(string name);
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ENews.Web.Areas.MembersArea.Controllers
 {
@@ -15,21 +16,24 @@ namespace ENews.Web.Areas.MembersArea.Controllers
     {
         private readonly IArticleService articleService;
         private readonly ICategoriesService categoriesService;
+        private readonly ISubCategoriesService subCategoriesService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ArticleController(
             IArticleService articleService,
             ICategoriesService categoriesService,
+            ISubCategoriesService subCategoriesService,
             UserManager<ApplicationUser> userManager)
         {
             this.articleService = articleService;
             this.categoriesService = categoriesService;
+            this.subCategoriesService = subCategoriesService;
             this.userManager = userManager;
         }
 
         public IActionResult Create()
         {
-            var categories = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
+            var categories = this.categoriesService.GetAllCategoriesWithAnySubCategories<CategoriesDropDownViewModel>();
             var viewModel = new ArticleCreateInputModel()
             {
                 CategoriesDropDown = categories,
@@ -42,7 +46,7 @@ namespace ENews.Web.Areas.MembersArea.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                input.CategoriesDropDown = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
+                input.CategoriesDropDown = this.categoriesService.GetAllCategoriesWithAnySubCategories<CategoriesDropDownViewModel>();
                 return this.View(input);
             }
 
@@ -55,7 +59,7 @@ namespace ENews.Web.Areas.MembersArea.Controllers
 
         public IActionResult GetSubcategories(int id)
         {
-            var subCategories = this.categoriesService
+            var subCategories = this.subCategoriesService
                 .GetSubCategoriesOfCategoryId<SubCategoriesDropDownViewModel>(id);
             return this.Json(subCategories);
         }

@@ -12,12 +12,10 @@
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoryRepository;
-        private readonly IDeletableEntityRepository<SubCategory> subCategoryRepository;
 
-        public CategoriesService(IDeletableEntityRepository<Category> categoryRepository, IDeletableEntityRepository<SubCategory> subCategoryRepository)
+        public CategoriesService(IDeletableEntityRepository<Category> categoryRepository)
         {
             this.categoryRepository = categoryRepository;
-            this.subCategoryRepository = subCategoryRepository;
         }
 
         public IEnumerable<T> GetAllCategories<T>()
@@ -36,13 +34,6 @@
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id)
-        {
-            IQueryable<SubCategory> query
-                = this.subCategoryRepository.All().OrderBy(x => x.Title).Where(x => x.CategoryId == id);
-
-            return query.To<T>().ToList();
-        }
 
         public T GetCategoryByName<T>(string name)
         {
@@ -60,14 +51,7 @@
             return category;
         }
 
-        public T GetSubCategoryByName<T>(string name)
-        {
-            var category = this.subCategoryRepository.All()
-                .Where(x => x.Title == name)
-                .To<T>().FirstOrDefault();
 
-            return category;
-        }
 
         public async Task CreateCategoryAsync(CategoryCreateInputModel inputModel)
         {
@@ -116,6 +100,14 @@
         public async Task<bool> CategoryExistsByName(string name)
         {
             return await this.categoryRepository.AllWithDeleted().AnyAsync(c => c.Title.ToLower() == name.ToLower());
+        }
+
+        public IEnumerable<T> GetAllCategoriesWithAnySubCategories<T>()
+        {
+            IQueryable<Category> query
+                = this.categoryRepository.All().OrderBy(x => x.Title).Where(c => c.SubCategories.Any());
+
+            return query.To<T>().ToList();
         }
     }
 }

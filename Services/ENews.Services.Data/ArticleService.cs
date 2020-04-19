@@ -84,7 +84,7 @@
         public IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null)
         {
             IQueryable<Article> query
-                = this.articleRepository.All().OrderByDescending(x => x.CreatedOn);
+                = this.articleRepository.All().OrderByDescending(x => x.CreatedOn).Where(a => !a.Category.IsDeleted || !a.SubCategory.IsDeleted);
             if (count != null)
             {
                 query = query.Take(count.Value);
@@ -99,5 +99,44 @@
             return article;
         }
 
+        public IEnumerable<T> GetAllByCategoryId<T>(int id, int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All()
+                .Where(a => a.CategoryId == id)
+                .OrderByDescending(a => a.CreatedOn)
+                .Skip(skip);
+
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllBySubCategoryId<T>(int id, int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All()
+                .Where(a => a.SubCategoryId == id)
+                .OrderByDescending(a => a.CreatedOn)
+                .Skip(skip);
+
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
+        }
+
+        public int GetCountByCategoryId(int id)
+        {
+            return this.articleRepository.All().Where(a => a.CategoryId == id).Count();
+        }
+
+        public int GetCountBySubCategoryId(int id)
+        {
+            return this.articleRepository.All().Where(a => a.SubCategoryId == id).Count();
+        }
     }
 }

@@ -18,5 +18,9 @@ namespace ENews.Services.Data
         Task<bool> SubCategoryExistsById(int id);
 
         Task<T> GetSubCategoryById<T>(int id);
+
+        T GetSubCategoryByName<T>(string name);
+
+        IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id);
     }
 }

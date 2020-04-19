@@ -9,6 +9,8 @@ namespace ENews.Web.ViewModels
 {
     public class SubCategoryViewModel : IMapFrom<SubCategory>
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public string Url => $"{this.Category.Title}/{this.Title}".Replace(' ', '-');

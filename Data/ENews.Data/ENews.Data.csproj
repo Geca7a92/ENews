@@ -15,6 +15,12 @@
     <Compile Remove="Migrations\20200331114711_Change_ArticleModel.Designer.cs" />
     <Compile Remove="Migrations\20200414165137_fix-Category-Property-Name.cs" />
     <Compile Remove="Migrations\20200414165137_fix-Category-Property-Name.Designer.cs" />
+    <Compile Remove="Migrations\20200418140815_Added-Rsses.cs" />
+    <Compile Remove="Migrations\20200418140815_Added-Rsses.Designer.cs" />
+    <Compile Remove="Migrations\20200418153153_Added-RsslUrlLink-To-Article.cs" />
+    <Compile Remove="Migrations\20200418153153_Added-RsslUrlLink-To-Article.Designer.cs" />
+    <Compile Remove="Migrations\20200418153813_Chnaged-Column-Name.cs" />
+    <Compile Remove="Migrations\20200418153813_Chnaged-Column-Name.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

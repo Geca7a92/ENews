@@ -4,6 +4,8 @@ namespace ENews.Common
 {
     public static class GlobalConstants
     {
+        public const int ArticlePerPage = 3;
+
         public const string SystemName = "ENews";
 
         // Roles names
