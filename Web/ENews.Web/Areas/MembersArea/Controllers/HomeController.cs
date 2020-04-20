@@ -16,11 +16,11 @@ namespace ENews.Web.Areas.MembersArea.Controllers
     [Area("MembersArea")]
     public class HomeController : Controller
     {
-        private readonly IArticleService articleService;
+        private readonly IArticlesService articleService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public HomeController(
-            IArticleService articleService,
+            IArticlesService articleService,
             UserManager<ApplicationUser> userManager)
         {
             this.articleService = articleService;

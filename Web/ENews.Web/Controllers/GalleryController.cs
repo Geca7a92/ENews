@@ -10,9 +10,9 @@ namespace ENews.Web.Controllers
 {
     public class GalleryController : Controller
     {
-        private readonly IGalleryService galleryService;
+        private readonly IGalleriesService galleryService;
 
-        public GalleryController(IGalleryService galleryService)
+        public GalleryController(IGalleriesService galleryService)
         {
             this.galleryService = galleryService;
         }

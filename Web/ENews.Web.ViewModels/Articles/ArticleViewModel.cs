@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-
-using ENews.Data.Models;
-using ENews.Services.Mapping;
-using Ganss.XSS;
-
-namespace ENews.Web.ViewModels.Articles
+﻿namespace ENews.Web.ViewModels.Articles
 {
+    using System;
+    using System.Collections.Generic;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using Ganss.XSS;
+
     public class ArticleViewModel : IMapFrom<Article>
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public string CategoryTitle { get; set; }
@@ -24,6 +26,10 @@ namespace ENews.Web.ViewModels.Articles
         public string AuthorFirstName { get; set; }
 
         public string AuthorLastName { get; set; }
+
+        public int AuthorArticlesCount { get; set; }
+
+        public DateTime AuthorCreatedOn { get; set; }
 
         public string AuthorFullName => $"{this.AuthorFirstName} {this.AuthorLastName}";
 

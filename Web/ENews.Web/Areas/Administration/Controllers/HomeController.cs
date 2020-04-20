@@ -11,11 +11,11 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class AdministrationController : BaseController
+    public class HomeController : BaseController
     {
         private readonly ApplicationDbContext context;
 
-        public AdministrationController(ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context)
         {
             this.context = context;
         }

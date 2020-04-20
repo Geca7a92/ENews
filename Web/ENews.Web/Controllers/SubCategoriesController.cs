@@ -10,11 +10,11 @@
     public class SubCategoriesController : Controller
     {
         private readonly ISubCategoriesService subCategoriesService;
-        private readonly IArticleService articleService;
+        private readonly IArticlesService articleService;
 
         public SubCategoriesController(
             ISubCategoriesService subCategoriesService,
-            IArticleService articleService)
+            IArticlesService articleService)
         {
             this.subCategoriesService = subCategoriesService;
             this.articleService = articleService;
@@ -45,6 +45,11 @@
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;
+            }
+
+            if (page > viewModel.PagesCount)
+            {
+                page = viewModel.PagesCount;
             }
 
             viewModel.CurrentPage = page;

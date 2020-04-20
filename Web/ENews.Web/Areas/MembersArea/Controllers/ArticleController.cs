@@ -14,13 +14,13 @@ namespace ENews.Web.Areas.MembersArea.Controllers
     [Area("MembersArea")]
     public class ArticleController : Controller
     {
-        private readonly IArticleService articleService;
+        private readonly IArticlesService articleService;
         private readonly ICategoriesService categoriesService;
         private readonly ISubCategoriesService subCategoriesService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ArticleController(
-            IArticleService articleService,
+            IArticlesService articleService,
             ICategoriesService categoriesService,
             ISubCategoriesService subCategoriesService,
             UserManager<ApplicationUser> userManager)

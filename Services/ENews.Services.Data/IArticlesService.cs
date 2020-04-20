@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ENews.Services.Data
 {
-    public interface IArticleService
+    public interface IArticlesService
     {
         IEnumerable<T> GetAll<T>(int? count = null);
 

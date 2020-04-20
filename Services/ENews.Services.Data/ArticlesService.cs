@@ -8,17 +8,17 @@
     using ENews.Services.Mapping;
     using ENews.Web.ViewModels.MembersArea.Articles;
 
-    public class ArticleService : IArticleService
+    public class ArticlesService : IArticlesService
     {
         private readonly IDeletableEntityRepository<Article> articleRepository;
         private readonly IDeletableEntityRepository<Image> imageRepository;
-        private readonly IGalleryService galleryService;
+        private readonly IGalleriesService galleryService;
         private readonly ICloudinaryService cloudinaryService;
 
-        public ArticleService(
+        public ArticlesService(
             IDeletableEntityRepository<Article> articleRepository,
             IDeletableEntityRepository<Image> imageRepository,
-            IGalleryService galleryService,
+            IGalleriesService galleryService,
             ICloudinaryService cloudinaryService)
         {
             this.articleRepository = articleRepository;

@@ -12,10 +12,10 @@ namespace ENews.Web.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly IArticleService articleService;
+        private readonly IArticlesService articleService;
         private readonly ICategoriesService categoriesService;
 
-        public CategoriesController(IArticleService articleService, ICategoriesService categoriesService)
+        public CategoriesController(IArticlesService articleService, ICategoriesService categoriesService)
         {
             this.articleService = articleService;
             this.categoriesService = categoriesService;
@@ -45,6 +45,11 @@ namespace ENews.Web.Controllers
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;
+            }
+
+            if (page > viewModel.PagesCount)
+            {
+                page = viewModel.PagesCount;
             }
 
             viewModel.CurrentPage = page;

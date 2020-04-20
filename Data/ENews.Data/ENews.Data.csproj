@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20200418153153_Added-RsslUrlLink-To-Article.Designer.cs" />
     <Compile Remove="Migrations\20200418153813_Chnaged-Column-Name.cs" />
     <Compile Remove="Migrations\20200418153813_Chnaged-Column-Name.Designer.cs" />
+    <Compile Remove="Migrations\20200420121355_cascade-delete.cs" />
+    <Compile Remove="Migrations\20200420121355_cascade-delete.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿namespace ENews.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using ENews.Services.Data;
     using ENews.Web.ViewModels;
@@ -8,9 +9,9 @@
 
     public class HomeController : BaseController
     {
-        private readonly IArticleService articleService;
+        private readonly IArticlesService articleService;
 
-        public HomeController(IArticleService articleService)
+        public HomeController(IArticlesService articleService)
         {
             this.articleService = articleService;
         }
@@ -23,6 +24,11 @@
             };
             return this.View(model);
         }
+
+        //public JsonResult GetMoreArticles()
+        //{
+        //    var result = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(5);
+        //}
 
         public IActionResult Privacy()
         {

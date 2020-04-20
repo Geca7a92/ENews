@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace ENews.Services.Data
 {
-    public class GalleryService : IGalleryService
+    public class GalleriesService : IGalleriesService
     {
         private readonly ICloudinaryService cloudinaryService;
         private readonly IDeletableEntityRepository<Gallery> galleryRepository;
 
-        public GalleryService(
+        public GalleriesService(
             ICloudinaryService cloudinaryService,
             IDeletableEntityRepository<Gallery> galleryRepository)
         {

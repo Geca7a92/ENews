@@ -74,9 +74,10 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
-            services.AddTransient<IArticleService, ArticleService>();
-            services.AddTransient<IGalleryService, GalleryService>();
+            services.AddTransient<IArticlesService, ArticlesService>();
+            services.AddTransient<IGalleriesService, GalleriesService>();
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
+            services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 

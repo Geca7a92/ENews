@@ -10,9 +10,9 @@ namespace ENews.Web.Controllers
 {
     public class ArticlesController : Controller
     {
-        private readonly IArticleService articleService;
+        private readonly IArticlesService articleService;
 
-        public ArticlesController(IArticleService articleService)
+        public ArticlesController(IArticlesService articleService)
         {
             this.articleService = articleService;
         }

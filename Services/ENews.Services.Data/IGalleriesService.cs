@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ENews.Services.Data
 {
-    public interface IGalleryService
+    public interface IGalleriesService
     {
         Task<int> CreateAsync(ICollection<IFormFile> imageCollection, Image mainImage);
 
