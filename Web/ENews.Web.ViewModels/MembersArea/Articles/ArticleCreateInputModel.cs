@@ -1,11 +1,13 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace ENews.Web.ViewModels.MembersArea.Articles
+﻿namespace ENews.Web.ViewModels.MembersArea.Articles
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using ENews.Web.Infrastructure.ValidationAttributes;
+    using Microsoft.AspNetCore.Http;
+
     public class ArticleCreateInputModel : IMapFrom<Article>
     {
         [Required]
@@ -26,10 +28,14 @@ namespace ENews.Web.ViewModels.MembersArea.Articles
         public int SubCategoryId { get; set; }
 
         [Display(Name = "Gallery content")]
+        [AllowedExtensions(new string[] { ".jpg", ".png" })]
+        [MaxFileSize(1024 * 1024)]
         public ICollection<IFormFile> GalleryContent { get; set; }
 
         [Required]
         [Display(Name = "Main image")]
+        [AllowedExtensions(new string[] { ".jpg", ".png" })]
+        [MaxFileSize(1024 * 1024)]
         public IFormFile MainImage { get; set; }
     }
 }

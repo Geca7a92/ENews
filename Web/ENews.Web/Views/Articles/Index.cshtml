@@ -60,7 +60,12 @@
                                 </span>
                             </span>
                         </div>
-                        <div class="px-4 pt-3"> <button type="button" class="btn btn-primary" onclick="showCommentForm()"><i class="ion ion-md-create"></i>&nbsp;Add Comment</button> </div>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <div class="px-4 pt-3">
+                                <button type="button" class="btn btn-primary" onclick="showCommentForm()">Add Comment</button>
+                            </div>
+                        }
                     </div>
                     <div id="CommentForm" style="display: none">
                         <form asp-controller="Comment" asp-action="Create" method="post">

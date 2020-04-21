@@ -24,6 +24,7 @@ namespace ENews.Web.Controllers
             this.userManager = userManager;
         }
 
+        //FIX WHEN COMMENT AND NOT LOGGED IN ERROR
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommentInputModel model)
