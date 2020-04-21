@@ -1,4 +1,5 @@
 ﻿using ENews.Data.Models;
+using ENews.Data.Models.Enums;
 using ENews.Services.Mapping;
 using System;
 using System.Net;
@@ -32,6 +33,8 @@ namespace ENews.Web.ViewModels
         public string Content { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public Region? Region { get; set; }
 
         public string ContetPreview
         {

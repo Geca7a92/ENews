@@ -1,6 +1,8 @@
 ﻿using ENews.Common;
+using ENews.Data.Models.Enums;
 using ENews.Services.Data;
 using ENews.Web.ViewModels;
+using ENews.Web.ViewModels.Categories;
 using ENews.Web.ViewModels.SubCategories;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -42,6 +44,39 @@ namespace ENews.Web.Controllers
             var count = this.articleService.GetCountByCategoryId(viewModel.Id);
 
             viewModel.PagesCount = (int)Math.Ceiling((double)count / GlobalConstants.ArticlePerPage);
+
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
+
+            if (page > viewModel.PagesCount)
+            {
+                page = viewModel.PagesCount;
+            }
+
+            viewModel.CurrentPage = page;
+
+            return this.View(viewModel);
+        }
+
+        public IActionResult Local(Region region, int page = 1)
+        {
+            var viewModel = new RegionArticlesViewModel();
+
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            var skip = (page - 1) * GlobalConstants.ArticlePerPage;
+
+            viewModel.CategoryArticles = this.articleService.GetLatestByRegion<ArticlePreviewViewModel>(region, GlobalConstants.ArticlePerPage, skip);
+
+            var count = this.articleService.GetCountByRegion(region);
+
+            viewModel.PagesCount = (int)Math.Ceiling((double)count / GlobalConstants.ArticlePerPage);
+
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;

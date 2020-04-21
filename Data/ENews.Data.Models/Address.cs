@@ -14,7 +14,7 @@ namespace ENews.Data.Models
 
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public Area? Area { get; set; }
+        public Region? Area { get; set; }
 
         [MaxLength(50)]
         public string City { get; set; }

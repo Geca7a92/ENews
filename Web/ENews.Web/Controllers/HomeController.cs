@@ -25,11 +25,6 @@
             return this.View(model);
         }
 
-        //public JsonResult GetMoreArticles()
-        //{
-        //    var result = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(5);
-        //}
-
         public IActionResult Privacy()
         {
             return this.View();

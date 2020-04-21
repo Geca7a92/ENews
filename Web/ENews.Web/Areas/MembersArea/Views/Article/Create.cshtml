@@ -1,4 +1,5 @@
-﻿@model ENews.Web.ViewModels.MembersArea.Articles.ArticleCreateInputModel
+﻿@using ENews.Data.Models.Enums
+@model ENews.Web.ViewModels.MembersArea.Articles.ArticleCreateInputModel
 @{
     this.ViewData["Title"] = "Create article";
     var categories = Model.CategoriesDropDown.Select(c => new SelectListItem(c.Title, c.Id.ToString()));
@@ -43,6 +44,26 @@
                 <span asp-validation-for="@Model.GalleryContent" class="text-danger"></span>
             </div>
         </div>
+
+        <div class="form-group">
+            <div>
+                <input class="form-check-input" name="region" type="radio" onclick="showRegionList()">
+                <label class="form-check-label" for="exampleRadios1">Local news?</label>
+            </div>
+            <div>
+                <input class="form-check-input" name="region" type="radio" onclick="hideRegionList()">
+                <label class="form-check-label" for="exampleRadios1">Foreign news?</label>
+            </div>
+
+            <div id="SelectRegion" style="display:none">
+                <div class="form-group">
+                    <label asp-for="@Model.Region"></label>
+                    <select id="SetRegion" asp-for="@Model.Region" asp-items="@Html.GetEnumSelectList<Region>()" class="form-control"></select>
+                    <span asp-validation-for="@Model.Region" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
         <input type="submit" class="btn btn-primary" />
     </form>
 </div>
@@ -57,22 +78,21 @@
     });
 </script>
 
-
-@*<script>
-    $(function () {
-        $("#ddlcategory").change(function () {
-            $.getJSON("/MembersArea/Article/GetSubcategories", { id: $("#ddlcategory").val() }, function (d) {
-                var row = "";
-                $("#ddlsubCategory").empty();
-                $.each(d, function (i, v) {
-                    row += "<option value=" + v.id + ">" + v.title + "</option>";
-                });
-                $("#ddlsubCategory").html(row);
-            })
-        })
-    })
-</script>*@
-
 @section Scripts{
+
+    <script>
+        function showRegionList() {
+            $("#SelectRegion").show();
+        }
+    </script>
+
+    <script>
+        function hideRegionList() {
+            $("#SelectRegion").hide();
+            $("#SetRegion").val(null);
+        }
+    </script>
+
+
     <script src="~/js/getSubCategories.js" asp-append-version="true"></script>
 }

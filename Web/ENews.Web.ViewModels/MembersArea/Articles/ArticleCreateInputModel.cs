@@ -1,9 +1,11 @@
 ﻿namespace ENews.Web.ViewModels.MembersArea.Articles
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using ENews.Data.Models;
+    using ENews.Data.Models.Enums;
     using ENews.Services.Mapping;
     using ENews.Web.Infrastructure.ValidationAttributes;
     using Microsoft.AspNetCore.Http;
@@ -37,5 +39,7 @@
         [AllowedExtensions(new string[] { ".jpg", ".png" })]
         [MaxFileSize(1024 * 1024)]
         public IFormFile MainImage { get; set; }
+
+        public Region? Region { get; set; }
     }
 }

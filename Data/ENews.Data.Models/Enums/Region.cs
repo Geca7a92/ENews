@@ -1,6 +1,6 @@
 ﻿namespace ENews.Data.Models.Enums
 {
-    public enum Area
+    public enum Region
     {
         Blagoevgrad = 1,
         Burgas = 2,

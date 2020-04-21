@@ -5,10 +5,27 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-@foreach (var article in Model.LatestFiveArticles)
-{
-    @await Html.PartialAsync("_ArticlePartial", article)
-}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            @foreach (var article in Model.LatestFiveArticles)
+            {
+                @await Html.PartialAsync("_ArticlePartial", article)
+            }
+        </div>
+        <div class="container-fluid col-4">
+            <div class="container-fluid row">
+                <div class="col container-fluid">
+                </div>
+                <div class="col container-fluid">d</div>
+            </div>
+            <div class="container-fluid row">
+                <div class="col container-fluid">cc</div>
+                <div class="col container-fluid">dd</div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>

@@ -50,6 +50,6 @@
 
         public ICollection<Comment> Comments { get; set; }
 
-        public Area? Area { get; set; }
+        public Region? Region { get; set; }
     }
 }

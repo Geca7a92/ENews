@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using ENews.Data.Common.Repositories;
     using ENews.Data.Models;
+    using ENews.Data.Models.Enums;
     using ENews.Services.Mapping;
     using ENews.Web.ViewModels.MembersArea.Articles;
 
@@ -47,6 +48,7 @@
                 CategoryId = model.CategoryId,
                 SubCategoryId = model.SubCategoryId,
                 PictureId = mainImage.Id,
+                Region = model.Region,
             };
 
             if (model.GalleryContent != null)
@@ -137,6 +139,23 @@
         public int GetCountBySubCategoryId(int id)
         {
             return this.articleRepository.All().Where(a => a.SubCategoryId == id).Count();
+        }
+
+        public int GetCountByRegion(Region region)
+        {
+            return this.articleRepository.All().Where(a => a.Region == region).Count();
+        }
+
+        public IEnumerable<T> GetLatestByRegion<T>(Region region, int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All().Where(a => a.Region == region).OrderByDescending(a => a.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
+
         }
     }
 }

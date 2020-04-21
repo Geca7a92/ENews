@@ -1,4 +1,5 @@
-﻿using ENews.Web.ViewModels.MembersArea.Articles;
+﻿using ENews.Data.Models.Enums;
+using ENews.Web.ViewModels.MembersArea.Articles;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,13 @@ namespace ENews.Services.Data
 
         IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null);
 
+        IEnumerable<T> GetLatestByRegion<T>(Region region, int? take = null, int skip = 0);
+
         int GetCountByCategoryId(int id);
 
         int GetCountBySubCategoryId(int id);
+
+        int GetCountByRegion(Region region);
 
         T GetArticleById<T>(int id);
 
