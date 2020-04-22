@@ -1,11 +1,10 @@
-﻿@using ENews.Common
-@model ENews.Web.ViewModels.Categories.LocalArticlesViewModel
+﻿@model ENews.Web.ViewModels.Categories.RegionArticlesViewModel
 
 @{
-    this.ViewData["Title"] = GlobalConstants.Country;
+    this.ViewData["Title"] = Model.Region;
 }
 
-<h1>News from @this.ViewData["Title"] </h1>
+<h1>News from @Model.Region </h1>
 
 @foreach (var article in Model.CategoryArticles)
 {
@@ -27,6 +26,8 @@
         {
             <li class="page-item m-1">
                 <a class="page-link"
+                   asp-route="local"
+                   asp-route-region="@this.Model.Region"
                    asp-route-page="@(this.Model.CurrentPage - 1)">Previous</a>
             </li>
         }
@@ -36,6 +37,8 @@
         {
             <li class="page-item m-1">
                 <a class="page-link"
+                   asp-route="local"
+                   asp-route-region="@this.Model.Region"
                    asp-route-page="1">1</a>
             </li>
         }
@@ -47,6 +50,8 @@
             {
                 <li class="page-item m-1">
                     <a class="page-link"
+                       asp-route="local"
+                       asp-route-region="@this.Model.Region"
                        asp-route-page="@i">@i</a>
                 </li>
             }
@@ -56,6 +61,8 @@
         @{
             <li class="page-item active m-1">
                 <a class="page-link"
+                   asp-route="local"
+                   asp-route-region="@this.Model.Region"
                    asp-route-page="@this.Model.CurrentPage">@this.Model.CurrentPage</a>
             </li>
         }
@@ -68,6 +75,8 @@
 
                 <li class="page-item m-1">
                     <a class="page-link"
+                       asp-route="local"
+                       asp-route-region="@this.Model.Region"
                        asp-route-page="@i">@i</a>
                 </li>
             }
@@ -78,6 +87,8 @@
         {
             <li class="page-item m-1">
                 <a class="page-link"
+                   asp-route="local"
+                   asp-route-region="@this.Model.Region"
                    asp-route-page="@(this.Model.PagesCount)">@this.Model.PagesCount</a>
             </li>
         }
@@ -93,6 +104,8 @@
         {
             <li class="page-item m-1">
                 <a class="page-link"
+                   asp-route="local"
+                   asp-route-region="@this.Model.Region"
                    asp-route-page="@(this.Model.CurrentPage + 1)">Next</a>
             </li>
         }

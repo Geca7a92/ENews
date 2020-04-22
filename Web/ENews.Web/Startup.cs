@@ -9,6 +9,7 @@
     using ENews.Data.Models;
     using ENews.Data.Repositories;
     using ENews.Data.Seeding;
+    using ENews.Services;
     using ENews.Services.Data;
     using ENews.Services.Mapping;
     using ENews.Services.Messaging;
@@ -78,6 +79,7 @@
             services.AddTransient<IGalleriesService, GalleriesService>();
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<ICommentsService, CommentsService>();
+            services.AddTransient<IPagingService, PagingService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
@@ -126,6 +128,7 @@
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("category", "{name}", new { controller = "Categories", action = "Index" });
                         endpoints.MapControllerRoute("subCategory", "{categoryName}/{subCategoryName}", new { controller = "SubCategories", action = "Index" });
+                        endpoints.MapControllerRoute("local", "Local/{region}", new { controller = "Categories", action = "LocalByRegion" });
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });

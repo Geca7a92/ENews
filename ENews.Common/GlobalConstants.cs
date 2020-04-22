@@ -8,6 +8,8 @@ namespace ENews.Common
 
         public const string SystemName = "ENews";
 
+        public const string Country = "Bulgaria";
+
         // Roles names
         public const string AdministratorRoleName = "Administrator";
 

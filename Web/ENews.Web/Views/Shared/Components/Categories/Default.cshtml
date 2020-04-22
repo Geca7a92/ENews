@@ -1,8 +1,8 @@
 ﻿@using ENews.Data.Models.Enums
+@using ENews.Common
 @model ENews.Web.ViewModels.Shared.Components.CategoriesViewModel
 
 <ul class="navbar-nav flex-grow-1">
-    =
     @foreach (var category in Model.Categories)
     {
         <li class="nav-item dropdown">
@@ -15,20 +15,13 @@
             </div>
         </li>
     }
-    <li class="nav-item dropdown align-right">
-        Bulgaria
-        <div class="dropdown-content text-dark dropbtn">
-            <ul>
-                @foreach (var region in @Html.GetEnumSelectList<Region>())
-                {
-                    <li>
-                        <a asp-area="" asp-controller="Categories" asp-action="Local" asp-route-region="@region">@region.Text</a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </li>
+<li class="nav-item dropdown">
+    <a class="nav-link text-dark dropbtn" asp-area="" asp-controller="Categories" asp-action="Local">@GlobalConstants.Country</a>
+    <div class="dropdown-content">
+        @foreach (var region in @Html.GetEnumSelectList<Region>())
+        {
+            <a asp-area="" asp-controller="Categories" asp-action="LocalByRegion" asp-route-region="@region.Text">@region.Text</a>
+        }
+    </div>
+</li>
 </ul>
-
-
-@*<select id="SetRegion" asp-for="@Model.Region" asp-items="@Html.GetEnumSelectList<Region>()" class="form-control"></select>*@

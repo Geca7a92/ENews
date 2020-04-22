@@ -1,10 +1,11 @@
 ﻿namespace ENews.Web.ViewModels.Categories
 {
+    using ENews.Data.Models.Enums;
     using System.Collections.Generic;
 
     public class RegionArticlesViewModel
     {
-        public string RegionName { get; set; }
+        public Region Region { get; set; }
 
         public int CurrentPage { get; set; }
 

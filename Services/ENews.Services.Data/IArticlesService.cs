@@ -20,6 +20,10 @@ namespace ENews.Services.Data
 
         IEnumerable<T> GetLatestByRegion<T>(Region region, int? take = null, int skip = 0);
 
+        IEnumerable<T> GetLatesLocalArticles<T>(int? take = null, int skip = 0);
+
+        int GetCountOfLocalArticles();
+
         int GetCountByCategoryId(int id);
 
         int GetCountBySubCategoryId(int id);

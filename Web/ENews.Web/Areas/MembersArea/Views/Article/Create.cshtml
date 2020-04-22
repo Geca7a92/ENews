@@ -45,22 +45,22 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div>
             <div>
-                <input class="form-check-input" name="region" type="radio" onclick="showRegionList()">
+                <input class="form-check-input" name="regionCheck" type="radio" onclick="showRegionList()">
                 <label class="form-check-label" for="exampleRadios1">Local news?</label>
             </div>
             <div>
-                <input class="form-check-input" name="region" type="radio" onclick="hideRegionList()">
+                <input class="form-check-input" name="regionCheck" type="radio" onclick="hideRegionList()">
                 <label class="form-check-label" for="exampleRadios1">Foreign news?</label>
             </div>
+        </div>
 
-            <div id="SelectRegion" style="display:none">
-                <div class="form-group">
-                    <label asp-for="@Model.Region"></label>
-                    <select id="SetRegion" asp-for="@Model.Region" asp-items="@Html.GetEnumSelectList<Region>()" class="form-control"></select>
-                    <span asp-validation-for="@Model.Region" class="text-danger"></span>
-                </div>
+        <div id="SelectRegion" style="display:none">
+            <div class="form-group">
+                <label asp-for="@Model.Region"></label>
+                <select id="SetRegion" asp-for="@Model.Region" asp-items="@Html.GetEnumSelectList<Region>()" class="form-control"></select>
+                <span asp-validation-for="@Model.Region" class="text-danger"></span>
             </div>
         </div>
 

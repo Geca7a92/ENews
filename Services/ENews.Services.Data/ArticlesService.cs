@@ -146,6 +146,11 @@
             return this.articleRepository.All().Where(a => a.Region == region).Count();
         }
 
+        public int GetCountOfLocalArticles()
+        {
+            return this.articleRepository.All().Where(a => a.Region.HasValue).Count();
+        }
+
         public IEnumerable<T> GetLatestByRegion<T>(Region region, int? take = null, int skip = 0)
         {
             var articles = this.articleRepository.All().Where(a => a.Region == region).OrderByDescending(a => a.CreatedOn).Skip(skip);
@@ -156,6 +161,17 @@
 
             return articles.To<T>().ToList();
 
+        }
+
+        public IEnumerable<T> GetLatesLocalArticles<T>(int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All().Where(a => a.Region.HasValue).OrderByDescending(a => a.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
         }
     }
 }
