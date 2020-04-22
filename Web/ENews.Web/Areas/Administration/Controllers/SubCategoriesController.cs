@@ -6,6 +6,7 @@ using ENews.Web.ViewModels.Administration.SubCategories;
 using ENews.Web.ViewModels.MembersArea.Articles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,22 @@ namespace ENews.Web.Areas.Administration.Controllers
             return this.View(model);
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var category = await this.subCategoriesService.GetSubCategoryById<IndexSubCategoryViewModel>((int)id);
+            if (category == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(category);
+        }
+
         public IActionResult Create()
         {
             var categories = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
@@ -74,6 +91,52 @@ namespace ENews.Web.Areas.Administration.Controllers
             }
 
             await this.subCategoriesService.CreateSubCategoryAsync(inputModel);
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var category = await this.subCategoriesService.GetSubCategoryById<SubCategoryCreateInputModel>((int)id);
+
+            category.CategoriesDropDown = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
+
+            if (category == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(category);
+        }
+
+        
+
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.subCategoriesService.DeleteById((int)id);
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        public async Task<IActionResult> Undelete(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.subCategoriesService.UndeleteById((int)id);
+
             return this.RedirectToAction(nameof(this.Index));
         }
 

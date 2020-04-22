@@ -13,6 +13,11 @@ namespace ENews.Services.Data
 
         Task HardDeleteById(int id);
 
+        Task DeleteById(int id);
+
+        Task UndeleteById(int id);
+
+
         Task<bool> SubCategoryExistsByName(string name);
 
         Task<bool> SubCategoryExistsById(int id);

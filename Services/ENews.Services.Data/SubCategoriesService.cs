@@ -31,6 +31,20 @@ namespace ENews.Services.Data
             await this.subCategoryRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteById(int id)
+        {
+            var category = await this.subCategoryRepository.GetByIdWithDeletedAsync(id);
+            this.subCategoryRepository.Delete(category);
+            await this.subCategoryRepository.SaveChangesAsync();
+        }
+
+        public async Task UndeleteById(int id)
+        {
+            var category = await this.subCategoryRepository.GetByIdWithDeletedAsync(id);
+            this.subCategoryRepository.Undelete(category);
+            await this.subCategoryRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<T> GetAllWithDeletedSubCategories<T>()
         {
             IQueryable<SubCategory> query
