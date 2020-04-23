@@ -27,11 +27,5 @@ namespace ENews.Web.Controllers
 
             return this.View(model);
         }
-
-        [HttpPost]
-        public IActionResult CreateComment()
-        {
-            return this.View();
-        }
     }
 }

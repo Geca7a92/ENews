@@ -15,13 +15,16 @@ namespace ENews.Web.Controllers
     {
         private readonly ICommentsService commentsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IArticlesService articlesService;
 
         public CommentController(
             ICommentsService commentsService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IArticlesService articlesService)
         {
             this.commentsService = commentsService;
             this.userManager = userManager;
+            this.articlesService = articlesService;
         }
 
         //FIX WHEN COMMENT AND NOT LOGGED IN ERROR
@@ -29,6 +32,11 @@ namespace ENews.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommentInputModel model)
         {
+            if (!this.articlesService.ArticleExist(model.ArticleId))
+            {
+                return this.NotFound();
+            }
+
             var user = await this.userManager.GetUserAsync(this.User);
             model.UserId = user.Id;
             await this.commentsService.Create(model);

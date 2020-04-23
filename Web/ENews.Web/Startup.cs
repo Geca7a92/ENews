@@ -80,6 +80,8 @@
             services.AddTransient<ISubCategoriesService, SubCategoriesService>();
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IPagingService, PagingService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IRolesService, RolesService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 

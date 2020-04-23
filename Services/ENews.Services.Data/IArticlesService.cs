@@ -22,6 +22,8 @@ namespace ENews.Services.Data
 
         IEnumerable<T> GetLatesLocalArticles<T>(int? take = null, int skip = 0);
 
+        bool ArticleExist(int id);
+
         int GetCountOfLocalArticles();
 
         int GetCountByCategoryId(int id);

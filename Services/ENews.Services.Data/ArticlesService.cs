@@ -173,5 +173,10 @@
 
             return articles.To<T>().ToList();
         }
+
+        public bool ArticleExist(int id)
+        {
+            return this.articleRepository.All().Any(a => a.Id == id);
+        }
     }
 }

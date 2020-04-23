@@ -1,5 +1,7 @@
 ﻿using ENews.Common;
 using ENews.Data;
+using ENews.Services.Data;
+using ENews.Web.ViewModels.Administration.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +17,60 @@ namespace ENews.Web.Areas.Administration.Controllers
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext context;
+        private readonly IUsersService usersService;
 
-        public UsersController(ApplicationDbContext context)
+        public UsersController(
+            ApplicationDbContext context,
+            IUsersService usersService)
         {
             this.context = context;
+            this.usersService = usersService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Banned()
         {
-            return this.View(await this.context.Users.ToListAsync());
+            var result = this.usersService.GetAllBanned();
+            var model = new IndexUsersViewModel()
+            {
+                Users = result,
+            };
+
+            return this.View(model);
+        }
+
+        public IActionResult Active()
+        {
+            var result = this.usersService.GetAll();
+            var model = new IndexUsersViewModel()
+            {
+                Users = result,
+            };
+
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> Ban(string id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.usersService.DeleteById(id);
+
+            return this.RedirectToAction(nameof(this.Active));
+        }
+
+        public async Task<IActionResult> UnBan(string id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.usersService.UndeleteById(id);
+
+            return this.RedirectToAction(nameof(this.Banned));
         }
     }
 }
