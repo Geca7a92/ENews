@@ -61,7 +61,7 @@ namespace ENews.Web.Areas.Administration.Controllers
             return this.RedirectToAction(nameof(this.Active));
         }
 
-        public async Task<IActionResult> UnBan(string id)
+        public async Task<IActionResult> Unban(string id)
         {
             if (id == null)
             {

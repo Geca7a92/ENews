@@ -2,10 +2,12 @@
 using ENews.Data;
 using ENews.Data.Models;
 using ENews.Services.Data;
+using ENews.Web.ViewModels.Administration.Categories;
 using ENews.Web.ViewModels.Administration.SubCategories;
 using ENews.Web.ViewModels.MembersArea.Articles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,9 +34,29 @@ namespace ENews.Web.Areas.Administration.Controllers
             this.categoriesService = categoriesService;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    var result = this.subCategoriesService.GetAllWithDeletedSubCategories<IndexSubCategoryViewModel>();
+        //    var model = new IndexSubCategoriesViewModel()
+        //    {
+        //        SubCategories = result,
+        //    };
+        //    return this.View(model);
+        //}
+
+        public IActionResult Active()
         {
-            var result = this.subCategoriesService.GetAllWithDeletedSubCategories<IndexSubCategoryViewModel>();
+            var result = this.subCategoriesService.GetAllSubCategories<IndexSubCategoryViewModel>();
+            var model = new IndexSubCategoriesViewModel()
+            {
+                SubCategories = result,
+            };
+            return this.View(model);
+        }
+
+        public IActionResult Deleted()
+        {
+            var result = this.subCategoriesService.GetAllDeletedSubCategories<IndexSubCategoryViewModel>();
             var model = new IndexSubCategoriesViewModel()
             {
                 SubCategories = result,
@@ -91,7 +113,7 @@ namespace ENews.Web.Areas.Administration.Controllers
             }
 
             await this.subCategoriesService.CreateSubCategoryAsync(inputModel);
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Active));
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -101,20 +123,59 @@ namespace ENews.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var category = await this.subCategoriesService.GetSubCategoryById<SubCategoryCreateInputModel>((int)id);
+            var subCategory = await this.subCategoriesService.GetSubCategoryModelById((int)id);
 
-            category.CategoriesDropDown = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
-
-            if (category == null)
+            if (subCategory == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(category);
+            var categories = this.categoriesService.GetAllCategories<CategoriesDropDownViewModel>();
+            this.ViewData["CategoryId"] = new SelectList(categories, "Id", "Title", subCategory.CategoryId);
+            return this.View(subCategory);
         }
 
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Title,CategoryId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] SubCategory subCategory)
+        {
+            if (id != subCategory.Id)
+            {
+                return this.NotFound();
+            }
 
+            var categories = this.categoriesService.GetAllCategories<DropDownCategories>();
+            if (await this.subCategoriesService.SubCategoryExistsByName(subCategory.Title, subCategory.CategoryId))
+            {
+                this.ViewData["CategoryId"] = new SelectList(categories, "Id", "Title", subCategory.CategoryId);
+                this.ModelState.AddModelError(subCategory.Title, $"Title - {subCategory.Title} already exists");
+                return this.View(subCategory);
+            }
+
+            if (this.ModelState.IsValid)
+            {
+                try
+                {
+                    await this.subCategoriesService.Update(subCategory);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await this.subCategoriesService.SubCategoryExistsById(subCategory.Id))
+                    {
+                        return this.NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return this.RedirectToAction(nameof(this.Active));
+            }
+
+            this.ViewData["CategoryId"] = new SelectList(categories, "Id", "Title", subCategory.CategoryId);
+            return this.View(subCategory);
+        }
 
         public async Task<IActionResult> Delete(int? id)
         {
@@ -125,7 +186,7 @@ namespace ENews.Web.Areas.Administration.Controllers
 
             await this.subCategoriesService.DeleteById((int)id);
 
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Active));
         }
 
         public async Task<IActionResult> Undelete(int? id)
@@ -137,7 +198,7 @@ namespace ENews.Web.Areas.Administration.Controllers
 
             await this.subCategoriesService.UndeleteById((int)id);
 
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Deleted));
         }
 
         public async Task<IActionResult> HardDelete(int? id)
@@ -163,7 +224,7 @@ namespace ENews.Web.Areas.Administration.Controllers
         {
             await this.subCategoriesService.HardDeleteById(id);
 
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Active));
         }
     }
 }

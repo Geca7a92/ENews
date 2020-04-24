@@ -48,10 +48,16 @@
             @Html.DisplayFor(model => model.ModifiedOn)
         </dd>
     </dl>
-
-    <form asp-action="HardDelete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    @if (this.Model.SubCategories.Count() == 0)
+    {
+        <form asp-action="HardDelete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </form>
+    }
+    else
+    {
+        <h4>Make sure you have deleted all subcategories of @Html.DisplayFor(model=>model.Title) category before your able to permanently delete it!</h4>
+    }
+    <a asp-action="Deleted">Back to List</a>
 </div>

@@ -19,23 +19,27 @@
     [Area("Administration")]
     public class CategoriesController : Controller
     {
-        private readonly ApplicationDbContext context;
-        private readonly IDeletableEntityRepository<Category> categoryRepository;
         private readonly ICategoriesService categoriesService;
 
         public CategoriesController(
-            ApplicationDbContext context,
-            IDeletableEntityRepository<Category> categoryRepository,
             ICategoriesService categoriesService)
         {
-            this.context = context;
-            this.categoryRepository = categoryRepository;
             this.categoriesService = categoriesService;
         }
 
-        public IActionResult Index()
+        public IActionResult Active()
         {
-            var result = this.categoriesService.GetAllWithDeletedCategories<IndexCategoryViewModel>();
+            var result = this.categoriesService.GetAllCategories<IndexCategoryViewModel>();
+            var model = new IndexCategoriesViewModel()
+            {
+                Categories = result,
+            };
+            return this.View(model);
+        }
+
+        public IActionResult Deleted()
+        {
+            var result = this.categoriesService.GetAllDeletedCategories<IndexCategoryViewModel>();
             var model = new IndexCategoriesViewModel()
             {
                 Categories = result,
@@ -59,7 +63,6 @@
             return this.View(category);
         }
 
-        // ToDo Service
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -67,8 +70,7 @@
                 return this.NotFound();
             }
 
-            var category = await this.categoryRepository.GetByIdWithDeletedAsync(id);
-
+            var category = await this.categoriesService.GetCategoryModelById((int)id);
             if (category == null)
             {
                 return this.NotFound();
@@ -77,22 +79,26 @@
             return this.View(category);
         }
 
-        // ToDo Service
-        // Fix Unique Title when Edditing
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Title,Description,ImageUrl,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,Description,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Category category)
         {
             if (id != category.Id)
             {
                 return this.NotFound();
             }
+
+            if (await this.categoriesService.CategoryExistsByName(category.Title))
+            {
+                this.ModelState.AddModelError(category.Title, $"Title - {category.Title} already exists");
+                return this.View(category);
+            }
+
             if (this.ModelState.IsValid)
             {
                 try
                 {
-                    this.context.Update(category);
-                    await this.context.SaveChangesAsync();
+                    await this.categoriesService.UpdateCategory(category);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -106,7 +112,7 @@
                     }
                 }
 
-                return this.RedirectToAction(nameof(this.Index));
+                return this.RedirectToAction(nameof(this.Active));
             }
 
             return this.View(category);
@@ -133,7 +139,7 @@
             }
 
             await this.categoriesService.CreateCategoryAsync(inputModel);
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Active));
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -145,7 +151,7 @@
 
             await this.categoriesService.DeleteById((int)id);
 
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Active));
         }
 
         public async Task<IActionResult> Undelete(int? id)
@@ -157,7 +163,7 @@
 
             await this.categoriesService.UndeleteById((int)id);
 
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Deleted));
         }
 
         public async Task<IActionResult> HardDelete(int? id)
@@ -183,7 +189,7 @@
         {
             await this.categoriesService.HardDeleteById(id);
 
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Active));
         }
     }
 }

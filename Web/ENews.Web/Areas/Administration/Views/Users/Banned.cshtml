@@ -2,89 +2,85 @@
 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Banned";
 }
-
-<h1>@ViewData["Title"]</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RolesNames)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().DeletedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().CreatedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().ModifiedOn)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Users)
-        {
+<div class="alert alert-danger" role="alert">
+    <div class="text-center">
+        @ViewData["Title"] user list
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs">
+            <li class="nav-item active">
+                <a class="nav-link" asp-area="Administration" asp-controller="Users" asp-action="Active">Active users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="">Blocked users</a>
+            </li>
+        </ul>
+    </div>
+    <table class="table table-responsive-lg">
+        <thead class="thead-light">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    <ul>
-                        @foreach (var role in item.RolesNames)
-                        {
-                            <li>
-                                @Html.DisplayFor(modelItem => role)
-                            </li>
-                        }
-                    </ul>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsDeleted)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeletedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifiedOn)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    @if (!item.IsDeleted)
-                    {
-                        <a asp-action="Ban" asp-route-id="@item.Id">Ban</a>
-                    }
-                    else
-                    {
-                        <a asp-action="UnBan" asp-route-id="@item.Id">UnBan</a>
-                    }
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RolesNames)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().DeletedOn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().ModifiedOn)
+                </th>
+                <th>
+                    Action
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        <ul>
+                            @foreach (var role in item.RolesNames)
+                            {
+                                <li>
+                                    @Html.DisplayFor(modelItem => role)
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeletedOn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModifiedOn)
+                    </td>
+                    <td>
+                        @if (!item.IsDeleted)
+                        {
+                            <a asp-action="Ban" asp-route-id="@item.Id">Ban</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Unban" asp-route-id="@item.Id">Unban</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

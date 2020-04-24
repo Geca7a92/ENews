@@ -64,5 +64,12 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (this.Model.IsDeleted)
+    {
+        <a asp-action="Deleted">Back to list</a>
+    }
+    else
+    {
+        <a asp-action="Active">Back to list</a>
+    }
 </div>

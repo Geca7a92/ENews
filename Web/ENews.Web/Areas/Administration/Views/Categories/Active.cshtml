@@ -1,23 +1,30 @@
 ﻿@model ENews.Web.ViewModels.Administration.Categories.IndexCategoriesViewModel
 
 @{
-    ViewData["Title"] = "Categories";
+    ViewData["Title"] = "Active ategories";
 }
 
-    <div class="alert alert-primary" role="alert">
-        <div class="text-center">
-            @ViewData["Title"] list
-        </div>
+<div class="alert alert-primary" role="alert">
+    <div class="text-center">
+        @ViewData["Title"] list
     </div>
+</div>
 <div class="card">
     <div class="card-header">
         <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="">@ViewData["Title"]</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" asp-area="Administration" asp-controller="Categories" asp-action="Deleted">Deleted categories</a>
+            </li>
+            <li class=" flex-grow-1"></li>
             <li class="nav-item">
                 <a class="nav-link" asp-area="Administration" asp-controller="Categories" asp-action="Create">Create New</a>
             </li>
         </ul>
     </div>
-    <table class="table">
+    <table class="table table-responsive-lg">
         <thead class="thead-dark">
             <tr>
                 <th>
@@ -27,18 +34,12 @@
                     @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().SubCategories)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().IsDeleted)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().DeletedOn)
-                </th>
-                <th>
                     @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().CreatedOn)
                 </th>
                 <th>
                     @Html.DisplayNameFor(Model => Model.Categories.FirstOrDefault().ModifiedOn)
                 </th>
-                <th></th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -59,12 +60,6 @@
                         </ul>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IsDeleted)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DeletedOn)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.CreatedOn)
                     </td>
                     <td>
@@ -78,20 +73,8 @@
                             <li>
                                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                             </li>
-                            @if (!item.IsDeleted)
-                            {
-                                <li>
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li>
-                                    <a asp-action="Undelete" asp-route-id="@item.Id">Restore</a>
-                                </li>
-                            }
                             <li>
-                                <a asp-action="HardDelete" asp-route-id="@item.Id">Hard Delete</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </li>
                         </ul>
                     </td>

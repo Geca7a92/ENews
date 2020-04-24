@@ -21,7 +21,15 @@
         public IEnumerable<T> GetAllCategories<T>()
         {
             IQueryable<Category> query
-                = this.categoryRepository.All().OrderBy(x => x.Title);
+                = this.categoryRepository.All().OrderByDescending(x => x.CreatedOn);
+
+            return query.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllDeletedCategories<T>()
+        {
+            IQueryable<Category> query
+                = this.categoryRepository.AllWithDeleted().Where(c => c.IsDeleted).OrderByDescending(x => x.CreatedOn);
 
             return query.To<T>().ToList();
         }
@@ -50,8 +58,6 @@
                 .To<T>().FirstOrDefaultAsync();
             return category;
         }
-
-
 
         public async Task CreateCategoryAsync(CategoryCreateInputModel inputModel)
         {
@@ -108,6 +114,17 @@
                 = this.categoryRepository.All().OrderBy(x => x.Title).Where(c => c.SubCategories.Any());
 
             return query.To<T>().ToList();
+        }
+
+        public async Task<int> UpdateCategory(Category category)
+        {
+            this.categoryRepository.Update(category);
+            return await this.categoryRepository.SaveChangesAsync();
+        }
+
+        public async Task<Category> GetCategoryModelById(int id)
+        {
+            return await this.categoryRepository.GetByIdWithDeletedAsync(id);
         }
     }
 }

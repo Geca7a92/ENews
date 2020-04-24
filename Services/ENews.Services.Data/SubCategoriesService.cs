@@ -19,6 +19,22 @@ namespace ENews.Services.Data
             this.subCategoryRepository = subCategoryRepository;
         }
 
+        public IEnumerable<T> GetAllSubCategories<T>()
+        {
+            IQueryable<SubCategory> query
+                = this.subCategoryRepository.All().OrderByDescending(x => x.CreatedOn);
+
+            return query.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllDeletedSubCategories<T>()
+        {
+            IQueryable<SubCategory> query
+                = this.subCategoryRepository.AllWithDeleted().Where(c => c.IsDeleted).OrderByDescending(x => x.CreatedOn);
+
+            return query.To<T>().ToList();
+        }
+
         public async Task CreateSubCategoryAsync(SubCategoryCreateInputModel inputModel)
         {
             var subCategory = new SubCategory()
@@ -95,9 +111,25 @@ namespace ENews.Services.Data
             return true;
         }
 
-        public async Task<bool> SubCategoryExistsByName(string name)
+        public async Task<bool> SubCategoryExistsByName(string name, int? id = null)
         {
-            return await this.subCategoryRepository.AllWithDeleted().AnyAsync(c => c.Title.ToLower() == name.ToLower());
+            if (id == null)
+            {
+                return await this.subCategoryRepository.AllWithDeleted().AnyAsync(c => c.Title.ToLower() == name.ToLower());
+            }
+
+            return await this.subCategoryRepository.AllWithDeleted().Where(sc => sc.CategoryId == id).AnyAsync(c => c.Title.ToLower() == name.ToLower());
+        }
+
+        public async Task<int> Update(SubCategory subCategory)
+        {
+            this.subCategoryRepository.Update(subCategory);
+            return await this.subCategoryRepository.SaveChangesAsync();
+        }
+
+        public async Task<SubCategory> GetSubCategoryModelById(int id)
+        {
+            return await this.subCategoryRepository.GetByIdWithDeletedAsync(id);
         }
     }
 }
