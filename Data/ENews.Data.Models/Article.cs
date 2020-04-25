@@ -18,7 +18,7 @@
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(2000)]
+        [MaxLength(25000)]
         public string Content { get; set; }
 
         // ToDo

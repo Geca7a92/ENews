@@ -10,11 +10,9 @@ namespace ENews.Data.Models
     {
         public int Id { get; set; }
 
-        public string ApplicationUserId { get; set; }
-
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public Region? Area { get; set; }
+        public Region? Region { get; set; }
 
         [MaxLength(50)]
         public string City { get; set; }

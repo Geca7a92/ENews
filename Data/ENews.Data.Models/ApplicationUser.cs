@@ -46,9 +46,9 @@ namespace ENews.Data.Models
         [MaxLength(500)]
         public string Biography { get; set; }
 
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
 
         public int? ProfilePictureId { get; set; }
 

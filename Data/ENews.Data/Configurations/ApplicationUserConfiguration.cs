@@ -32,7 +32,7 @@
             appUser
                 .HasOne(ap => ap.Address)
                 .WithOne(a => a.ApplicationUser)
-                .HasForeignKey<Address>(a => a.ApplicationUserId);
+                .HasForeignKey<ApplicationUser>(u => u.AddressId);
         }
     }
 }

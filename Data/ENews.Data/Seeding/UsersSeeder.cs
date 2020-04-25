@@ -31,7 +31,7 @@ namespace ENews.Data.Seeding
             var user = new ApplicationUser
             {
                 Email = GlobalConstants.ReporterEmailName,
-                UserName = GlobalConstants.ReporterEmailName,
+                UserName = GlobalConstants.ReporterUsername,
                 FirstName = GlobalConstants.ReporterFirstName,
                 LastName = GlobalConstants.ReporterLastName,
                 EmailConfirmed = true,
@@ -50,7 +50,7 @@ namespace ENews.Data.Seeding
             var user = new ApplicationUser
             {
                 Email = GlobalConstants.AdminEmailName,
-                UserName = GlobalConstants.AdminEmailName,
+                UserName = GlobalConstants.AdminUsername,
                 FirstName = GlobalConstants.AdminFirstName,
                 LastName = GlobalConstants.AdminLastName,
                 EmailConfirmed = true,

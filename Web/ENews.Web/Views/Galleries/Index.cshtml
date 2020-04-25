@@ -1,0 +1,83 @@
+﻿@model ENews.Web.ViewModels.Galleries.GalleriesIndexViewModel
+@{
+    this.ViewData["Title"] = "Galleries";
+}
+
+<div class="container-fluid container">
+    <div class="row">
+        <div class="col-8 p-3">
+            <div class="row pr-3 pl-3 pb-3">
+                <div class="card w-100 h-100 p-1">
+                    <div class="card-header">
+                        <h4 class="card-title text-center">@Model.LastGallery.ArticleTitle</h4>
+                    </div>
+                    <img src="@Model.LastGallery.Images.FirstOrDefault().ImageUrl" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">@Model.LastGallery.ContetPreview</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+
+                            <div class="col">
+                                <a asp-area="" asp-controller="Galleries" asp-action="Preview" asp-route-id="@Model.LastGallery.Id" class="btn btn-primary">Preview</a>
+                            </div>
+                            <div class="col">
+                                <p class="text-right text-muted">By @Model.LastGallery.ArticleAuthorUserName</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-1">
+                @foreach (var gallery in Model.LastestGalleries)
+                {
+                    <div class="col-6 pb-2">
+                        <div class="card w-100 h-100 p-1">
+                            <div class="card-header">
+                                <h5 class="card-title">@gallery.ArticleTitle</h5>
+                            </div>
+                            <img src="@gallery.Images.FirstOrDefault().ImageUrl" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <p class="card-text">@gallery.ContetPreview</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col">
+                                        <a asp-area="" asp-controller="Galleries" asp-action="Preview" asp-route-id="@gallery.Id" class="btn btn-primary">Preview</a>
+                                    </div>
+                                    <div class="col">
+                                        <p class="text-right text-muted">By @gallery.ArticleAuthorUserName</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-4 p-3">
+            <div class="row">
+                <vc:lates-five-articles></vc:lates-five-articles>
+            </div>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <div class="row">
+                    <vc:lates-five-articles></vc:lates-five-articles>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*@foreach (var gallery in Model.LastestGalleries)
+    {
+        <div class="card" style="width: 18rem;">
+            <img src="@gallery.Images.FirstOrDefault().ImageUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    }*@

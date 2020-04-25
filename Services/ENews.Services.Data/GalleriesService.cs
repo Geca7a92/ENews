@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ENews.Services.Mapping;
+
 
 namespace ENews.Services.Data
 {
@@ -44,6 +46,18 @@ namespace ENews.Services.Data
             await this.galleryRepository.SaveChangesAsync();
 
             return gallery.Id;
+        }
+
+        public IEnumerable<T> GetLatestGalleries<T>(int skip)
+        {
+            var model = this.galleryRepository.All().OrderByDescending(g => g.CreatedOn).Skip(skip).To<T>().ToList();
+            return model;
+        }
+
+        public T GetNewestGallery<T>()
+        {
+            var model = this.galleryRepository.All().OrderByDescending(g => g.CreatedOn).To<T>().FirstOrDefault();
+            return model;
         }
 
         public T PreviewGalleryById<T>(int id)

@@ -23,6 +23,10 @@
     <Compile Remove="Migrations\20200418153813_Chnaged-Column-Name.Designer.cs" />
     <Compile Remove="Migrations\20200420121355_cascade-delete.cs" />
     <Compile Remove="Migrations\20200420121355_cascade-delete.Designer.cs" />
+    <Compile Remove="Migrations\20200424213945_chnages-in-address-model.cs" />
+    <Compile Remove="Migrations\20200424213945_chnages-in-address-model.Designer.cs" />
+    <Compile Remove="Migrations\20200424214136_chnages-in-address-model.cs" />
+    <Compile Remove="Migrations\20200424214136_chnages-in-address-model.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

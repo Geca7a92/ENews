@@ -15,13 +15,13 @@ namespace ENews.Common
 
         public const string ReporterRoleName = "Reporter";
 
-        public const string LogedingUserRoleName = "User";
-
         // Users seeding details
         public const string PhoneNumber = "0123456789";
 
         // Admin account info
         public const string AdminPassword = "adminadmin";
+
+        public const string AdminUsername = "admin";
 
         public const string AdminFirstName = "Admin";
 
@@ -31,6 +31,8 @@ namespace ENews.Common
 
         // Reporter account info
         public const string ReporterPassword = "reporter";
+
+        public const string ReporterUsername = "reporter";
 
         public const string ReporterFirstName = "Reporer";
 

@@ -11,5 +11,9 @@ namespace ENews.Services.Data
         Task<int> CreateAsync(ICollection<IFormFile> imageCollection, Image mainImage);
 
         T PreviewGalleryById<T>(int id);
+
+        T GetNewestGallery<T>();
+
+        IEnumerable<T> GetLatestGalleries<T>(int skip);
     }
 }
