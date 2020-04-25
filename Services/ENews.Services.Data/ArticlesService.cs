@@ -160,7 +160,6 @@
             }
 
             return articles.To<T>().ToList();
-
         }
 
         public IEnumerable<T> GetLatesLocalArticles<T>(int? take = null, int skip = 0)

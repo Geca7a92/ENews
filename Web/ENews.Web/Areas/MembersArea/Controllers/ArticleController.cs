@@ -51,7 +51,6 @@ namespace ENews.Web.Areas.MembersArea.Controllers
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-
             var articleId = await this.articleService.CreateAsync(input, user.Id);
 
             return this.RedirectToAction("Index", "Articles", new { area = string.Empty, id = articleId });

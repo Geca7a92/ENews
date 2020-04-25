@@ -82,6 +82,7 @@
             services.AddTransient<IPagingService, PagingService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IRolesService, RolesService>();
+            services.AddTransient<IAddressesService, AddressesService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 

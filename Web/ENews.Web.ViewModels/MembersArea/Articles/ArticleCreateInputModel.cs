@@ -16,7 +16,7 @@
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(2000, ErrorMessage = "To long")]
+        [MaxLength(25000, ErrorMessage = "To long")]
         public string Content { get; set; }
 
         [Required]

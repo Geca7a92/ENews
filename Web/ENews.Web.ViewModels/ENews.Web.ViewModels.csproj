@@ -26,4 +26,8 @@
     <ProjectReference Include="..\ENews.Web.Infrastructure\ENews.Web.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Shared\Components\LatestFiveArticles\" />
+  </ItemGroup>
+
 </Project>

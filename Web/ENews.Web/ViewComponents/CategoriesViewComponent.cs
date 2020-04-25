@@ -7,7 +7,7 @@
     using ENews.Services.Data;
     using ENews.Services.Mapping;
     using ENews.Web.ViewModels;
-    using ENews.Web.ViewModels.Shared.Components;
+    using ENews.Web.ViewModels.Shared.Components.Categories;
     using Microsoft.AspNetCore.Mvc;
 
     public class CategoriesViewComponent : ViewComponent

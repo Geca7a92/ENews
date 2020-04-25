@@ -58,14 +58,11 @@
 
         <div class="col-4 p-3">
             <div class="row">
+                <vc:get-local-last-five-articles></vc:get-local-last-five-articles>
+            </div>
+            <div class="row">
                 <vc:lates-five-articles></vc:lates-five-articles>
             </div>
-            @if (this.User.Identity.IsAuthenticated)
-            {
-                <div class="row">
-                    <vc:lates-five-articles></vc:lates-five-articles>
-                </div>
-            }
         </div>
     </div>
 </div>

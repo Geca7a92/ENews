@@ -2,7 +2,7 @@
 using ENews.Services.Mapping;
 using System.Collections.Generic;
 
-namespace ENews.Web.ViewModels.Shared.Components
+namespace ENews.Web.ViewModels.Shared.Components.Categories
 {
     public class CategoryViewModel : IMapFrom<Category>
     {
