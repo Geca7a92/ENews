@@ -1,5 +1,6 @@
 ﻿using ENews.Data.Models.Enums;
 using ENews.Web.ViewModels.MembersArea.Articles;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,5 +36,6 @@ namespace ENews.Services.Data
         T GetArticleById<T>(int id);
 
         Task<int> CreateAsync(ArticleCreateInputModel model, string userId);
+        DateTime LastesArticleCreationDate();
     }
 }

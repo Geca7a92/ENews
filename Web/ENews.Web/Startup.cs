@@ -53,7 +53,7 @@
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
-            services.AddRazorPages();
+            services.AddRazorPages().AddXmlSerializerFormatters();
 
             var cloudinaryAccount = new Account(
                 this.configuration["Cloudinary:AppName"],

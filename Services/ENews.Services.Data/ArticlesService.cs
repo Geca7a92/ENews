@@ -1,5 +1,6 @@
 ﻿namespace ENews.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -176,6 +177,11 @@
         public bool ArticleExist(int id)
         {
             return this.articleRepository.All().Any(a => a.Id == id);
+        }
+
+        public DateTime LastesArticleCreationDate()
+        {
+            return this.articleRepository.All().OrderByDescending(a => a.CreatedOn).First().CreatedOn;
         }
     }
 }
