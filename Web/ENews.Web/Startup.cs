@@ -83,6 +83,7 @@
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IRolesService, RolesService>();
             services.AddTransient<IAddressesService, AddressesService>();
+            services.AddTransient<IImagesService, ImagesService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 

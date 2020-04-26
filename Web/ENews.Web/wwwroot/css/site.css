@@ -159,3 +159,49 @@ body {
     font-size: 35px;
     cursor: pointer;
 }
+
+
+
+
+/* rows */
+div.dropdown-multicol {
+    width: 30em;
+}
+
+div.dropdown-row > a.dropdown-item {
+    display: inline-block;
+    width: 32%;
+}
+
+/* Columns */
+div.dropdown-multicol2 {
+    width: 30em;
+}
+
+    div.dropdown-multicol2 > div.dropdown-col {
+        display: inline-block;
+        width: 32%;
+    }
+
+/*
+Or just:
+div.dropdown-row>a.dropdown-item{
+  display:inline-block;
+  width: 10em;
+}
+
+(Former may be more convenient for responsive)
+*/
+
+
+img.avatar-mini {
+    width: 40px;
+    height: 40px;
+    background-position: -25px -20px;
+    border-radius: 50%;
+    background-size: cover;
+}
+
+/*img.avatar {
+  border-radius: 50%;
+}*/

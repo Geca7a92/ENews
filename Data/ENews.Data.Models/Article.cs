@@ -21,8 +21,8 @@
         [MaxLength(25000)]
         public string Content { get; set; }
 
-        // ToDo
-        // public int SeenCount { get; set; }
+        public int SeenCount { get; set; }
+
         public string VideoUrl { get; set; }
 
         public int PictureId { get; set; }

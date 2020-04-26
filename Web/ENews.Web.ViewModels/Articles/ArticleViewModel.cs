@@ -5,6 +5,7 @@
 
     using ENews.Data.Models;
     using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Comments;
     using Ganss.XSS;
 
     public class ArticleViewModel : IMapFrom<Article>
@@ -19,11 +20,15 @@
 
         public string PictureImageUrl { get; set; }
 
+        public int SeenCount { get; set; }
+
         public string Content { get; set; }
 
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public string AuthorFirstName { get; set; }
+
+        public string AuthorProfilePictureImageUrl { get; set; }
 
         public string AuthorLastName { get; set; }
 
@@ -38,5 +43,7 @@
         public int? GalleryId { get; set; }
 
         public ICollection<ArticleCommentsViewModel> Comments { get; set; }
+
+        public CreateCommentInputModel CommentModel { get; set; }
     }
 }

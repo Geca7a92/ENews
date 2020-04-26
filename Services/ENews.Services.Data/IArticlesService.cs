@@ -25,6 +25,8 @@ namespace ENews.Services.Data
 
         bool ArticleExist(int id);
 
+        Task<int> AddToSeenCount(int id);
+
         int GetCountOfLocalArticles();
 
         int GetCountByCategoryId(int id);
@@ -36,6 +38,7 @@ namespace ENews.Services.Data
         T GetArticleById<T>(int id);
 
         Task<int> CreateAsync(ArticleCreateInputModel model, string userId);
+
         DateTime LastesArticleCreationDate();
     }
 }

@@ -31,7 +31,7 @@
             <div class="row mb-1">
                 @foreach (var gallery in Model.LastestGalleries)
                 {
-                    <div class="col-6 pb-2">
+                    <div class="col-6 pb-3">
                         <div class="card w-100 h-100 p-1">
                             <div class="card-header">
                                 <h5 class="card-title">@gallery.ArticleTitle</h5>
@@ -57,10 +57,10 @@
         </div>
 
         <div class="col-4 p-3">
-            <div class="row">
+            <div class="row pb-3">
                 <vc:get-local-last-five-articles></vc:get-local-last-five-articles>
             </div>
-            <div class="row">
+            <div class="row pb-3">
                 <vc:lates-five-articles></vc:lates-five-articles>
             </div>
         </div>

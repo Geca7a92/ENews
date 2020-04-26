@@ -10,6 +10,8 @@ namespace ENews.Common
         public const string SystemUrl = "https://localhost:44319/";
         public const string SystemArticlePreviewUrl = "https://localhost:44319/Articles/Index/";
         public const string SystemImageUrl = "https://res.cloudinary.com/dijwyj1gn/image/upload/v1587629388/dw1pfnqqdb78mv4mdigf.jpg";
+        //public const string ProfilePictureFill = "https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png";
+        public const string ProfilePictureFill = "https://simpleicon.com/wp-content/uploads/user1.png";
 
 
         public const string Country = "Bulgaria";

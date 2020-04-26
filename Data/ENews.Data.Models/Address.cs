@@ -16,8 +16,5 @@ namespace ENews.Data.Models
 
         [MaxLength(50)]
         public string City { get; set; }
-
-        [MaxLength(150)]
-        public string AddressText { get; set; }
     }
 }

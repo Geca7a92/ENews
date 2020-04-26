@@ -15,13 +15,19 @@
             </div>
         </li>
     }
-<li class="nav-item dropdown">
-    <a class="nav-link text-dark dropbtn" asp-area="" asp-controller="Categories" asp-action="Local">@GlobalConstants.Country</a>
-    <div class="dropdown-content">
-        @foreach (var region in @Html.GetEnumSelectList<Region>())
-        {
-            <a asp-area="" asp-controller="Categories" asp-action="LocalByRegion" asp-route-region="@region.Text">@region.Text</a>
-        }
-    </div>
-</li>
+    <li class="nav-item dropdown">
+        <a class="nav-link text-dark dropbtn" asp-area="" asp-controller="Categories" asp-action="Local" id="dropdownMenuButton">
+            @GlobalConstants.Country
+        </a>
+        <div class="dropdown-multicol dropdown-content" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-row">
+                @{
+                    foreach (var region in @Html.GetEnumSelectList<Region>())
+                    {
+                        <a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="LocalByRegion" asp-route-region="@region.Text">@region.Text.Replace("_", " ")</a>
+                    }
+                }
+            </div>
+        </div>
+    </li>
 </ul>

@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using ENews.Data.Models.Enums;
+using ENews.Web.Infrastructure.ValidationAttributes;
+using Microsoft.AspNetCore.Http;
+using ENews.Services.Data;
 
 namespace ENews.Web.Areas.Identity.Pages.Account
 {
@@ -22,6 +25,7 @@ namespace ENews.Web.Areas.Identity.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IImagesService imagesService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
@@ -29,11 +33,13 @@ namespace ENews.Web.Areas.Identity.Pages.Account
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            IImagesService imagesService,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.imagesService = imagesService;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -68,6 +74,11 @@ namespace ENews.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             public Region? Region { get; set; }
+
+            [Display(Name = "Profile picture")]
+            [AllowedExtensions(new string[] { ".jpg", ".png" })]
+            [MaxFileSize(1024 * 1024)]
+            public IFormFile MainImage { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -82,15 +93,19 @@ namespace ENews.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                Address address = null;
-                if (Input.Region != null)
+                Address address = new Address();
+                if (this.Input.Region != null)
                 {
-                    address = new Address();
                     address.Region = Input.Region;
                 }
 
-
                 var user = new ApplicationUser { UserName = Input.Username, Email = Input.Email, Address = address };
+                if (this.Input.MainImage != null)
+                {
+                    var image = await this.imagesService.CreateAsync(this.Input.MainImage);
+                    user.ProfilePictureId = image.Id;
+                }
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

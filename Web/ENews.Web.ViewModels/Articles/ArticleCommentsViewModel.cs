@@ -10,9 +10,13 @@ namespace ENews.Web.ViewModels.Articles
     {
         public string Content { get; set; }
 
+        public string UserUserName { get; set; }
+
         public string UserFirstName { get; set; }
 
         public string UserLastName { get; set; }
+
+        public string UserProfilePictureImageUrl { get; set; }
 
         public DateTime CreatedOn { get; set; }
     }

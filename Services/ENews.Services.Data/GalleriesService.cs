@@ -50,7 +50,7 @@ namespace ENews.Services.Data
 
         public IEnumerable<T> GetLatestGalleries<T>(int skip)
         {
-            var model = this.galleryRepository.All().OrderByDescending(g => g.CreatedOn).Skip(skip).To<T>().ToList();
+            var model = this.galleryRepository.All().OrderByDescending(g => g.CreatedOn).Where(g => g.Article != null).Skip(skip).To<T>().ToList();
             return model;
         }
 

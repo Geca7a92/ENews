@@ -45,12 +45,6 @@
                                 <a class="nav-link text-dark" asp-area="MembersArea" asp-controller="Home" asp-action="Index">Members Area</a>
                             </li>
                         }
-                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                        {
-                            <li class="nav-item alert-primary">
-                                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Home" asp-action="Index">Administration</a>
-                            </li>
-                        }
                     </ul>
                 </div>
             </div>

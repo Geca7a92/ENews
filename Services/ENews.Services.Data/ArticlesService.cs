@@ -13,17 +13,20 @@
     public class ArticlesService : IArticlesService
     {
         private readonly IDeletableEntityRepository<Article> articleRepository;
+        private readonly IImagesService imagesService;
         private readonly IDeletableEntityRepository<Image> imageRepository;
         private readonly IGalleriesService galleryService;
         private readonly ICloudinaryService cloudinaryService;
 
         public ArticlesService(
             IDeletableEntityRepository<Article> articleRepository,
+            IImagesService imagesService,
             IDeletableEntityRepository<Image> imageRepository,
             IGalleriesService galleryService,
             ICloudinaryService cloudinaryService)
         {
             this.articleRepository = articleRepository;
+            this.imagesService = imagesService;
             this.imageRepository = imageRepository;
             this.galleryService = galleryService;
             this.cloudinaryService = cloudinaryService;
@@ -31,15 +34,17 @@
 
         public async Task<int> CreateAsync(ArticleCreateInputModel model, string userId)
         {
-            var mainImageUrl = await this.cloudinaryService.UploadPictureAsync(model.MainImage);
-            var mainImage = new Image()
-            {
-                ImageUrl = mainImageUrl,
-                Description = model.MainImage.FileName,
-            };
+            //var mainImageUrl = await this.cloudinaryService.UploadPictureAsync(model.MainImage);
+            //var mainImage = new Image()
+            //{
+            //    ImageUrl = mainImageUrl,
+            //    Description = model.MainImage.FileName,
+            //};
 
-            await this.imageRepository.AddAsync(mainImage);
-            await this.imageRepository.SaveChangesAsync();
+            //await this.imageRepository.AddAsync(mainImage);
+            //await this.imageRepository.SaveChangesAsync();
+
+            var mainImgId = await this.imagesService.CreateAsync(model.MainImage);
 
             var article = new Article
             {
@@ -48,13 +53,13 @@
                 Content = model.Content,
                 CategoryId = model.CategoryId,
                 SubCategoryId = model.SubCategoryId,
-                PictureId = mainImage.Id,
+                PictureId = mainImgId.Id,
                 Region = model.Region,
             };
 
             if (model.GalleryContent != null)
             {
-                int galleryId = await this.galleryService.CreateAsync(model.GalleryContent, mainImage);
+                int galleryId = await this.galleryService.CreateAsync(model.GalleryContent, mainImgId);
                 article.GalleryId = galleryId;
             }
 
@@ -182,6 +187,14 @@
         public DateTime LastesArticleCreationDate()
         {
             return this.articleRepository.All().OrderByDescending(a => a.CreatedOn).First().CreatedOn;
+        }
+
+        public async Task<int> AddToSeenCount(int id)
+        {
+            var article = await this.articleRepository.GetByIdWithDeletedAsync(id);
+            article.SeenCount++;
+            await this.articleRepository.SaveChangesAsync();
+            return article.SeenCount;
         }
     }
 }
