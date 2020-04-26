@@ -1,4 +1,5 @@
-﻿@model ENews.Web.ViewModels.Administration.Users.IndexUsersViewModel
+﻿@using ENews.Common
+@model ENews.Web.ViewModels.Administration.Users.IndexUsersViewModel
 
 
 @{
@@ -38,6 +39,9 @@
                 <th>
                     Action
                 </th>
+                <th>
+                    Role Manage
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -71,6 +75,16 @@
                         else
                         {
                             <a asp-action="Unban" asp-route-id="@item.Id">Unban</a>
+                        }
+                    </td>
+                    <td>
+                        @if (item.RolesNames.Any(r => r == GlobalConstants.ReporterRoleName))
+                        {
+                        <a asp-action="RemoveRoleReporter" asp-route-id="@item.Id">Remove role reporter</a>
+                        }
+                        else
+                        {
+                            <a asp-action="AddRoleReporter" asp-route-id="@item.Id">Add role reporter</a>
                         }
                     </td>
                 </tr>

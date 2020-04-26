@@ -72,5 +72,28 @@ namespace ENews.Web.Areas.Administration.Controllers
 
             return this.RedirectToAction(nameof(this.Banned));
         }
+
+        public async Task<IActionResult> AddRoleReporter(string id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.usersService.AddReporterRoleToUser(id);
+            return this.RedirectToAction(nameof(this.Active));
+
+        }
+
+        public async Task<IActionResult> RemoveRoleReporter(string id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.usersService.RemoveRepoertRoleFromUser(id);
+            return this.RedirectToAction(nameof(this.Active));
+        }
     }
 }

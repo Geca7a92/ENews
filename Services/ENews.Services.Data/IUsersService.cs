@@ -1,7 +1,9 @@
-﻿using ENews.Data.Common.Repositories;
+﻿using ENews.Common;
+using ENews.Data.Common.Repositories;
 using ENews.Data.Models;
 using ENews.Services.Mapping;
 using ENews.Web.ViewModels.Administration.Users;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,18 +23,25 @@ namespace ENews.Services.Data
         Task DeleteById(string id);
 
         IEnumerable<string> GetUserRoles(string userId);
+
+        Task AddReporterRoleToUser(string userId);
+
+        Task RemoveRepoertRoleFromUser(string userId);
     }
 
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly IRolesService rolesService;
 
         public UsersService(
             IDeletableEntityRepository<ApplicationUser> userRepository,
+            UserManager<ApplicationUser> userManager,
             IRolesService rolesService)
         {
             this.userRepository = userRepository;
+            this.userManager = userManager;
             this.rolesService = rolesService;
         }
 
@@ -85,6 +94,20 @@ namespace ENews.Services.Data
             }
 
             return users;
+        }
+
+        public async Task AddReporterRoleToUser(string userId)
+        {
+            var user = this.userRepository.All().FirstOrDefault(u => u.Id == userId);
+
+            await this.userManager.AddToRoleAsync(user, GlobalConstants.ReporterRoleName);
+        }
+
+        public async Task RemoveRepoertRoleFromUser(string userId)
+        {
+            var user = this.userRepository.All().FirstOrDefault(u => u.Id == userId);
+
+            await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ReporterRoleName);
         }
     }
 }
