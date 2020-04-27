@@ -37,7 +37,7 @@
             ApplicationUser currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
             if (currentUser == null)
             {
-                model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>();
+                model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>(5);
             }
             else if (currentUser.AddressId != null)
             {
@@ -45,7 +45,7 @@
 
                 if (addres.Region == null)
                 {
-                    model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>();
+                    model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>(5);
                 }
                 else
                 {
@@ -55,7 +55,7 @@
             }
             else
             {
-                model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>();
+                model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>(5);
             }
 
             return this.View(model);

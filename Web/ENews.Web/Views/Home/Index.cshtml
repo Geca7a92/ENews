@@ -5,41 +5,7 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-<!-- ##### Hero Area Start ##### -->
-<div class="hero-area">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-12 col-lg-8">
-                <!-- Latest News Widget -->
-                <div class="breaking-news-area d-flex align-items-center">
-                    <div class="news-title">
-                        <p>Latest News</p>
-                    </div>
-                    <div id="breakingNewsTicker" class="ticker">
-                        <vc:latest-headlines></vc:latest-headlines>
-                    </div>
-                </div>
-                <!-- Latest News Widget -->
-                <div class="breaking-news-area d-flex align-items-center mt-15">
-                    <div class="news-title title2">
-                        <p>International</p>
-                    </div>
-                    <div id="internationalTicker" class="ticker">
-                        <vc:latest-international-headlines></vc:latest-international-headlines>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Hero Add -->
-            <div class="col-12 col-lg-4">
-                <div class="hero-add">
-                    <a href="https://www.google.com/" target="_blank"><img src="img/bg-img/hero-add.gif" alt=""></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ##### Hero Area End ##### -->
 <!-- ##### Featured Post Area Start ##### -->
 <div class="featured-post-area">
     <div class="container">
@@ -177,22 +143,7 @@
                     <h6>Info</h6>
                 </div>
                 <!-- Popular News Widget -->
-                <div class="popular-news-widget mb-30">
-                    <h3> Most Commented News</h3>
-
-                    <!-- Single Popular Blog -->
-
-                    @foreach (var item in Model.MostCommentedNewsLastWeek)
-                    {
-                        <div class="single-popular-post">
-                            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id">
-                                <h6> @item.ContetPreview</h6>
-                            </a>
-                            <p>@item.CreatedOn.ToString("MMMM dd")</p>
-                        </div>
-                    }
-                </div>
-
+                    <vc:most-commented-news></vc:most-commented-news>
             </div>
         </div>
     </div>
@@ -274,8 +225,6 @@
 
             <!-- Local News -->
             <div class="col-12 col-md-5 col-lg-3">
-                
-
                 <vc:get-local-last-five-articles></vc:get-local-last-five-articles>
             </div>
         </div>

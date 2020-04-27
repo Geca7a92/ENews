@@ -15,8 +15,6 @@ namespace ENews.Web.ViewModels.Home
 
         public IEnumerable<ArticlePreviewViewModel> LatestPopularNews { get; set; }
 
-        public IEnumerable<ArticlePreviewViewModel> MostCommentedNewsLastWeek { get; set; }
-
         public IEnumerable<ArticlePreviewViewModel> LatestWorldNews { get; set; }
     }
 }

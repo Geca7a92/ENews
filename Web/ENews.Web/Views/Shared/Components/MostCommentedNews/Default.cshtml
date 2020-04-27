@@ -1,0 +1,15 @@
+﻿@model ENews.Web.ViewModels.Shared.Components.MostCommentedNews.MostCommentedNewsViewModel
+
+
+<div class="popular-news-widget mb-30">
+    <h3> Most Commented News</h3>
+    @foreach (var item in Model.Articles)
+    {
+        <div class="single-popular-post">
+            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id">
+                <h6> @item.ContetPreview</h6>
+            </a>
+            <p>@item.CreatedOn.ToString("MMMM dd")</p>
+        </div>
+    }
+</div>

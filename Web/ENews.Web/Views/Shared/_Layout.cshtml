@@ -73,7 +73,7 @@
 
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                            <a asp-area="" asp-controller="Home" asp-action="Index"><img src="https://colorlib.com/preview/theme/newspaper/img/core-img/logo.png" alt=""></a>
                         </div>
 
                         <!-- Navbar Toggler -->
@@ -123,6 +123,43 @@
         </div>
     </header>
     <!-- ##### Header Area End ##### -->
+    <!-- ##### Hero Area Start ##### -->
+    <div class="hero-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-8">
+                    <!-- Latest News Widget -->
+                    <div class="breaking-news-area d-flex align-items-center">
+                        <div class="news-title">
+                            <p>Latest News</p>
+                        </div>
+                        <div id="breakingNewsTicker" class="ticker">
+                            <vc:latest-headlines></vc:latest-headlines>
+                        </div>
+                    </div>
+                    <!-- Latest News Widget -->
+                    <div class="breaking-news-area d-flex align-items-center mt-15">
+                        <div class="news-title title2">
+                            <p>International</p>
+                        </div>
+                        <div id="internationalTicker" class="ticker">
+                            <vc:latest-international-headlines></vc:latest-international-headlines>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Add -->
+                <div class="col-12 col-lg-4">
+                    <div class="hero-add">
+                        <a href="https://www.google.com/" target="_blank"><img src="https://colorlib.com/preview/theme/newspaper/img/bg-img/hero-add.gif" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Hero Area End ##### -->
+
+
 
     <div class="container">
         <partial name="_CookieConsentPartial" />
@@ -137,7 +174,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="footer-add">
-                        <a href="https://www.google.com/" target="_blank"><img src="img/bg-img/footer-add.gif" alt=""></a>
+                        <a href="https://www.google.com/" target="_blank"><img src="https://colorlib.com/preview/theme/newspaper/img/bg-img/footer-add.gif" alt=""></a>
                     </div>
                 </div>
             </div>

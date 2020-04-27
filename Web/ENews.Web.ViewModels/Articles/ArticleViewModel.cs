@@ -22,9 +22,15 @@
 
         public int SeenCount { get; set; }
 
+        public int CommentsCount { get; set; }
+
         public string Content { get; set; }
 
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
+
+        public string AuthorBiography { get; set; }
+
+        public string AuthorUserName { get; set; }
 
         public string AuthorFirstName { get; set; }
 

@@ -9,6 +9,13 @@
         {
             @await Html.PartialAsync("_ArticleNavPartial", article)
             <hr />
+
+            @*<div class="single-popular-post">
+                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id">
+                    <h6> @article.ContetPreview</h6>
+                </a>
+                <p>@article.CreatedOn.ToString("MMMM dd")</p>
+            </div>*@
         }
     </div>
 </div>
