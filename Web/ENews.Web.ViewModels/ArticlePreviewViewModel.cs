@@ -20,6 +20,12 @@ namespace ENews.Web.ViewModels
 
         public string PictureImageUrl { get; set; }
 
+        public int SeenCount { get; set; }
+
+        public int CommentsCount { get; set; }
+
+        public string AuthorUserName { get; set; }
+
         public string AuthorFirstName { get; set; }
 
         public string AuthorLastName { get; set; }

@@ -20,7 +20,12 @@
         {
             var model = new IndexViewModel()
             {
-                LatestFiveArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(5),
+                LatestArticle = this.articleService.GetLastByCreatedOn<ArticlePreviewViewModel>(),
+                LatestTwoArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(2, 1),
+                LatestFiveArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(5, 3),
+                LatestPopularNews = this.articleService.GetLatesMostViewed<ArticlePreviewViewModel>(4),
+                MostCommentedNewsLastWeek = this.articleService.GetLatesMostCommented<ArticlePreviewViewModel>(5),
+                LatestWorldNews = this.articleService.GetLatesInternationalArticles<ArticlePreviewViewModel>(6),
             };
             return this.View(model);
         }

@@ -1,0 +1,13 @@
+﻿@model ENews.Web.ViewModels.Home.IndexViewModel
+
+<div class="card">
+    <div class="card-header">
+        <h3>Most viewed</h3>
+    </div>
+    <div class="card-body">
+        @foreach (var article in Model.LatestTwoArticles)
+        {
+            @await Html.PartialAsync("_ArticleNavPartial", article)
+        }
+    </div>
+</div>

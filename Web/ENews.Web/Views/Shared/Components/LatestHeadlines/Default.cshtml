@@ -1,0 +1,7 @@
+﻿@model ENews.Web.ViewModels.Shared.Components.LatestHeadlines.LatestHeadlinesViewModel
+<ul>
+    @foreach (var article in Model.Articles)
+    {
+        <li><a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id">@article.Title</a></li>
+    }
+</ul>

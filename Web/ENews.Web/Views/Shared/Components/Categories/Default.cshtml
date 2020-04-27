@@ -2,32 +2,18 @@
 @using ENews.Common
 @model ENews.Web.ViewModels.Shared.Components.Categories.CategoriesViewModel
 
-<ul class="navbar-nav flex-grow-1">
-    @foreach (var category in Model.Categories)
-    {
-        <li class="nav-item dropdown">
-            <a class="nav-link text-dark dropbtn" asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@category.Title">@category.Title</a>
-            <div class=" dropdown-content">
-                @foreach (var subCategory in category.SubCategories)
-                {
+
+@foreach (var category in Model.Categories)
+{
+    <li>
+        <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@category.Title">@category.Title</a>
+        <ul class="dropdown">
+            @foreach (var subCategory in category.SubCategories)
+            {
+                <li>
                     <a asp-area="" asp-controller="SubCategories" asp-action="Index" asp-route-categoryName="@category.Title" asp-route-subCategoryName="@subCategory.Title" class="nav-link text-dark">@subCategory.Title</a>
-                }
-            </div>
-        </li>
-    }
-    <li class="nav-item dropdown">
-        <a class="nav-link text-dark dropbtn" asp-area="" asp-controller="Categories" asp-action="Local" id="dropdownMenuButton">
-            @GlobalConstants.Country
-        </a>
-        <div class="dropdown-multicol dropdown-content" aria-labelledby="dropdownMenuButton">
-            <div class="dropdown-row">
-                @{
-                    foreach (var region in @Html.GetEnumSelectList<Region>())
-                    {
-                        <a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="LocalByRegion" asp-route-region="@region.Text">@region.Text.Replace("_", " ")</a>
-                    }
-                }
-            </div>
-        </div>
+                </li>
+            }
+        </ul>
     </li>
-</ul>
+}

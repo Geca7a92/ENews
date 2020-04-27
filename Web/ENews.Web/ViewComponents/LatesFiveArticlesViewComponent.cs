@@ -22,7 +22,7 @@ namespace ENews.Web.ViewComponents
         {
             var model = new IndexViewModel
             {
-                LatestFiveArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(5),
+                LatestTwoArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(2),
             };
 
             return this.View(model);

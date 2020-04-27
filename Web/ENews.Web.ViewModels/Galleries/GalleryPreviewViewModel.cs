@@ -23,6 +23,8 @@ namespace ENews.Web.ViewModels.Galleries
 
         public string ArticleContent { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         public string ContetPreview
         {
             get

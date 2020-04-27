@@ -4,7 +4,7 @@ namespace ENews.Common
 {
     public static class GlobalConstants
     {
-        public const int ArticlePerPage = 3;
+        public const int ArticlePerPage = 5;
 
         public const string SystemName = "ENews";
         public const string SystemUrl = "https://localhost:44319/";

@@ -14,22 +14,16 @@
     {
         private readonly IDeletableEntityRepository<Article> articleRepository;
         private readonly IImagesService imagesService;
-        private readonly IDeletableEntityRepository<Image> imageRepository;
         private readonly IGalleriesService galleryService;
-        private readonly ICloudinaryService cloudinaryService;
 
         public ArticlesService(
             IDeletableEntityRepository<Article> articleRepository,
             IImagesService imagesService,
-            IDeletableEntityRepository<Image> imageRepository,
-            IGalleriesService galleryService,
-            ICloudinaryService cloudinaryService)
+            IGalleriesService galleryService)
         {
             this.articleRepository = articleRepository;
             this.imagesService = imagesService;
-            this.imageRepository = imageRepository;
             this.galleryService = galleryService;
-            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<int> CreateAsync(ArticleCreateInputModel model, string userId)
@@ -89,13 +83,13 @@
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null)
+        public IEnumerable<T> GetLatesByCreatedOn<T>(int? take = null, int skip = 0)
         {
             IQueryable<Article> query
-                = this.articleRepository.All().OrderByDescending(x => x.CreatedOn).Where(a => !a.Category.IsDeleted || !a.SubCategory.IsDeleted);
-            if (count != null)
+                = this.articleRepository.All().OrderByDescending(x => x.CreatedOn).Skip(skip);
+            if (take != null)
             {
-                query = query.Take(count.Value);
+                query = query.Take(take.Value);
             }
 
             return query.To<T>().ToList();
@@ -179,6 +173,28 @@
             return articles.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetLatesMostViewed<T>(int? count = null)
+        {
+            var articles = this.articleRepository.All().OrderByDescending(a => a.SeenCount).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow);
+            if (count.HasValue)
+            {
+                articles = articles.Take(count.Value);
+            }
+
+            return articles.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetLatesMostCommented<T>(int? take = null)
+        {
+            var articles = this.articleRepository.All().OrderByDescending(a => a.Comments.Count()).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow);
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
+        }
+
         public bool ArticleExist(int id)
         {
             return this.articleRepository.All().Any(a => a.Id == id);
@@ -196,5 +212,24 @@
             await this.articleRepository.SaveChangesAsync();
             return article.SeenCount;
         }
+
+        public IEnumerable<T> GetLatesInternationalArticles<T>(int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All().Where(a => !a.Region.HasValue).OrderByDescending(a => a.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
+        }
+
+        public T GetLastByCreatedOn<T>()
+        {
+            var article = this.articleRepository.All().OrderByDescending(a => a.CreatedOn).To<T>().FirstOrDefault();
+            return article;
+        }
+
+
     }
 }

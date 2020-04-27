@@ -17,11 +17,19 @@ namespace ENews.Services.Data
 
         IEnumerable<T> GetAllByAtuthorId<T>(string id);
 
-        IEnumerable<T> GetLatesByCreatedOn<T>(int? count = null);
+        IEnumerable<T> GetLatesByCreatedOn<T>(int? take = null, int skip = 0);
+
+        IEnumerable<T> GetLatesMostViewed<T>(int? count = null);
 
         IEnumerable<T> GetLatestByRegion<T>(Region region, int? take = null, int skip = 0);
 
+        IEnumerable<T> GetLatesInternationalArticles<T>(int? take = null, int skip = 0);
+
         IEnumerable<T> GetLatesLocalArticles<T>(int? take = null, int skip = 0);
+
+        IEnumerable<T> GetLatesMostCommented<T>(int? take = null);
+
+        T GetLastByCreatedOn<T>();
 
         bool ArticleExist(int id);
 

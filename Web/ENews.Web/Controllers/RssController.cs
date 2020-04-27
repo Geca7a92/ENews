@@ -60,7 +60,7 @@ namespace ENews.Web.Controllers
 
             rss.Add(channel);
 
-            return Ok(rss);
+            return this.Ok(rss);
         }
     }
 }
