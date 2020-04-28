@@ -11,7 +11,6 @@
     using ENews.Services.Data;
     using ENews.Web.ViewModels;
     using ENews.Web.ViewModels.Categories;
-    using ENews.Web.ViewModels.SubCategories;
     using Microsoft.AspNetCore.Mvc;
 
     public class CategoriesController : Controller

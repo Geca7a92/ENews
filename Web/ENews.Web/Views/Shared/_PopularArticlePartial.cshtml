@@ -1,0 +1,19 @@
+﻿@model ENews.Web.ViewModels.ArticlePreviewViewModel
+
+<div class="col-12 col-md-6">
+    <div class="single-blog-post style-3">
+        <div class="post-thumb">
+            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@Model.Id"><img src="@Model.PictureImageUrl" alt=""></a>
+        </div>
+        <div class="post-data">
+            <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@Model.CategoryTitle" class="post-catagory">@Model.CategoryTitle</a>
+            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@Model.Id" class="post-title">
+                <h6>@Model.Title</h6>
+            </a>
+            <div class="post-meta d-flex align-items-center">
+                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@Model.Id" class="post-like"><i class="fa fa-eye text-muted fsize-3"></i><span>@Model.SeenCount</span></a>
+                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@Model.Id" class="post-comment"><img src="~/img/core-img/chat.png" alt=""> <span>@Model.CommentsCount</span></a>
+            </div>
+        </div>
+    </div>
+</div>

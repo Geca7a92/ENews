@@ -31,6 +31,11 @@
             <span asp-validation-for="@Model.SubCategoryId" class="text-danger"></span>
         </div>
         <div class="form-group">
+            <label asp-for="@Model.VideoUrl"></label>
+            <input asp-for="@Model.VideoUrl" class="form-control" />
+            <span asp-validation-for="@Model.VideoUrl" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <div class="img-fluid">
                 <label asp-for="@Model.MainImage"></label>
                 <input type="file" asp-for="@Model.MainImage" class="image-upload" />

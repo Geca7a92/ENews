@@ -1,7 +1,10 @@
 ﻿using ENews.Data.Common.Repositories;
 using ENews.Data.Models;
+using ENews.Services.Mapping;
 using ENews.Web.ViewModels.Comments;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ENews.Services.Data
@@ -14,6 +17,7 @@ namespace ENews.Services.Data
         {
             this.commentRepository = commentRepository;
         }
+
         public async Task Create(CreateCommentInputModel model)
         {
             var comment = new Comment()
@@ -24,6 +28,14 @@ namespace ENews.Services.Data
             };
             await this.commentRepository.AddAsync(comment);
             await this.commentRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetLatesByCreatedOn<T>(int take)
+        {
+            IQueryable<Comment> query
+                = this.commentRepository.All().OrderByDescending(x => x.CreatedOn).Take(take);
+
+            return query.To<T>().ToList();
         }
     }
 }

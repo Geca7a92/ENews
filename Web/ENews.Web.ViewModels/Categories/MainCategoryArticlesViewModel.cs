@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ENews.Web.ViewModels.SubCategories
+namespace ENews.Web.ViewModels.Categories
 {
     public class MainCategoryArticlesViewModel : IMapFrom<Category>
     {

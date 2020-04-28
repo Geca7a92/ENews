@@ -1,0 +1,5 @@
+﻿@model ENews.Web.ViewModels.Shared.Components.LatestArticles.LatestArticlesViewModel
+@foreach (var article in Model.Articles)
+{
+    @await Html.PartialAsync("_LatestArticleSideBarPartial", article)
+}

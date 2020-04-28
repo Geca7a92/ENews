@@ -40,6 +40,10 @@
         [MaxFileSize(1024 * 1024)]
         public IFormFile MainImage { get; set; }
 
+        [Display(Name = "Video Url")]
+        [RegularExpression(@"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$", ErrorMessage = "Video must be from youtube!")]
+        public string VideoUrl { get; set; }
+
         public Region? Region { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     using ENews.Services;
     using ENews.Services.Data;
     using ENews.Web.ViewModels;
-    using ENews.Web.ViewModels.SubCategories;
+    using ENews.Web.ViewModels.Categories;
     using Microsoft.AspNetCore.Mvc;
     using System;
 

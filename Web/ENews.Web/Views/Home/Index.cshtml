@@ -46,14 +46,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-12 col-lg-5">
                         <!-- Single Featured Post -->
                         @foreach (var item in Model.LatestTwoArticles)
                         {
                             <div class="single-blog-post featured-post-2">
                                 <div class="post-thumb">
-                                    <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id"><img src="@item.PictureImageUrl" alt=""></a>
+                                    <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id"><img src="@item.PictureImageUrl" style='height: 100%; width: 100%; object-fit: contain' alt=""></a>
                                 </div>
                                 <div class="post-data">
                                     <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@item.CategoryTitle" class="post-catagory">@item.CategoryTitle</a>
@@ -76,25 +76,7 @@
 
             <div class="col-12 col-md-6 col-lg-4">
                 <!-- Single Featured Post -->
-
-                @foreach (var item in Model.LatestFiveArticles)
-                {
-
-                    <div class="single-blog-post small-featured-post d-flex">
-                        <div class="post-thumb">
-                            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id"><img src="@item.PictureImageUrl" alt=""></a>
-                        </div>
-                        <div class="post-data">
-                            <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@item.CategoryTitle" class="post-catagory">@item.CategoryTitle</a>
-                            <div class="post-meta">
-                                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id" class="post-title">
-                                    <h6>@item.Title</h6>
-                                </a>
-                                <p class="post-date"><span>@item.CreatedOn.ToString("h:mm tt")</span> | <span>@item.CreatedOn.ToString("MMMM dd")</span></p>
-                            </div>
-                        </div>
-                    </div>
-                }
+                <vc:lates-articles count="6", skip="3"></vc:lates-articles>
             </div>
         </div>
     </div>
@@ -108,18 +90,13 @@
                 <div class="section-heading">
                     <h6>Popular News</h6>
                 </div>
-
                 <div class="row">
-
-                    <!-- Single Post -->
-
                     @foreach (var item in Model.LatestPopularNews)
                     {
-
                         <div class="col-12 col-md-6">
                             <div class="single-blog-post style-3">
                                 <div class="post-thumb">
-                                    <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id"><img src="@item.PictureImageUrl" alt=""></a>
+                                    <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id"><img src="@item.PictureImageUrl" style='height: 100%; width: 100%; object-fit: contain'  alt=""></a>
                                 </div>
                                 <div class="post-data">
                                     <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@item.CategoryTitle" class="post-catagory">@item.CategoryTitle</a>
@@ -134,7 +111,6 @@
                             </div>
                         </div>
                     }
-
                 </div>
             </div>
 
@@ -143,7 +119,7 @@
                     <h6>Info</h6>
                 </div>
                 <!-- Popular News Widget -->
-                    <vc:most-commented-news></vc:most-commented-news>
+                <vc:most-commented-news count="5" skip="0"></vc:most-commented-news>
             </div>
         </div>
     </div>
@@ -153,38 +129,19 @@
 <div class="video-post-area bg-img bg-overlay" style="background-image: url(img/bg-img/bg1.jpg);">
     <div class="container">
         <div class="row justify-content-center">
-            <!-- Single Video Post -->
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="single-video-post">
-                    <img src="img/bg-img/video1.jpg" alt="">
-                    <!-- Video Button -->
-                    <div class="videobtn">
-                        <a href="https://www.youtube.com/watch?v=5BQr-j3BBzU" class="videoPlayer"><i class="fa fa-play" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Single Video Post -->
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="single-video-post">
-                    <img src="img/bg-img/video2.jpg" alt="">
-                    <!-- Video Button -->
-                    <div class="videobtn">
-                        <a href="https://www.youtube.com/watch?v=5BQr-j3BBzU" class="videoPlayer"><i class="fa fa-play" aria-hidden="true"></i></a>
+            @foreach (var item in Model.LatestVideos)
+            {
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="single-video-post">
+                        <img src="@item.PictureImageUrl" alt="">
+                        <!-- Video Button -->
+                        <div class="videobtn">
+                            <a href="@item.VideoUrl" class="videoPlayer"><i class="fa fa-play" aria-hidden="true"></i></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Single Video Post -->
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="single-video-post">
-                    <img src="img/bg-img/video3.jpg" alt="">
-                    <!-- Video Button -->
-                    <div class="videobtn">
-                        <a href="https://www.youtube.com/watch?v=5BQr-j3BBzU" class="videoPlayer"><i class="fa fa-play" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
@@ -225,7 +182,7 @@
 
             <!-- Local News -->
             <div class="col-12 col-md-5 col-lg-3">
-                <vc:get-local-last-five-articles></vc:get-local-last-five-articles>
+                <vc:get-local-latest count="4"></vc:get-local-latest>
             </div>
         </div>
     </div>

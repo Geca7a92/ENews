@@ -67,25 +67,19 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="row p-2">
-                <vc:get-local-last-five-articles></vc:get-local-last-five-articles>
-            </div>
-            <div class="row p-2">
-                <vc:lates-five-articles></vc:lates-five-articles>
+        <div class="col-12 col-lg-4">
+            <div class="blog-sidebar-area">
+
+                <!-- Latest Posts Widget -->
+                <div class="latest-posts-widget mb-30">
+                    <vc:lates-articles count="5" , skip="0"></vc:lates-articles>
+                </div>
+                <!-- Popular News Widget -->
+                <vc:most-commented-news count="6" , skip="0"></vc:most-commented-news>
+
+                <!-- Latest Comments Widget -->
+                <vc:latest-comments></vc:latest-comments>
             </div>
         </div>
     </div>
 </div>
-
-@*@foreach (var gallery in Model.LastestGalleries)
-    {
-        <div class="card" style="width: 18rem;">
-            <img src="@gallery.Images.FirstOrDefault().ImageUrl" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    }*@

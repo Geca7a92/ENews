@@ -8,5 +8,7 @@ namespace ENews.Services.Data
     public interface ICommentsService
     {
         Task Create(CreateCommentInputModel model);
+
+        IEnumerable<T> GetLatesByCreatedOn<T>(int take);
     }
 }

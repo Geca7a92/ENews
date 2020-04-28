@@ -49,6 +49,7 @@
                 SubCategoryId = model.SubCategoryId,
                 PictureId = mainImgId.Id,
                 Region = model.Region,
+                VideoUrl = model.VideoUrl,
             };
 
             if (model.GalleryContent != null)
@@ -101,10 +102,10 @@
             return article;
         }
 
-        public IEnumerable<T> GetAllByCategoryId<T>(int id, int? take = null, int skip = 0)
+        public IEnumerable<T> GetAllByCategoryId<T>(int id, int? take = null, int skip = 0, int? acrticleId = null)
         {
             var articles = this.articleRepository.All()
-                .Where(a => a.CategoryId == id)
+                .Where(a => a.CategoryId == id && a.Id != acrticleId)
                 .OrderByDescending(a => a.CreatedOn)
                 .Skip(skip);
 
@@ -151,6 +152,16 @@
             return this.articleRepository.All().Where(a => a.Region.HasValue).Count();
         }
 
+        public int GetCount()
+        {
+            return this.articleRepository.All().Count();
+        }
+
+        public int GetSumAllSeens()
+        {
+            return this.articleRepository.All().Sum(a => a.SeenCount);
+        }
+
         public IEnumerable<T> GetLatestByRegion<T>(Region region, int? take = null, int skip = 0)
         {
             var articles = this.articleRepository.All().Where(a => a.Region == region).OrderByDescending(a => a.CreatedOn).Skip(skip);
@@ -173,20 +184,20 @@
             return articles.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetLatesMostViewed<T>(int? count = null)
+        public IEnumerable<T> GetLatesMostViewed<T>(int? take = null, int skip = 0)
         {
-            var articles = this.articleRepository.All().OrderByDescending(a => a.SeenCount).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow);
-            if (count.HasValue)
+            var articles = this.articleRepository.All().OrderByDescending(a => a.SeenCount).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow).Skip(skip);
+            if (take.HasValue)
             {
-                articles = articles.Take(count.Value);
+                articles = articles.Take(take.Value);
             }
 
             return articles.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetLatesMostCommented<T>(int? take = null)
+        public IEnumerable<T> GetLatesMostCommented<T>(int? take = null, int skip = 0)
         {
-            var articles = this.articleRepository.All().OrderByDescending(a => a.Comments.Count()).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow);
+            var articles = this.articleRepository.All().OrderByDescending(a => a.Comments.Count()).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow).Skip(skip);
             if (take.HasValue)
             {
                 articles = articles.Take(take.Value);
@@ -224,12 +235,21 @@
             return articles.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetLatesWithVideos<T>(int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All().Where(a => !string.IsNullOrEmpty(a.VideoUrl)).OrderByDescending(a => a.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
+        }
+
         public T GetLastByCreatedOn<T>()
         {
             var article = this.articleRepository.All().OrderByDescending(a => a.CreatedOn).To<T>().FirstOrDefault();
             return article;
         }
-
-
     }
 }

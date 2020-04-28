@@ -10,10 +10,14 @@
     public class HomeController : BaseController
     {
         private readonly IArticlesService articleService;
+        private readonly IUsersService usersService;
 
-        public HomeController(IArticlesService articleService)
+        public HomeController(
+            IArticlesService articleService,
+            IUsersService usersService)
         {
             this.articleService = articleService;
+            this.usersService = usersService;
         }
 
         public IActionResult Index()
@@ -22,9 +26,9 @@
             {
                 LatestArticle = this.articleService.GetLastByCreatedOn<ArticlePreviewViewModel>(),
                 LatestTwoArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(2, 1),
-                LatestFiveArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(5, 3),
                 LatestPopularNews = this.articleService.GetLatesMostViewed<ArticlePreviewViewModel>(4),
-                LatestWorldNews = this.articleService.GetLatesInternationalArticles<ArticlePreviewViewModel>(6),
+                LatestWorldNews = this.articleService.GetLatesInternationalArticles<ArticlePreviewViewModel>(9),
+                LatestVideos = this.articleService.GetLatesWithVideos<ArticlesVideoPreview>(3),
             };
             return this.View(model);
         }
@@ -32,6 +36,20 @@
         public IActionResult Privacy()
         {
             return this.View();
+        }
+
+        public IActionResult About()
+        {
+            var model = new AboutViewModel()
+            {
+                TopEmployees = this.usersService.GetTopMembers<EmployeeViewModel>(),
+                ArticlesCount = this.articleService.GetCount(),
+                MembersCount = this.usersService.GetCountOfMembers(),
+                UsersCount = this.usersService.GetCountOfUsers(),
+                ArticleReads = this.articleService.GetSumAllSeens(),
+            };
+
+            return this.View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

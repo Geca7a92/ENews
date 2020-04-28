@@ -1,0 +1,24 @@
+﻿@model ENews.Web.ViewModels.Shared.Components.LatestComments.LatestCommentsViewModel
+@using ENews.Common
+<div class="latest-comments-widget">
+    <h3>Latest Comments</h3>
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="single-comments d-flex">
+            <div class="comments-thumbnail mr-15">
+                @if (string.IsNullOrEmpty(comment.UserProfilePictureImageUrl))
+                {
+                    <img src="@GlobalConstants.ProfilePictureFill" alt="">
+                }
+                else
+                {
+                    <img src="@comment.UserProfilePictureImageUrl" alt="">
+                }
+            </div>
+            <div class="comments-text">
+                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@comment.ArticleId">@comment.UserUserName <span>on</span> @comment.Content</a>
+                <p class="post-date"><span>@comment.CreatedOn.ToString("h:mm tt")</span> | <span>@comment.CreatedOn.ToString("MMMM dd")</span></p>
+            </div>
+        </div>
+    }
+</div>

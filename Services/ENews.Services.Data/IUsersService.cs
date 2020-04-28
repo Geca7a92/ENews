@@ -16,13 +16,17 @@ namespace ENews.Services.Data
     {
         IEnumerable<IndexUserViewModel> GetAll();
 
+        IEnumerable<T> GetTopMembers<T>();
+
         IEnumerable<IndexUserViewModel> GetAllBanned();
+
+        int GetCountOfMembers();
+
+        int GetCountOfUsers();
 
         Task UndeleteById(string id);
 
         Task DeleteById(string id);
-
-        IEnumerable<string> GetUserRoles(string userId);
 
         Task AddReporterRoleToUser(string userId);
 
@@ -75,11 +79,6 @@ namespace ENews.Services.Data
             return users;
         }
 
-        public IEnumerable<string> GetUserRoles(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<IndexUserViewModel> GetAllBanned()
         {
             var users
@@ -108,6 +107,23 @@ namespace ENews.Services.Data
             var user = this.userRepository.All().FirstOrDefault(u => u.Id == userId);
 
             await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ReporterRoleName);
+        }
+
+        public IEnumerable<T> GetTopMembers<T>()
+        {
+            var users = this.userRepository.All().Where(u => u.Roles.Any()).OrderByDescending(u => u.Articles.Count()).Take(4);
+
+            return users.To<T>().ToList();
+        }
+
+        public int GetCountOfMembers()
+        {
+            return this.userRepository.All().Where(a => a.Roles.Any()).Count();
+        }
+
+        public int GetCountOfUsers()
+        {
+            return this.userRepository.All().Where(a => !a.Roles.Any()).Count();
         }
     }
 }

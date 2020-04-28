@@ -2,25 +2,24 @@
 {
     using ENews.Services.Data;
     using ENews.Web.ViewModels;
-    using ENews.Web.ViewModels.Shared.Components.MostCommentedNews;
+    using ENews.Web.ViewModels.Shared.Components.LatestArticles;
     using Microsoft.AspNetCore.Mvc;
 
-    public class MostCommentedNewsViewComponent : ViewComponent
+    public class LatesArticlesViewComponent : ViewComponent
     {
         private readonly IArticlesService articleService;
 
-        public MostCommentedNewsViewComponent(IArticlesService articleService)
+        public LatesArticlesViewComponent(IArticlesService articleService)
         {
             this.articleService = articleService;
         }
 
         public IViewComponentResult Invoke(int count, int skip = 0)
         {
-            var model = new MostCommentedNewsViewModel
+            var model = new LatestArticlesViewModel
             {
-                Articles = this.articleService.GetLatesMostCommented<ArticlePreviewViewModel>(count, skip),
+                Articles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(count, skip),
             };
-
             return this.View(model);
         }
     }

@@ -11,10 +11,10 @@ namespace ENews.Web.ViewModels.Home
 
         public IEnumerable<ArticlePreviewViewModel> LatestTwoArticles { get; set; }
 
-        public IEnumerable<ArticlePreviewViewModel> LatestFiveArticles { get; set; }
-
         public IEnumerable<ArticlePreviewViewModel> LatestPopularNews { get; set; }
 
         public IEnumerable<ArticlePreviewViewModel> LatestWorldNews { get; set; }
+
+        public IEnumerable<ArticlesVideoPreview> LatestVideos { get; set; }
     }
 }

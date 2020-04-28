@@ -16,6 +16,8 @@
 
         public string CategoryTitle { get; set; }
 
+        public int CategoryId { get; set; }
+
         public string SubCategoryTitle { get; set; }
 
         public string PictureImageUrl { get; set; }

@@ -1,0 +1,6 @@
+﻿@model ENews.Web.ViewModels.Shared.Components.MoreArticlesFromCurrentArticleCategory.MoreArticlesFromCurrentArticleCategoryViewModel
+
+@foreach (var article in Model.Articles)
+{
+    @await Html.PartialAsync("_PopularArticlePartial", article)
+}
