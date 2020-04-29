@@ -1,20 +1,18 @@
-﻿using ENews.Data.Models;
-using ENews.Web.ViewModels.Administration.Categories;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ENews.Data.Models;
+    using ENews.Web.ViewModels.Administration.Categories;
+
     public interface ICategoriesService
     {
-        IEnumerable<T> GetAllCategories<T>();
+        IEnumerable<T> GetAllCategories<T>(int? take = null, int skip = 0);
 
-        IEnumerable<T> GetAllDeletedCategories<T>();
+        IEnumerable<T> GetAllDeletedCategories<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetAllCategoriesWithAnySubCategories<T>();
-
-        IEnumerable<T> GetAllWithDeletedCategories<T>();
 
         Task<int> UpdateCategory(Category category);
 
@@ -35,5 +33,9 @@ namespace ENews.Services.Data
         Task<Category> GetCategoryModelById(int id);
 
         Task<T> GetCategoryById<T>(int id);
+
+        int GetCountOfActiveCategories();
+
+        int GetCountOfDeletedCategories();
     }
 }

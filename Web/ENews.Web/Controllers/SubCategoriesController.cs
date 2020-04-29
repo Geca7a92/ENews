@@ -1,12 +1,13 @@
 ﻿namespace ENews.Web.Controllers
 {
+    using System;
+
     using ENews.Common;
     using ENews.Services;
     using ENews.Services.Data;
     using ENews.Web.ViewModels;
     using ENews.Web.ViewModels.Categories;
     using Microsoft.AspNetCore.Mvc;
-    using System;
 
     public class SubCategoriesController : Controller
     {
@@ -33,25 +34,15 @@
                 return this.NotFound();
             }
 
-            if (page < 1)
-            {
-                page = 1;
-            }
-
-            var skip = this.pagingService.CountSkip(page);
+            var skip = this.pagingService.CountSkip(page,GlobalConstants.ArticlePerPage);
 
             viewModel.SubCategoryArticles = this.articleService.GetAllBySubCategoryId<ArticlePreviewViewModel>(viewModel.Id, GlobalConstants.ArticlePerPage, skip);
 
             var articlesCount = this.articleService.GetCountBySubCategoryId(viewModel.Id);
 
-            viewModel.PagesCount = this.pagingService.PagesCount(articlesCount);
+            viewModel.PagesCount = this.pagingService.PagesCount(articlesCount, GlobalConstants.ArticlePerPage);
 
-            if (page > viewModel.PagesCount)
-            {
-                page = viewModel.PagesCount;
-            }
-
-            viewModel.CurrentPage = page;
+            viewModel.CurrentPage = this.pagingService.SetPage(page,viewModel.PagesCount);
 
             return this.View(viewModel);
         }

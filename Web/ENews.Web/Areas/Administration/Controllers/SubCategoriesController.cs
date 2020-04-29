@@ -1,6 +1,7 @@
 ﻿using ENews.Common;
 using ENews.Data;
 using ENews.Data.Models;
+using ENews.Services;
 using ENews.Services.Data;
 using ENews.Web.ViewModels.Administration.Categories;
 using ENews.Web.ViewModels.Administration.SubCategories;
@@ -22,45 +23,54 @@ namespace ENews.Web.Areas.Administration.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly ISubCategoriesService subCategoriesService;
+        private readonly IPagingService pagingService;
         private readonly ICategoriesService categoriesService;
 
         public SubCategoriesController(
             ApplicationDbContext context,
             ISubCategoriesService subCategoriesService,
+            IPagingService pagingService,
             ICategoriesService categoriesService)
         {
             this.context = context;
             this.subCategoriesService = subCategoriesService;
+            this.pagingService = pagingService;
             this.categoriesService = categoriesService;
         }
 
-        //public IActionResult Index()
-        //{
-        //    var result = this.subCategoriesService.GetAllWithDeletedSubCategories<IndexSubCategoryViewModel>();
-        //    var model = new IndexSubCategoriesViewModel()
-        //    {
-        //        SubCategories = result,
-        //    };
-        //    return this.View(model);
-        //}
-
-        public IActionResult Active()
+        public IActionResult Active(int page = 1)
         {
-            var result = this.subCategoriesService.GetAllSubCategories<IndexSubCategoryViewModel>();
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
+
+            var result = this.subCategoriesService.GetAllSubCategories<IndexSubCategoryViewModel>(GlobalConstants.AdministrationItemsPerPage, skip);
+
+            var subCategoriesCount = this.subCategoriesService.GetCountOfActiveSubCategories();
+
             var model = new IndexSubCategoriesViewModel()
             {
                 SubCategories = result,
+                PagesCount = this.pagingService.PagesCount(subCategoriesCount, GlobalConstants.AdministrationItemsPerPage),
             };
+            model.CurrentPage = this.pagingService.SetPage(page, model.PagesCount);
+
             return this.View(model);
         }
 
-        public IActionResult Deleted()
+        public IActionResult Deleted(int page = 1)
         {
-            var result = this.subCategoriesService.GetAllDeletedSubCategories<IndexSubCategoryViewModel>();
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
+
+            var result = this.subCategoriesService.GetAllDeletedSubCategories<IndexSubCategoryViewModel>(GlobalConstants.AdministrationItemsPerPage, skip);
+
+            var subCategoriesCount = this.subCategoriesService.GetCountOfDeletedSubCategories();
+
             var model = new IndexSubCategoriesViewModel()
             {
                 SubCategories = result,
+                PagesCount = this.pagingService.SetPage(subCategoriesCount, GlobalConstants.AdministrationItemsPerPage),
             };
+            model.CurrentPage = this.pagingService.SetPage(page, model.PagesCount);
+
             return this.View(model);
         }
 

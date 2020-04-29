@@ -19,18 +19,28 @@ namespace ENews.Services.Data
             this.subCategoryRepository = subCategoryRepository;
         }
 
-        public IEnumerable<T> GetAllSubCategories<T>()
+        public IEnumerable<T> GetAllSubCategories<T>(int? take = null, int skip = 0)
         {
             IQueryable<SubCategory> query
-                = this.subCategoryRepository.All().OrderByDescending(x => x.CreatedOn);
+                = this.subCategoryRepository.All().OrderByDescending(x => x.CreatedOn).Skip(skip);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
 
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllDeletedSubCategories<T>()
+        public IEnumerable<T> GetAllDeletedSubCategories<T>(int? take = null, int skip = 0)
         {
             IQueryable<SubCategory> query
-                = this.subCategoryRepository.AllWithDeleted().Where(c => c.IsDeleted).OrderByDescending(x => x.CreatedOn);
+                = this.subCategoryRepository.AllWithDeleted().Where(c => c.IsDeleted).OrderByDescending(x => x.CreatedOn).Skip(skip);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
 
             return query.To<T>().ToList();
         }
@@ -59,14 +69,6 @@ namespace ENews.Services.Data
             var category = await this.subCategoryRepository.GetByIdWithDeletedAsync(id);
             this.subCategoryRepository.Undelete(category);
             await this.subCategoryRepository.SaveChangesAsync();
-        }
-
-        public IEnumerable<T> GetAllWithDeletedSubCategories<T>()
-        {
-            IQueryable<SubCategory> query
-                = this.subCategoryRepository.AllWithDeleted().OrderByDescending(c => c.CreatedOn);
-
-            return query.To<T>().ToList();
         }
 
         public IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id)
@@ -130,6 +132,16 @@ namespace ENews.Services.Data
         public async Task<SubCategory> GetSubCategoryModelById(int id)
         {
             return await this.subCategoryRepository.GetByIdWithDeletedAsync(id);
+        }
+
+        public int GetCountOfActiveSubCategories()
+        {
+            return this.subCategoryRepository.All().Count();
+        }
+
+        public int GetCountOfDeletedSubCategories()
+        {
+            return this.subCategoryRepository.AllWithDeleted().Where(u => u.IsDeleted).Count();
         }
     }
 }

@@ -9,6 +9,7 @@
     using ENews.Data;
     using ENews.Data.Common.Repositories;
     using ENews.Data.Models;
+    using ENews.Services;
     using ENews.Services.Data;
     using ENews.Web.ViewModels.Administration.Categories;
     using Microsoft.AspNetCore.Authorization;
@@ -20,30 +21,49 @@
     public class CategoriesController : Controller
     {
         private readonly ICategoriesService categoriesService;
+        private readonly IPagingService pagingService;
 
         public CategoriesController(
-            ICategoriesService categoriesService)
+            ICategoriesService categoriesService,
+            IPagingService pagingService)
         {
             this.categoriesService = categoriesService;
+            this.pagingService = pagingService;
         }
 
-        public IActionResult Active()
+        public IActionResult Active(int page = 1)
         {
-            var result = this.categoriesService.GetAllCategories<IndexCategoryViewModel>();
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
+
+            var result = this.categoriesService.GetAllCategories<IndexCategoryViewModel>(GlobalConstants.AdministrationItemsPerPage, skip);
+
+            var categoriesCount = this.categoriesService.GetCountOfActiveCategories();
+
             var model = new IndexCategoriesViewModel()
             {
                 Categories = result,
+                PagesCount = this.pagingService.PagesCount(categoriesCount, GlobalConstants.AdministrationItemsPerPage),
             };
+            model.CurrentPage = this.pagingService.SetPage(page, model.PagesCount);
+
             return this.View(model);
         }
 
-        public IActionResult Deleted()
+        public IActionResult Deleted(int page = 1)
         {
-            var result = this.categoriesService.GetAllDeletedCategories<IndexCategoryViewModel>();
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
+
+            var result = this.categoriesService.GetAllDeletedCategories<IndexCategoryViewModel>(GlobalConstants.AdministrationItemsPerPage, skip);
+
+            var categoriesCount = this.categoriesService.GetCountOfDeletedCategories();
+
             var model = new IndexCategoriesViewModel()
             {
                 Categories = result,
+                PagesCount = this.pagingService.PagesCount(categoriesCount, GlobalConstants.AdministrationItemsPerPage),
             };
+            model.CurrentPage = this.pagingService.SetPage(page, model.PagesCount);
+
             return this.View(model);
         }
 

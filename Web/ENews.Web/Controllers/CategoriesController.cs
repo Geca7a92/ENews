@@ -20,7 +20,7 @@
         private readonly IPagingService pagingService;
 
         public CategoriesController(
-            IArticlesService articlesService, 
+            IArticlesService articlesService,
             ICategoriesService categoriesService,
             IPagingService pagingService)
         {
@@ -38,25 +38,15 @@
                 return this.NotFound();
             }
 
-            if (page < 1)
-            {
-                page = 1;
-            }
-
-            var skip = this.pagingService.CountSkip(page);
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
             viewModel.CategoryArticles = this.articlesService.GetAllByCategoryId<ArticlePreviewViewModel>(viewModel.Id, GlobalConstants.ArticlePerPage, skip);
 
             var articlesCount = this.articlesService.GetCountByCategoryId(viewModel.Id);
 
-            viewModel.PagesCount = this.pagingService.PagesCount(articlesCount);
+            viewModel.PagesCount = this.pagingService.PagesCount(articlesCount, GlobalConstants.ArticlePerPage);
 
-            if (page > viewModel.PagesCount)
-            {
-                page = viewModel.PagesCount;
-            }
-
-            viewModel.CurrentPage = page;
+            viewModel.CurrentPage = this.pagingService.SetPage(page, viewModel.PagesCount);
 
             return this.View(viewModel);
         }
@@ -65,23 +55,13 @@
         {
             var viewModel = new LocalArticlesViewModel();
 
-            if (page < 1)
-            {
-                page = 1;
-            }
-
-            var skip = this.pagingService.CountSkip(page);
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
             viewModel.CategoryArticles = this.articlesService.GetLatesLocalArticles<ArticlePreviewViewModel>(GlobalConstants.ArticlePerPage, skip);
 
             viewModel.PagesCount = this.pagingService.GetPagesCountByRegion(null);
 
-            if (page > viewModel.PagesCount)
-            {
-                page = viewModel.PagesCount;
-            }
-
-            viewModel.CurrentPage = page;
+            viewModel.CurrentPage = this.pagingService.SetPage(page, viewModel.PagesCount);
 
             return this.View(viewModel);
         }
@@ -95,23 +75,13 @@
 
             var viewModel = new RegionArticlesViewModel() { Region = region };
 
-            if (page < 1)
-            {
-                page = 1;
-            }
-
-            var skip = this.pagingService.CountSkip(page);
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
             viewModel.CategoryArticles = this.articlesService.GetLatestByRegion<ArticlePreviewViewModel>(region, GlobalConstants.ArticlePerPage, skip);
 
             viewModel.PagesCount = this.pagingService.GetPagesCountByRegion(region);
 
-            if (page > viewModel.PagesCount)
-            {
-                page = viewModel.PagesCount;
-            }
-
-            viewModel.CurrentPage = page;
+            viewModel.CurrentPage = this.pagingService.SetPage(page, viewModel.PagesCount);
 
             return this.View(viewModel);
         }

@@ -15,7 +15,9 @@ namespace ENews.Services.Data
 
         IEnumerable<T> GetAllBySubCategoryId<T>(int id, int? take = null, int skip = 0);
 
-        IEnumerable<T> GetAllByAtuthorId<T>(string id);
+        IEnumerable<T> GetAllByAtuthorId<T>(string id, int? take = null, int skip = 0);
+
+        IEnumerable<T> GetAllByAtuthorIdDeleted<T>(string id, int? take = null, int skip = 0);
 
         IEnumerable<T> GetLatesByCreatedOn<T>(int? take = null, int skip = 0);
 
@@ -37,6 +39,10 @@ namespace ENews.Services.Data
 
         Task<int> AddToSeenCount(int id);
 
+        Task UndeleteById(int id);
+
+        Task DeleteById(int id);
+
         int GetCountOfLocalArticles();
 
         int GetCount();
@@ -44,6 +50,10 @@ namespace ENews.Services.Data
         int GetCountByCategoryId(int id);
 
         int GetCountBySubCategoryId(int id);
+
+        int GetCountByAuthorId(string id);
+
+        int GetCountByAuthorIdDeleted(string id);
 
         int GetCountByRegion(Region region);
 

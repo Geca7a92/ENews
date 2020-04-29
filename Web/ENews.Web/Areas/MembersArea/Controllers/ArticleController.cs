@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
+using ENews.Web.ViewModels.MembersArea.Home;
+using ENews.Services;
 
 namespace ENews.Web.Areas.MembersArea.Controllers
 {
@@ -17,17 +19,20 @@ namespace ENews.Web.Areas.MembersArea.Controllers
         private readonly IArticlesService articleService;
         private readonly ICategoriesService categoriesService;
         private readonly ISubCategoriesService subCategoriesService;
+        private readonly IPagingService pagingService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ArticleController(
             IArticlesService articleService,
             ICategoriesService categoriesService,
             ISubCategoriesService subCategoriesService,
+            IPagingService pagingService,
             UserManager<ApplicationUser> userManager)
         {
             this.articleService = articleService;
             this.categoriesService = categoriesService;
             this.subCategoriesService = subCategoriesService;
+            this.pagingService = pagingService;
             this.userManager = userManager;
         }
 
@@ -54,6 +59,71 @@ namespace ENews.Web.Areas.MembersArea.Controllers
             var articleId = await this.articleService.CreateAsync(input, user.Id);
 
             return this.RedirectToAction("Index", "Articles", new { area = string.Empty, id = articleId });
+        }
+
+        public async Task<IActionResult> Active(int page = 1)
+        {
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var result = this.articleService.GetAllByAtuthorId<IndexArticleViewModel>(user.Id, GlobalConstants.AdministrationItemsPerPage, skip);
+
+            var articlesCount = this.articleService.GetCountByAuthorId(user.Id);
+
+            var model = new IndexArticlesViewModel()
+            {
+                Articles = result,
+                PagesCount = this.pagingService.PagesCount(articlesCount, GlobalConstants.AdministrationItemsPerPage),
+            };
+
+            model.CurrentPage = this.pagingService.SetPage(page, model.PagesCount);
+
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> Deleted(int page = 1)
+        {
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var result = this.articleService.GetAllByAtuthorIdDeleted<IndexArticleViewModel>(user.Id, GlobalConstants.AdministrationItemsPerPage, skip);
+
+            var articlesCount = this.articleService.GetCountByAuthorIdDeleted(user.Id);
+
+            var model = new IndexArticlesViewModel()
+            {
+                Articles = result,
+                PagesCount = this.pagingService.PagesCount(articlesCount, GlobalConstants.AdministrationItemsPerPage),
+            };
+            model.CurrentPage = this.pagingService.SetPage(page, model.PagesCount);
+
+            return this.View(model);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.articleService.DeleteById((int)id);
+
+            return this.RedirectToAction(nameof(this.Active));
+        }
+
+        public async Task<IActionResult> Undelete(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.articleService.UndeleteById((int)id);
+
+            return this.RedirectToAction(nameof(this.Deleted));
         }
 
         public IActionResult GetSubcategories(int id)

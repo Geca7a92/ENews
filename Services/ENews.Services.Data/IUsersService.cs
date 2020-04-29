@@ -14,15 +14,19 @@ namespace ENews.Services.Data
 {
     public interface IUsersService
     {
-        IEnumerable<IndexUserViewModel> GetAll();
+        IEnumerable<IndexUserViewModel> GetAll(int? take = null, int skip = 0);
 
         IEnumerable<T> GetTopMembers<T>();
 
-        IEnumerable<IndexUserViewModel> GetAllBanned();
+        IEnumerable<IndexUserViewModel> GetAllBanned(int? take = null, int skip = 0);
 
         int GetCountOfMembers();
 
         int GetCountOfUsers();
+
+        int GetCountofActiveMembersAndUsers();
+
+        int GetCountofBannedMembersAndUsers();
 
         Task UndeleteById(string id);
 
@@ -63,10 +67,10 @@ namespace ENews.Services.Data
             await this.userRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<IndexUserViewModel> GetAll()
+        public IEnumerable<IndexUserViewModel> GetAll(int? take = null, int skip = 0)
         {
             var users
-                = this.userRepository.All().Where(u => u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()).OrderByDescending(c => c.CreatedOn).To<IndexUserViewModel>().ToList();
+                = this.userRepository.All().Where(u => u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()).OrderByDescending(c => c.CreatedOn).Skip(skip).Take(take.Value).To<IndexUserViewModel>().ToList();
 
             foreach (var user in users)
             {
@@ -79,10 +83,17 @@ namespace ENews.Services.Data
             return users;
         }
 
-        public IEnumerable<IndexUserViewModel> GetAllBanned()
+        public IEnumerable<IndexUserViewModel> GetAllBanned(int? take = null, int skip = 0)
         {
             var users
-                = this.userRepository.AllWithDeleted().Where(u => u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()).Where(u => u.IsDeleted).OrderByDescending(c => c.CreatedOn).To<IndexUserViewModel>().ToList();
+                = this.userRepository.AllWithDeleted()
+                .Where(u => u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                .Where(u => u.IsDeleted)
+                .OrderByDescending(c => c.CreatedOn)
+                .Skip(skip)
+                .Take(take.Value)
+                .To<IndexUserViewModel>()
+                .ToList();
 
             foreach (var user in users)
             {
@@ -124,6 +135,16 @@ namespace ENews.Services.Data
         public int GetCountOfUsers()
         {
             return this.userRepository.All().Where(a => !a.Roles.Any()).Count();
+        }
+
+        public int GetCountofActiveMembersAndUsers()
+        {
+            return this.userRepository.All().Count();
+        }
+
+        public int GetCountofBannedMembersAndUsers()
+        {
+            return this.userRepository.AllWithDeleted().Where(u => u.IsDeleted).Count();
         }
     }
 }

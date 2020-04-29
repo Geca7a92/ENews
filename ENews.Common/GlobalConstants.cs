@@ -5,7 +5,9 @@ namespace ENews.Common
     public static class GlobalConstants
     {
         public const int ArticlePerPage = 4;
+        public const int AdministrationItemsPerPage = 10;
 
+        public const string SystemEmail = "ENews@gmail.com";
         public const string SystemName = "ENews";
         public const string SystemUrl = "https://localhost:44319/";
         public const string SystemArticlePreviewUrl = "https://localhost:44319/Articles/Index/";

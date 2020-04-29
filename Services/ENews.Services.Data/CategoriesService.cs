@@ -18,30 +18,31 @@
             this.categoryRepository = categoryRepository;
         }
 
-        public IEnumerable<T> GetAllCategories<T>()
+        public IEnumerable<T> GetAllCategories<T>(int? take = null, int skip = 0)
         {
             IQueryable<Category> query
-                = this.categoryRepository.All().OrderByDescending(x => x.CreatedOn);
+                = this.categoryRepository.All().OrderByDescending(x => x.CreatedOn).Skip(skip);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
 
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllDeletedCategories<T>()
+        public IEnumerable<T> GetAllDeletedCategories<T>(int? take = null, int skip = 0)
         {
             IQueryable<Category> query
-                = this.categoryRepository.AllWithDeleted().Where(c => c.IsDeleted).OrderByDescending(x => x.CreatedOn);
+                = this.categoryRepository.AllWithDeleted().Where(c => c.IsDeleted).OrderByDescending(x => x.CreatedOn).Skip(skip);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
 
             return query.To<T>().ToList();
         }
-
-        public IEnumerable<T> GetAllWithDeletedCategories<T>()
-        {
-            IQueryable<Category> query
-                = this.categoryRepository.AllWithDeleted().OrderByDescending(c => c.CreatedOn);
-
-            return query.To<T>().ToList();
-        }
-
 
         public T GetCategoryByName<T>(string name)
         {
@@ -125,6 +126,16 @@
         public async Task<Category> GetCategoryModelById(int id)
         {
             return await this.categoryRepository.GetByIdWithDeletedAsync(id);
+        }
+
+        public int GetCountOfActiveCategories()
+        {
+            return this.categoryRepository.All().Count();
+        }
+
+        public int GetCountOfDeletedCategories()
+        {
+            return this.categoryRepository.AllWithDeleted().Where(u => u.IsDeleted).Count();
         }
     }
 }

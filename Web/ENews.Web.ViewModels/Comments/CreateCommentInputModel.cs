@@ -13,6 +13,7 @@ namespace ENews.Web.ViewModels.Comments
 
         [Required]
         [MaxLength(255)]
+        [Display(Name = "Comment")]
         public string Content { get; set; }
 
         public string UserId { get; set; }

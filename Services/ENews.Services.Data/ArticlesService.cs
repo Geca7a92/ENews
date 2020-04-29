@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using ENews.Data.Common.Repositories;
     using ENews.Data.Models;
     using ENews.Data.Models.Enums;
@@ -28,16 +29,6 @@
 
         public async Task<int> CreateAsync(ArticleCreateInputModel model, string userId)
         {
-            //var mainImageUrl = await this.cloudinaryService.UploadPictureAsync(model.MainImage);
-            //var mainImage = new Image()
-            //{
-            //    ImageUrl = mainImageUrl,
-            //    Description = model.MainImage.FileName,
-            //};
-
-            //await this.imageRepository.AddAsync(mainImage);
-            //await this.imageRepository.SaveChangesAsync();
-
             var mainImgId = await this.imagesService.CreateAsync(model.MainImage);
 
             var article = new Article
@@ -76,10 +67,24 @@
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllByAtuthorId<T>(string id)
+        public IEnumerable<T> GetAllByAtuthorId<T>(string id, int? take = null, int skip = 0)
         {
             IQueryable<Article> query
-                = this.articleRepository.AllWithDeleted().Where(a => a.AuthorId == id).OrderByDescending(a => a.CreatedOn);
+                = this.articleRepository.All().Where(a => a.AuthorId == id).OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take.Value);
+
+
+            return query.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllByAtuthorIdDeleted<T>(string id, int? take = null, int skip = 0)
+        {
+            IQueryable<Article> query
+                = this.articleRepository.AllWithDeleted().Where(a => a.AuthorId == id && a.IsDeleted).OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take.Value);
+
+            if (take != null)
+            {
+                query = query.Take(take.Value);
+            }
 
             return query.To<T>().ToList();
         }
@@ -152,6 +157,16 @@
             return this.articleRepository.All().Where(a => a.Region.HasValue).Count();
         }
 
+        public int GetCountByAuthorId(string id)
+        {
+            return this.articleRepository.All().Where(a => a.AuthorId == id).Count();
+        }
+
+        public int GetCountByAuthorIdDeleted(string id)
+        {
+            return this.articleRepository.AllWithDeleted().Where(a => a.AuthorId == id && a.IsDeleted).Count();
+        }
+
         public int GetCount()
         {
             return this.articleRepository.All().Count();
@@ -215,6 +230,21 @@
         {
             return this.articleRepository.All().OrderByDescending(a => a.CreatedOn).First().CreatedOn;
         }
+
+        public async Task DeleteById(int id)
+        {
+            var article = await this.articleRepository.GetByIdWithDeletedAsync(id);
+            this.articleRepository.Delete(article);
+            await this.articleRepository.SaveChangesAsync();
+        }
+
+        public async Task UndeleteById(int id)
+        {
+            var article = await this.articleRepository.GetByIdWithDeletedAsync(id);
+            this.articleRepository.Undelete(article);
+            await this.articleRepository.SaveChangesAsync();
+        }
+
 
         public async Task<int> AddToSeenCount(int id)
         {

@@ -8,11 +8,9 @@ namespace ENews.Services.Data
 {
     public interface ISubCategoriesService
     {
-        IEnumerable<T> GetAllSubCategories<T>();
+        IEnumerable<T> GetAllSubCategories<T>(int? take = null, int skip = 0);
 
-        IEnumerable<T> GetAllDeletedSubCategories<T>();
-
-        IEnumerable<T> GetAllWithDeletedSubCategories<T>();
+        IEnumerable<T> GetAllDeletedSubCategories<T>(int? take = null, int skip = 0);
 
         Task CreateSubCategoryAsync(SubCategoryCreateInputModel inputModel);
 
@@ -35,5 +33,9 @@ namespace ENews.Services.Data
         IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id);
 
         Task<int> Update(SubCategory subCategory);
+
+        int GetCountOfActiveSubCategories();
+
+        int GetCountOfDeletedSubCategories();
     }
 }

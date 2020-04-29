@@ -27,23 +27,43 @@ namespace ENews.Services
                 count = this.articlesService.GetCountOfLocalArticles();
             }
 
-            return this.PagesCount(count);
+            return this.PagesCount(count, GlobalConstants.ArticlePerPage);
         }
 
-        public int CountSkip(int page)
+        public int CountSkip(int page, int count)
         {
-            return (page - 1) * GlobalConstants.ArticlePerPage;
-        }
-
-        public int PagesCount(int articlesCount)
-        {
-            if (articlesCount == 0)
+            if (page < 1)
             {
-                articlesCount = 1;
+                page = 1;
             }
 
-            var pagesCount = (int)Math.Ceiling((double)articlesCount / GlobalConstants.ArticlePerPage);
+            return (page - 1) * count;
+        }
+
+        public int PagesCount(int itemCount, int itemsPerPage)
+        {
+            if (itemCount == 0)
+            {
+                itemCount = 1;
+            }
+
+            var pagesCount = (int)Math.Ceiling((double)itemCount / itemsPerPage);
             return pagesCount;
+        }
+
+        public int SetPage(int page, int pagesCount)
+        {
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            if (page > pagesCount)
+            {
+                return pagesCount;
+            }
+
+            return page;
         }
     }
 }
