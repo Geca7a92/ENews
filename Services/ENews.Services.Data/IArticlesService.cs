@@ -1,4 +1,5 @@
-﻿using ENews.Data.Models.Enums;
+﻿using ENews.Data.Models;
+using ENews.Data.Models.Enums;
 using ENews.Web.ViewModels.MembersArea.Articles;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,8 @@ namespace ENews.Services.Data
 
         Task DeleteById(int id);
 
+        Task HardDeleteById(int id);
+
         int GetCountOfLocalArticles();
 
         int GetCount();
@@ -60,6 +63,8 @@ namespace ENews.Services.Data
         int GetCountByRegion(Region region);
 
         int GetSumAllSeens();
+
+        Task<Article> GetbyIdHard(int id);
 
         Task<T> GetArticleById<T>(int id);
 

@@ -22,7 +22,7 @@ namespace ENews.Web.Controllers
             var model = this.galleryService.PreviewGalleryById<GalleryPreviewViewModel>(id);
             if (model == null)
             {
-                this.NotFound();
+                return this.NotFound();
             }
 
             return this.View(model);

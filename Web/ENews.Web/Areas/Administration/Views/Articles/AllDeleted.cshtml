@@ -100,13 +100,13 @@
                     <td>
                         <ul>
                             <li>
-                                <a asp-area="MembersArea" asp-controller="Article" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            </li>
-                            <li>
                                 <a asp-area="MembersArea" asp-controller="Article" asp-action="Details" asp-route-id="@item.Id">Details</a>
                             </li>
                             <li>
                                 <a asp-area="MembersArea" asp-controller="Article" asp-action="Undelete" asp-route-id="@item.Id">Restore</a>
+                            </li>
+                            <li>
+                                <a asp-area="Administration" asp-controller="Articles" asp-action="HardDelete" asp-route-id="@item.Id">HardDelete</a>
                             </li>
                         </ul>
                     </td>

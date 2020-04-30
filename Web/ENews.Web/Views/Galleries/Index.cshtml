@@ -6,33 +6,36 @@
 <div class="container-fluid container">
     <div class="row">
         <div class="col-md-8">
-            <div class="row p-2">
-                <div class="card flex-fill p-1">
-                    <div class="card-header">
-                        <h4 class="card-title text-center">@Model.LastGallery.ArticleTitle</h4>
-                    </div>
-                    <img src="@Model.LastGallery.Images.FirstOrDefault().ImageUrl" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">@Model.LastGallery.ContetPreview</p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="row mb-1">
-                                    <a asp-area="" asp-controller="Galleries" asp-action="Preview" asp-route-id="@Model.LastGallery.Id" class="btn btn-primary">Preview</a>
+            @if (Model.LastGallery != null)
+            {
+                <div class="row p-2">
+                    <div class="card flex-fill p-1">
+                        <div class="card-header">
+                            <h4 class="card-title text-center">@Model.LastGallery.ArticleTitle</h4>
+                        </div>
+                        <img src="@Model.LastGallery.Images.FirstOrDefault().ImageUrl" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">@Model.LastGallery.ContetPreview</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="row mb-1">
+                                        <a asp-area="" asp-controller="Galleries" asp-action="Preview" asp-route-id="@Model.LastGallery.Id" class="btn btn-primary">Preview</a>
+                                    </div>
+                                    <div class="row">
+                                        <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@Model.LastGallery.ArticleId" class="btn btn-secondary">Article</a>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@Model.LastGallery.ArticleId" class="btn btn-secondary">Article</a>
+                                <div class="col-6">
+                                    <p class="text-right small text-muted">By <strong>@Model.LastGallery.ArticleAuthorUserName</strong></p>
+                                    <p class="text-right small text-muted">@Model.LastGallery.CreatedOn.ToString("dd/MM/yyyy")</p>
                                 </div>
-                            </div>
-                            <div class="col-6">
-                                <p class="text-right small text-muted">By <strong>@Model.LastGallery.ArticleAuthorUserName</strong></p>
-                                <p class="text-right small text-muted">@Model.LastGallery.CreatedOn.ToString("dd/MM/yyyy")</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
             <div class="row p-2">
                 @foreach (var gallery in Model.LastestGalleries)
                 {

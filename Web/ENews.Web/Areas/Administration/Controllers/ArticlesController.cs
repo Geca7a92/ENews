@@ -36,6 +36,7 @@ namespace ENews.Web.Areas.Administration.Controllers
             this.pagingService = pagingService;
             this.userManager = userManager;
         }
+
         public async Task<IActionResult> AllActive(int page = 1)
         {
             var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
@@ -75,6 +76,32 @@ namespace ENews.Web.Areas.Administration.Controllers
             model.CurrentPage = this.pagingService.SetPage(page, model.PagesCount);
 
             return this.View(model);
+        }
+
+        public async Task<IActionResult> HardDelete(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var article = await this.articleService.GetArticleByIdWithDeleted<IndexArticleViewModel>((int)id);
+            if (article == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(article);
+        }
+
+        [HttpPost]
+        [ActionName("HardDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await this.articleService.HardDeleteById(id);
+
+            return this.RedirectToAction(nameof(this.AllActive));
         }
     }
 }

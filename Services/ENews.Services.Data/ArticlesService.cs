@@ -94,6 +94,12 @@
             return query.To<T>().ToList();
         }
 
+        public async Task<Article> GetbyIdHard(int id)
+        {
+            var article = await this.articleRepository.GetByIdWithDeletedAsync(id);
+            return article;
+        }
+
         public async Task<T> GetArticleById<T>(int id)
         {
             var article = await this.articleRepository.All().Where(a => a.Id == id).To<T>().FirstOrDefaultAsync();
@@ -244,6 +250,12 @@
             await this.articleRepository.SaveChangesAsync();
         }
 
+        public async Task HardDeleteById(int id)
+        {
+            var article = await this.articleRepository.GetByIdWithDeletedAsync(id);
+            this.articleRepository.HardDelete(article);
+            await this.articleRepository.SaveChangesAsync();
+        }
 
         public async Task<int> AddToSeenCount(int id)
         {
