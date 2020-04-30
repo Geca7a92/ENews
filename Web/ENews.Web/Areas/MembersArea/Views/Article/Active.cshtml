@@ -1,4 +1,5 @@
-﻿@model ENews.Web.ViewModels.MembersArea.Home.IndexArticlesViewModel
+﻿@using ENews.Common
+@model ENews.Web.ViewModels.MembersArea.Home.IndexArticlesViewModel
 
 @{
     this.ViewData["Title"] = "Active personal articles";
@@ -16,12 +17,22 @@
                 <a class="nav-link active" href="">@ViewData["Title"]</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" asp-area="MembersArea" asp-controller="Article" asp-action="Deleted">Deleted articles</a>
+                <a class="nav-link" asp-area="MembersArea" asp-controller="Article" asp-action="Deleted">Deleted personal articles</a>
             </li>
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Administration" asp-controller="Articles" asp-action="AllActive">Active articles</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Administration" asp-controller="Articles" asp-action="AllDeleted">Deleted articles</a>
+                </li>
+            }
             <li class=" flex-grow-1"></li>
             <li class="nav-item">
                 <a class="nav-link" asp-area="MembersArea" asp-controller="Article" asp-action="Create">Create New</a>
             </li>
+
         </ul>
     </div>
     <table class="table table-responsive-lg">

@@ -18,7 +18,7 @@ namespace ENews.Services.Data
             this.commentRepository = commentRepository;
         }
 
-        public async Task Create(CreateCommentInputModel model)
+        public async Task CreateAsync(CreateCommentInputModel model)
         {
             var comment = new Comment()
             {
@@ -30,12 +30,19 @@ namespace ENews.Services.Data
             await this.commentRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<T> GetLatesByCreatedOn<T>(int take)
+        public IEnumerable<T> GetLatesByCreatedOn<T>(int? take)
         {
             IQueryable<Comment> query
-                = this.commentRepository.All().OrderByDescending(x => x.CreatedOn).Take(take);
+                = this.commentRepository.All().OrderByDescending(x => x.CreatedOn);
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
 
             return query.To<T>().ToList();
         }
+
+
     }
 }

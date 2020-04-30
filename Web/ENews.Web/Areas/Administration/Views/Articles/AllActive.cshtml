@@ -2,10 +2,10 @@
 @model ENews.Web.ViewModels.MembersArea.Home.IndexArticlesViewModel
 
 @{
-    this.ViewData["Title"] = "Deleted personal articles";
+    this.ViewData["Title"] = "Active articles";
 }
 
-<div class="alert alert-danger" role="alert">
+<div class="alert alert-primary" role="alert">
     <div class="text-center">
         @ViewData["Title"] list
     </div>
@@ -13,16 +13,16 @@
 <div class="card">
     <div class="card-header">
         <ul class="nav nav-tabs">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" asp-area="MembersArea" asp-controller="Article" asp-action="Active">Active personal articles</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="">@ViewData["Title"]</a>
+            <li class="nav-item active">
+                <a class="nav-link" asp-area="MembersArea" asp-controller="Article" asp-action="Deleted">Deleted personal articles</a>
             </li>
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 <li class="nav-item active">
-                    <a class="nav-link" asp-area="Administration" asp-controller="Articles" asp-action="AllActive">Active articles</a>
+                    <a class="nav-link active" href="">@ViewData["Title"]</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" asp-area="Administration" asp-controller="Articles" asp-action="AllDeleted">Deleted articles</a>
@@ -32,6 +32,7 @@
             <li class="nav-item">
                 <a class="nav-link" asp-area="MembersArea" asp-controller="Article" asp-action="Create">Create New</a>
             </li>
+
         </ul>
     </div>
     <table class="table table-responsive-lg">
@@ -68,7 +69,9 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
                     </td>
                     <td>
                         <img src="@item.PictureImageUrl" width="100" />
@@ -104,7 +107,7 @@
                                 <a asp-area="MembersArea" asp-controller="Article" asp-action="Details" asp-route-id="@item.Id">Details</a>
                             </li>
                             <li>
-                                <a asp-area="MembersArea" asp-controller="Article" asp-action="Undelete" asp-route-id="@item.Id">Restore</a>
+                                <a asp-area="MembersArea" asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </li>
                         </ul>
                     </td>
@@ -113,7 +116,6 @@
         </tbody>
     </table>
 </div>
-
 <nav aria-label="Page navigation example" class="center">
     <ul class="pagination mt-50 justify-content-center">
 
@@ -121,7 +123,7 @@
         @if (this.Model.CurrentPage != 1)
         {
             <li class="page-item">
-                <a class="page-link" asp-area="MembersArea" asp-controller="Article" asp-action="Deleted" asp-route-page="1">1</a>
+                <a class="page-link" asp-area="Administration" asp-controller="Articles" asp-action="AllActive" asp-route-page="1">1</a>
             </li>
         }
         @*Pages before current page*@
@@ -131,7 +133,7 @@
             {
                 <li class="page-item">
                     <a class="page-link"
-                       asp-area="MembersArea" asp-controller="Article" asp-action="Deleted"
+                       asp-area="Administration" asp-controller="Articles" asp-action="AllActive"
                        asp-route-page="@i">@i</a>
                 </li>
             }
@@ -140,7 +142,7 @@
         @{
             <li class="page-item active">
                 <a class="page-link"
-                   asp-area="MembersArea" asp-controller="Article" asp-action="Deleted"
+                   asp-area="Administration" asp-controller="Articles" asp-action="AllActive"
                    asp-route-page="@this.Model.CurrentPage">@this.Model.CurrentPage</a>
             </li>
         }
@@ -152,7 +154,7 @@
 
                 <li class="page-item">
                     <a class="page-link"
-                       asp-area="MembersArea" asp-controller="Article" asp-action="Deleted"
+                       asp-area="Administration" asp-controller="Articles" asp-action="AllActive"
                        asp-route-page="@i">@i</a>
                 </li>
             }
@@ -162,7 +164,7 @@
         {
             <li class="page-item">
                 <a class="page-link"
-                   asp-area="MembersArea" asp-controller="Article" asp-action="Deleted"
+                   asp-area="Administration" asp-controller="Articles" asp-action="AllActive"
                    asp-route-page="@(this.Model.PagesCount)">@this.Model.PagesCount</a>
             </li>
         }

@@ -9,7 +9,9 @@ namespace ENews.Services.Data
 {
     public interface IArticlesService
     {
-        IEnumerable<T> GetAll<T>(int? count = null);
+        IEnumerable<T> GetAllActive<T>(int? take = null, int skip = 0);
+
+        IEnumerable<T> GetAllDeleted<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetAllByCategoryId<T>(int id, int? take = null, int skip = 0, int? acrticleId = null);
 
@@ -59,7 +61,9 @@ namespace ENews.Services.Data
 
         int GetSumAllSeens();
 
-        T GetArticleById<T>(int id);
+        Task<T> GetArticleById<T>(int id);
+
+        Task<T> GetArticleByIdWithDeleted<T>(int id);
 
         Task<int> CreateAsync(ArticleCreateInputModel model, string userId);
 

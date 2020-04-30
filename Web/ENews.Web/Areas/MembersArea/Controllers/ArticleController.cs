@@ -114,6 +114,22 @@ namespace ENews.Web.Areas.MembersArea.Controllers
             return this.RedirectToAction(nameof(this.Active));
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var article = await this.articleService.GetArticleByIdWithDeleted<DetailsArticleViewModel>((int)id);
+            if (article == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(article);
+        }
+
         public async Task<IActionResult> Undelete(int? id)
         {
             if (id == null)

@@ -16,7 +16,7 @@
 
         public async Task<IActionResult> Index(int id)
         {
-            var model = this.articleService.GetArticleById<ArticleViewModel>(id);
+            var model = await this.articleService.GetArticleById<ArticleViewModel>(id);
             if (model == null)
             {
                 return this.NotFound();

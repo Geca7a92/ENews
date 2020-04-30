@@ -1,17 +1,18 @@
-﻿namespace ENews.Services.Data
+﻿using ENews.Data.Common.Repositories;
+using ENews.Data.Models;
+using System.Linq;
+
+namespace ENews.Services.Data
 {
-    using System.Linq;
-
-    using ENews.Data.Common.Repositories;
-    using ENews.Data.Models;
-
     public class AddressesService : IAddressesService
     {
         private readonly IRepository<Address> addressRepository;
+        private readonly ISettingsService settingsService;
 
-        public AddressesService(IRepository<Address> addressRepository)
+        public AddressesService(IRepository<Address> addressRepository, ISettingsService settingsService)
         {
             this.addressRepository = addressRepository;
+            this.settingsService = settingsService;
         }
 
         public Address GetAddresById(int id)

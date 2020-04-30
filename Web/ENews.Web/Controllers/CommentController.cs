@@ -39,7 +39,7 @@ namespace ENews.Web.Controllers
 
             var user = await this.userManager.GetUserAsync(this.User);
             model.UserId = user.Id;
-            await this.commentsService.Create(model);
+            await this.commentsService.CreateAsync(model);
             return this.RedirectToAction("Index", "Articles", new { id = model.ArticleId });
         }
     }

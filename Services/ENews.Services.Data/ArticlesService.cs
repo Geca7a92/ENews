@@ -10,6 +10,7 @@
     using ENews.Data.Models.Enums;
     using ENews.Services.Mapping;
     using ENews.Web.ViewModels.MembersArea.Articles;
+    using Microsoft.EntityFrameworkCore;
 
     public class ArticlesService : IArticlesService
     {
@@ -55,22 +56,14 @@
             return article.Id;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
-        {
-            IQueryable<Article> query
-                = this.articleRepository.All().OrderBy(x => x.Title);
-            if (count != null)
-            {
-                query = query.Take(count.Value);
-            }
-
-            return query.To<T>().ToList();
-        }
-
         public IEnumerable<T> GetAllByAtuthorId<T>(string id, int? take = null, int skip = 0)
         {
             IQueryable<Article> query
-                = this.articleRepository.All().Where(a => a.AuthorId == id).OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take.Value);
+                = this.articleRepository.All().Where(a => a.AuthorId == id).OrderByDescending(a => a.CreatedOn).Skip(skip);
+            if (take != null)
+            {
+                query = query.Take(take.Value);
+            }
 
 
             return query.To<T>().ToList();
@@ -79,7 +72,7 @@
         public IEnumerable<T> GetAllByAtuthorIdDeleted<T>(string id, int? take = null, int skip = 0)
         {
             IQueryable<Article> query
-                = this.articleRepository.AllWithDeleted().Where(a => a.AuthorId == id && a.IsDeleted).OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take.Value);
+                = this.articleRepository.AllWithDeleted().Where(a => a.AuthorId == id && a.IsDeleted).OrderByDescending(a => a.CreatedOn).Skip(skip);
 
             if (take != null)
             {
@@ -101,9 +94,15 @@
             return query.To<T>().ToList();
         }
 
-        public T GetArticleById<T>(int id)
+        public async Task<T> GetArticleById<T>(int id)
         {
-            var article = this.articleRepository.All().Where(a => a.Id == id).To<T>().FirstOrDefault();
+            var article = await this.articleRepository.All().Where(a => a.Id == id).To<T>().FirstOrDefaultAsync();
+            return article;
+        }
+
+        public async Task<T> GetArticleByIdWithDeleted<T>(int id)
+        {
+            var article = await this.articleRepository.AllWithDeleted().Where(a => a.Id == id).To<T>().FirstOrDefaultAsync();
             return article;
         }
 
@@ -212,7 +211,7 @@
 
         public IEnumerable<T> GetLatesMostCommented<T>(int? take = null, int skip = 0)
         {
-            var articles = this.articleRepository.All().OrderByDescending(a => a.Comments.Count()).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow).Skip(skip);
+            var articles = this.articleRepository.All().OrderByDescending(a => a.Comments.Count()).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow && a.Comments.Count() > 0).Skip(skip);
             if (take.HasValue)
             {
                 articles = articles.Take(take.Value);
@@ -280,6 +279,33 @@
         {
             var article = this.articleRepository.All().OrderByDescending(a => a.CreatedOn).To<T>().FirstOrDefault();
             return article;
+        }
+
+        public IEnumerable<T> GetAllActive<T>(int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All().OrderByDescending(a => a.CreatedOn).Skip(skip);
+
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllDeleted<T>(int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.AllWithDeleted()
+                .Where(a => a.IsDeleted)
+                .OrderByDescending(a => a.CreatedOn)
+                .Skip(skip);
+
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return articles.To<T>().ToList();
         }
     }
 }
