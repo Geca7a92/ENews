@@ -1,9 +1,10 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System.Collections.Generic;
-
-namespace ENews.Web.ViewModels.Shared.Components.Categories
+﻿namespace ENews.Web.ViewModels.Shared.Components.Categories
 {
+    using System.Collections.Generic;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class CategoryViewModel : IMapFrom<Category>
     {
         public int Id { get; set; }

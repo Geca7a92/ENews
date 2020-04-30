@@ -1,16 +1,14 @@
-﻿using ENews.Data.Common.Repositories;
-using ENews.Data.Models;
-using ENews.Services.Mapping;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ENews.Services.Mapping;
-
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using ENews.Data.Common.Repositories;
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
+
     public class GalleriesService : IGalleriesService
     {
         private readonly ICloudinaryService cloudinaryService;

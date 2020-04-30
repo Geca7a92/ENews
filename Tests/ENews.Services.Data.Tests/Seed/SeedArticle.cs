@@ -1,11 +1,11 @@
-﻿using ENews.Data.Models;
-using ENews.Data.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Services.Data.Tests.Seed
+﻿namespace ENews.Services.Data.Tests.Seed
 {
+    using System;
+    using System.Collections.Generic;
+
+    using ENews.Data.Models;
+    using ENews.Data.Models.Enums;
+
     public class SeedArticle
     {
         public static Article Create()

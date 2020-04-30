@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Administration.Users
+﻿namespace ENews.Web.ViewModels.Administration.Users
 {
+    using System.Collections.Generic;
+
     public class IndexUsersViewModel
     {
         public int CurrentPage { get; set; }

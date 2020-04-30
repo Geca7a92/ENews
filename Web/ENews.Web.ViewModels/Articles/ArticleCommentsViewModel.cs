@@ -1,12 +1,11 @@
-﻿using AutoMapper;
-using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Articles
+﻿namespace ENews.Web.ViewModels.Articles
 {
+    using System;
+
+    using AutoMapper;
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class ArticleCommentsViewModel : IMapFrom<Comment>, IHaveCustomMappings
     {
         public string Content { get; set; }

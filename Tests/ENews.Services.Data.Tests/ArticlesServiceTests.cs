@@ -1,22 +1,19 @@
-﻿using ENews.Data.Models;
-using ENews.Data.Models.Enums;
-using ENews.Services.Data.Tests.Repositories;
-using ENews.Services.Data.Tests.Seed;
-using ENews.Services.Mapping;
-using ENews.Web.ViewModels;
-using ENews.Web.ViewModels.Comments;
-using ENews.Web.ViewModels.MembersArea.Articles;
-using Ganss.XSS;
-using Microsoft.AspNetCore.Http;
-using Moq;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace ENews.Services.Data.Tests
+﻿namespace ENews.Services.Data.Tests
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+
+    using ENews.Data.Models;
+    using ENews.Data.Models.Enums;
+    using ENews.Services.Data.Tests.Repositories;
+    using ENews.Services.Data.Tests.Seed;
+    using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Comments;
+    using Ganss.XSS;
+    using Moq;
+    using Xunit;
+
     public class ArticlesServiceTests
     {
         [Fact]

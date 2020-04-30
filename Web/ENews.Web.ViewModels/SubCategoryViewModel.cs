@@ -1,12 +1,8 @@
-﻿using AutoMapper;
-using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels
+﻿namespace ENews.Web.ViewModels
 {
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class SubCategoryViewModel : IMapFrom<SubCategory>
     {
         public int Id { get; set; }

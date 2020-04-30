@@ -1,10 +1,11 @@
-﻿using ENews.Common;
-using ENews.Data.Models.Enums;
-using ENews.Services.Data;
-using System;
-
-namespace ENews.Services
+﻿namespace ENews.Services
 {
+    using System;
+
+    using ENews.Common;
+    using ENews.Data.Models.Enums;
+    using ENews.Services.Data;
+
     public class PagingService : IPagingService
     {
         private readonly IArticlesService articlesService;

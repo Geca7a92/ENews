@@ -1,8 +1,9 @@
 ﻿namespace ENews.Web.ViewModels.MembersArea.Articles
 {
+    using System.Collections.Generic;
+
     using ENews.Data.Models;
     using ENews.Services.Mapping;
-    using System.Collections.Generic;
 
     public class CategoriesDropDownViewModel : IMapFrom<Category>
     {

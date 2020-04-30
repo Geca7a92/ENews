@@ -1,12 +1,11 @@
-﻿using ENews.Data;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Services.Data.Tests
+﻿namespace ENews.Services.Data.Tests
 {
-   public class ContextTest
+    using System;
+
+    using ENews.Data;
+    using Microsoft.EntityFrameworkCore;
+
+    public class ContextTest
     {
         public static ApplicationDbContext CreateContextForInMemory()
         {

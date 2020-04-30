@@ -1,16 +1,14 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Data;
-using ENews.Web.ViewModels.Comments;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Web.Controllers
+﻿namespace ENews.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using ENews.Data.Models;
+    using ENews.Services.Data;
+    using ENews.Web.ViewModels.Comments;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     public class CommentController : Controller
     {
         private readonly ICommentsService commentsService;
@@ -27,7 +25,6 @@ namespace ENews.Web.Controllers
             this.articlesService = articlesService;
         }
 
-        //FIX WHEN COMMENT AND NOT LOGGED IN ERROR
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommentInputModel model)

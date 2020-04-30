@@ -1,11 +1,10 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Comments
+﻿namespace ENews.Web.ViewModels.Comments
 {
+    using System;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class CommentPreviewViewModel : IMapFrom<Comment>
     {
         public string UserId { get; set; }

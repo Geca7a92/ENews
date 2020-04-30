@@ -1,13 +1,13 @@
-﻿using ENews.Data.Models;
-using ENews.Data.Models.Enums;
-using ENews.Web.ViewModels.MembersArea.Articles;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ENews.Data.Models;
+    using ENews.Data.Models.Enums;
+    using ENews.Web.ViewModels.MembersArea.Articles;
+
     public interface IArticlesService
     {
         IEnumerable<T> GetAllActive<T>(int? take = null, int skip = 0);

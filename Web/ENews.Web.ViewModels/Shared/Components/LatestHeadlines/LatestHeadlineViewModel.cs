@@ -1,11 +1,8 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Shared.Components.LatestHeadlines
+﻿namespace ENews.Web.ViewModels.Shared.Components.LatestHeadlines
 {
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class LatestHeadlineViewModel : IMapFrom<Article>
     {
         public int Id { get; set; }

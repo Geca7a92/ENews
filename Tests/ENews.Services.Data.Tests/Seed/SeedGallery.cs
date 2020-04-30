@@ -1,10 +1,7 @@
-﻿using ENews.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Services.Data.Tests.Seed
+﻿namespace ENews.Services.Data.Tests.Seed
 {
+    using ENews.Data.Models;
+
     public class SeedGallery
     {
         public static Gallery Create()

@@ -1,13 +1,13 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Administration.Users
+﻿namespace ENews.Web.ViewModels.Administration.Users
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using Microsoft.AspNetCore.Identity;
+
     public class IndexUserViewModel : IMapFrom<ApplicationUser>
     {
         public IndexUserViewModel()

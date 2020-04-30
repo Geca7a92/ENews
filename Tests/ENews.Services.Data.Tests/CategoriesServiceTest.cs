@@ -1,16 +1,14 @@
-﻿using ENews.Services.Data.Tests.Repositories;
-using ENews.Services.Data.Tests.Seed;
-using ENews.Services.Mapping;
-using ENews.Web.ViewModels.Administration.Categories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Xunit;
-
-namespace ENews.Services.Data.Tests
+﻿namespace ENews.Services.Data.Tests
 {
+    using System.Linq;
+    using System.Reflection;
+
+    using ENews.Services.Data.Tests.Repositories;
+    using ENews.Services.Data.Tests.Seed;
+    using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Administration.Categories;
+    using Xunit;
+
     public class CategoriesServiceTest
     {
         [Fact]

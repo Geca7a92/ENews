@@ -1,9 +1,10 @@
 ﻿namespace ENews.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using ENews.Services.Data;
     using ENews.Web.ViewModels.Articles;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
 
     public class ArticlesController : Controller
     {

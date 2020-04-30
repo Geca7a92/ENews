@@ -1,13 +1,9 @@
-﻿using ENews.Services.Data;
-using ENews.Web.ViewModels.Shared.Components.LatestHeadlines;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Web.ViewComponents
+﻿namespace ENews.Web.ViewComponents
 {
+    using ENews.Services.Data;
+    using ENews.Web.ViewModels.Shared.Components.LatestHeadlines;
+    using Microsoft.AspNetCore.Mvc;
+
     public class LatestInternationalHeadlinesViewComponent : ViewComponent
     {
         private readonly IArticlesService articleService;
@@ -19,9 +15,10 @@ namespace ENews.Web.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            var model = new LatestHeadlinesViewModel();
-
-            model.Articles = this.articleService.GetLatesInternationalArticles<LatestHeadlineViewModel>(3);
+            var model = new LatestHeadlinesViewModel
+            {
+                Articles = this.articleService.GetLatesInternationalArticles<LatestHeadlineViewModel>(3),
+            };
 
             return this.View(model);
         }

@@ -1,8 +1,7 @@
-﻿using ENews.Data.Common.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+
+using ENews.Data.Common.Models;
 
 namespace ENews.Data.Models
 {

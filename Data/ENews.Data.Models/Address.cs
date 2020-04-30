@@ -1,11 +1,9 @@
-﻿using ENews.Data.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace ENews.Data.Models
+﻿namespace ENews.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using ENews.Data.Models.Enums;
+
     public class Address
     {
         public int Id { get; set; }

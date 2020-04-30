@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace ENews.Web.Infrastructure.ValidationAttributes
+﻿namespace ENews.Web.Infrastructure.ValidationAttributes
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Http;
+
     public class MaxFileSizeAttribute : ValidationAttribute
     {
         private readonly int maxFileSize;

@@ -2,14 +2,14 @@
 {
     using System;
     using System.Threading.Tasks;
+
     using ENews.Data;
     using ENews.Data.Models;
     using ENews.Data.Repositories;
-    using ENews.Services.Data;
     using Microsoft.EntityFrameworkCore;
     using Moq;
-    using Services.Data;
     using Xunit;
+
     public class AddressesServiceTests
     {
         [Fact]

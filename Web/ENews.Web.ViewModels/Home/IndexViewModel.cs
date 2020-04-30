@@ -1,10 +1,7 @@
-﻿using ENews.Web.ViewModels.Articles;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Home
+﻿namespace ENews.Web.ViewModels.Home
 {
+    using System.Collections.Generic;
+
     public class IndexViewModel
     {
         public ArticlePreviewViewModel LatestArticle { get; set; }

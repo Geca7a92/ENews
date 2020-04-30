@@ -1,12 +1,11 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using Ganss.XSS;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Rss
+﻿namespace ENews.Web.ViewModels.Rss
 {
+    using System;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using Ganss.XSS;
+
     public class ArticleRssModel : IMapFrom<Article>
     {
         public string Id { get; set; }

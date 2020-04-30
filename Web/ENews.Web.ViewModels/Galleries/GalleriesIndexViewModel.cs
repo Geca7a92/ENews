@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Galleries
+﻿namespace ENews.Web.ViewModels.Galleries
 {
+    using System.Collections.Generic;
+
     public class GalleriesIndexViewModel
     {
         public GalleryPreviewViewModel LastGallery { get; set; }

@@ -1,16 +1,15 @@
-﻿using ENews.Common;
-using ENews.Data.Models;
-using ENews.Services.Data;
-using ENews.Web.ViewModels.Shared.Components.UserNavbarDetails;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Web.ViewComponents
+﻿namespace ENews.Web.ViewComponents
 {
+    using System.Threading.Tasks;
+
+    using ENews.Common;
+    using ENews.Data.Models;
+    using ENews.Services.Data;
+    using ENews.Web.ViewModels.Shared.Components.UserNavbarDetails;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
+    // Not Used
     public class UserNavbarDetailsViewComponent : ViewComponent
     {
         private readonly UserManager<ApplicationUser> userManager;

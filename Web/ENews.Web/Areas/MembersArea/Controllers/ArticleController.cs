@@ -1,17 +1,17 @@
-﻿using ENews.Common;
-using ENews.Data.Models;
-using ENews.Services.Data;
-using ENews.Web.ViewModels.MembersArea.Articles;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System.Linq;
-using ENews.Web.ViewModels.MembersArea.Home;
-using ENews.Services;
-
-namespace ENews.Web.Areas.MembersArea.Controllers
+﻿namespace ENews.Web.Areas.MembersArea.Controllers
 {
+    using System.Threading.Tasks;
+
+    using ENews.Common;
+    using ENews.Data.Models;
+    using ENews.Services;
+    using ENews.Services.Data;
+    using ENews.Web.ViewModels.MembersArea.Articles;
+    using ENews.Web.ViewModels.MembersArea.Home;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize(Roles = GlobalConstants.AdministratorRoleName + ", " + GlobalConstants.ReporterRoleName)]
     [Area("MembersArea")]
     public class ArticleController : Controller

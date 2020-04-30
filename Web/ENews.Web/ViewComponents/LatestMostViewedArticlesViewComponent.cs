@@ -1,15 +1,10 @@
-﻿using ENews.Services.Data;
-using ENews.Web.ViewModels;
-using ENews.Web.ViewModels.Home;
-using ENews.Web.ViewModels.Shared.Components.LatestMostViewdArticles;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Web.ViewComponents
+﻿namespace ENews.Web.ViewComponents
 {
+    using ENews.Services.Data;
+    using ENews.Web.ViewModels;
+    using ENews.Web.ViewModels.Shared.Components.LatestMostViewdArticles;
+    using Microsoft.AspNetCore.Mvc;
+
     public class LatestMostViewedArticlesViewComponent : ViewComponent
     {
         private readonly IArticlesService articleService;

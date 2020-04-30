@@ -1,7 +1,5 @@
 ﻿namespace ENews.Web.Controllers
 {
-    using System;
-
     using ENews.Common;
     using ENews.Services;
     using ENews.Services.Data;

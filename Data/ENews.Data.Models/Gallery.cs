@@ -1,10 +1,9 @@
-﻿using ENews.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Data.Models
+﻿namespace ENews.Data.Models
 {
+    using System.Collections.Generic;
+
+    using ENews.Data.Common.Models;
+
     public class Gallery : BaseDeletableModel<int>
     {
         public Gallery()

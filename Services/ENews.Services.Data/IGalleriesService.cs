@@ -1,11 +1,11 @@
-﻿using ENews.Data.Models;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ENews.Data.Models;
+    using Microsoft.AspNetCore.Http;
+
     public interface IGalleriesService
     {
         Task<int> CreateAsync(ICollection<IFormFile> imageCollection, Image mainImage);

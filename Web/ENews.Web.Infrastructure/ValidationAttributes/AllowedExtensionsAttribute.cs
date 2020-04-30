@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace ENews.Web.Infrastructure.ValidationAttributes
+﻿namespace ENews.Web.Infrastructure.ValidationAttributes
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.IO;
+    using System.Linq;
+
+    using Microsoft.AspNetCore.Http;
+
     public class AllowedExtensionsAttribute : ValidationAttribute
     {
         private readonly string[] extensions;

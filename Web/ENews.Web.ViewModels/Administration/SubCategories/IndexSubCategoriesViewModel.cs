@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Administration.SubCategories
+﻿namespace ENews.Web.ViewModels.Administration.SubCategories
 {
+    using System.Collections.Generic;
+
     public class IndexSubCategoriesViewModel
     {
         public int CurrentPage { get; set; }

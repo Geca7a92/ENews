@@ -1,15 +1,16 @@
-﻿using ENews.Common;
-using ENews.Data.Common.Repositories;
-using ENews.Data.Models;
-using ENews.Services.Mapping;
-using ENews.Web.ViewModels.Administration.Users;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using ENews.Common;
+    using ENews.Data.Common.Repositories;
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Administration.Users;
+    using Microsoft.AspNetCore.Identity;
+
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;

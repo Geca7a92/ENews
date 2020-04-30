@@ -1,15 +1,15 @@
-﻿using ENews.Data.Common.Repositories;
-using ENews.Data.Models;
-using ENews.Services.Mapping;
-using ENews.Web.ViewModels.Administration.SubCategories;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using ENews.Data.Common.Repositories;
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Administration.SubCategories;
+    using Microsoft.EntityFrameworkCore;
+
     public class SubCategoriesService : ISubCategoriesService
     {
         private readonly IDeletableEntityRepository<SubCategory> subCategoryRepository;

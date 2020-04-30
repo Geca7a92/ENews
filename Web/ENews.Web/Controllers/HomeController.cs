@@ -1,12 +1,12 @@
-﻿namespace ENews.Web.Controllers
-{
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using ENews.Services.Data;
-    using ENews.Web.ViewModels;
-    using ENews.Web.ViewModels.Home;
-    using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using ENews.Services.Data;
+using ENews.Web.ViewModels;
+using ENews.Web.ViewModels.Home;
+using Microsoft.AspNetCore.Mvc;
 
+namespace ENews.Web.Controllers
+{
     public class HomeController : BaseController
     {
         private readonly IArticlesService articleService;

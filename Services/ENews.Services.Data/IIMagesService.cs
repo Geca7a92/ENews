@@ -1,12 +1,10 @@
-﻿using ENews.Data.Models;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Threading.Tasks;
+
+    using ENews.Data.Models;
+    using Microsoft.AspNetCore.Http;
+
     public interface IImagesService
     {
         public Task<Image> CreateAsync(IFormFile formFile);

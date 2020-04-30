@@ -1,13 +1,9 @@
-﻿using ENews.Services.Data;
-using ENews.Web.ViewModels.Galleries;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Web.Controllers
+﻿namespace ENews.Web.Controllers
 {
+    using ENews.Services.Data;
+    using ENews.Web.ViewModels.Galleries;
+    using Microsoft.AspNetCore.Mvc;
+
     public class GalleriesController : Controller
     {
         private readonly IGalleriesService galleryService;

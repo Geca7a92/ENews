@@ -1,12 +1,6 @@
 ﻿namespace ENews.Web.ViewComponents
 {
-    using System.Linq;
-
-    using ENews.Data.Common.Repositories;
-    using ENews.Data.Models;
     using ENews.Services.Data;
-    using ENews.Services.Mapping;
-    using ENews.Web.ViewModels;
     using ENews.Web.ViewModels.Shared.Components.Categories;
     using Microsoft.AspNetCore.Mvc;
 

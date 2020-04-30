@@ -1,11 +1,10 @@
-﻿using ENews.Web.ViewModels.Administration.Users;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ENews.Web.ViewModels.Administration.Users;
+
     public interface IUsersService
     {
         IEnumerable<IndexUserViewModel> GetAll(int? take = null, int skip = 0);

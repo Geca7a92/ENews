@@ -1,12 +1,10 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Comments
+﻿namespace ENews.Web.ViewModels.Comments
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class CreateCommentInputModel : IMapFrom<Comment>
     {
         public int ArticleId { get; set; }

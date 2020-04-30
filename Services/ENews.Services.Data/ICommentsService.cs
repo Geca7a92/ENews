@@ -1,10 +1,10 @@
-﻿using ENews.Web.ViewModels.Comments;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ENews.Web.ViewModels.Comments;
+
     public interface ICommentsService
     {
         Task CreateAsync(CreateCommentInputModel model);

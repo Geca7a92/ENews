@@ -1,14 +1,14 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using ENews.Web.ViewModels.Images;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace ENews.Web.ViewModels.Galleries
+﻿namespace ENews.Web.ViewModels.Galleries
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Text.RegularExpressions;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Images;
+
     public class GalleryPreviewViewModel : IMapFrom<Gallery>
     {
         public int Id { get; set; }

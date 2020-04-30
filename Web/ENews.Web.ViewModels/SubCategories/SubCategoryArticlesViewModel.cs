@@ -1,11 +1,10 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Categories
+﻿namespace ENews.Web.ViewModels.Categories
 {
+    using System.Collections.Generic;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class SubCategoryArticlesViewModel : IMapFrom<SubCategory>
     {
         public int Id { get; set; }

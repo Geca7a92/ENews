@@ -1,14 +1,14 @@
-﻿using ENews.Data.Common.Repositories;
-using ENews.Data.Models;
-using ENews.Services.Mapping;
-using ENews.Web.ViewModels.Comments;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using ENews.Data.Common.Repositories;
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Comments;
+
     public class CommentsService : ICommentsService
     {
         private readonly IDeletableEntityRepository<Comment> commentRepository;

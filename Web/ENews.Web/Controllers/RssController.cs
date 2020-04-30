@@ -1,18 +1,14 @@
-﻿using ENews.Common;
-using ENews.Data;
-using ENews.Services.Data;
-using ENews.Web.ViewModels.Rss;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace ENews.Web.Controllers
+﻿namespace ENews.Web.Controllers
 {
+    using System;
+    using System.Globalization;
+    using System.Xml.Linq;
+
+    using ENews.Common;
+    using ENews.Services.Data;
+    using ENews.Web.ViewModels.Rss;
+    using Microsoft.AspNetCore.Mvc;
+
     [Produces("application/xml")]
     public class RssController : Controller
     {

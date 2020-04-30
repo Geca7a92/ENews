@@ -1,10 +1,9 @@
-﻿using ENews.Data;
+﻿using System;
+
+using ENews.Data;
 using ENews.Data.Models;
 using ENews.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ENews.Services.Data.Tests.Repositories
 {

@@ -1,11 +1,12 @@
-﻿using ENews.Data.Common.Repositories;
-using ENews.Data.Models;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using ENews.Data.Common.Repositories;
+    using ENews.Data.Models;
+    using Microsoft.AspNetCore.Http;
+
     public class ImagesService : IImagesService
     {
         private readonly ICloudinaryService cloudinaryService;

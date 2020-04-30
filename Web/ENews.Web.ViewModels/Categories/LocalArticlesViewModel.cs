@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Categories
+﻿namespace ENews.Web.ViewModels.Categories
 {
+    using System.Collections.Generic;
+
     public class LocalArticlesViewModel
     {
         public int CurrentPage { get; set; }

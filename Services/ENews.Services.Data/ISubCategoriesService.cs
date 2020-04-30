@@ -1,11 +1,11 @@
-﻿using ENews.Data.Models;
-using ENews.Web.ViewModels.Administration.SubCategories;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ENews.Data.Models;
+    using ENews.Web.ViewModels.Administration.SubCategories;
+
     public interface ISubCategoriesService
     {
         IEnumerable<T> GetAllSubCategories<T>(int? take = null, int skip = 0);

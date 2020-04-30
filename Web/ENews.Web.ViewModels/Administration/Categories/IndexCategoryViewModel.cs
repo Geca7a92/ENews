@@ -1,11 +1,11 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Administration.Categories
+﻿namespace ENews.Web.ViewModels.Administration.Categories
 {
+    using System;
+    using System.Collections.Generic;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class IndexCategoryViewModel : IMapFrom<Category>
     {
         public int Id { get; set; }

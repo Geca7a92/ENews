@@ -1,11 +1,10 @@
-﻿using ENews.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace ENews.Data.Models
+﻿namespace ENews.Data.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using ENews.Data.Common.Models;
+
     public class SubCategory : BaseDeletableModel<int>
     {
         public SubCategory()

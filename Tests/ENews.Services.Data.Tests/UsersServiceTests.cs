@@ -1,14 +1,9 @@
-﻿using ENews.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace ENews.Services.Data.Tests
+﻿namespace ENews.Services.Data.Tests
 {
+    using System.Threading.Tasks;
+
+    using Xunit;
+
     public class UsersServiceTests
     {
         [Fact]

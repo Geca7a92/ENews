@@ -1,13 +1,8 @@
 ﻿namespace ENews.Web.Areas.Administration.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using ENews.Common;
-    using ENews.Data;
-    using ENews.Data.Common.Repositories;
     using ENews.Data.Models;
     using ENews.Services;
     using ENews.Services.Data;

@@ -1,9 +1,7 @@
-﻿using ENews.Data.Models.Enums;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Services
+﻿namespace ENews.Services
 {
+    using ENews.Data.Models.Enums;
+
     public interface IPagingService
     {
         int CountSkip(int page, int count);

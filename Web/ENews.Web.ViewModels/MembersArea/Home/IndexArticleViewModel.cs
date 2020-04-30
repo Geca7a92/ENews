@@ -1,9 +1,10 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using System;
-
-namespace ENews.Web.ViewModels.MembersArea.Home
+﻿namespace ENews.Web.ViewModels.MembersArea.Home
 {
+    using System;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+
     public class IndexArticleViewModel : IMapFrom<Article>
     {
         public int Id { get; set; }

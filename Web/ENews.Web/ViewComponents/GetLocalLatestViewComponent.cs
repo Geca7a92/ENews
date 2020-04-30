@@ -1,16 +1,11 @@
 ﻿namespace ENews.Web.ViewComponents
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using ENews.Data;
     using ENews.Data.Models;
     using ENews.Data.Models.Enums;
     using ENews.Services.Data;
     using ENews.Web.ViewModels;
-    using ENews.Web.ViewModels.Home;
     using ENews.Web.ViewModels.Shared.Components.GetLocalLatest;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;

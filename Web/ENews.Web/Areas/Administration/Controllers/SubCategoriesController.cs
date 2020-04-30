@@ -1,22 +1,20 @@
-﻿using ENews.Common;
-using ENews.Data;
-using ENews.Data.Models;
-using ENews.Services;
-using ENews.Services.Data;
-using ENews.Web.ViewModels.Administration.Categories;
-using ENews.Web.ViewModels.Administration.SubCategories;
-using ENews.Web.ViewModels.MembersArea.Articles;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ENews.Web.Areas.Administration.Controllers
+﻿namespace ENews.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
+    using ENews.Common;
+    using ENews.Data;
+    using ENews.Data.Models;
+    using ENews.Services;
+    using ENews.Services.Data;
+    using ENews.Web.ViewModels.Administration.Categories;
+    using ENews.Web.ViewModels.Administration.SubCategories;
+    using ENews.Web.ViewModels.MembersArea.Articles;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
     public class SubCategoriesController : Controller

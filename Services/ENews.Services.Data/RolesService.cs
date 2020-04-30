@@ -1,10 +1,11 @@
-﻿using ENews.Common;
-using ENews.Data.Common.Repositories;
-using ENews.Data.Models;
-using System.Linq;
-
-namespace ENews.Services.Data
+﻿namespace ENews.Services.Data
 {
+    using System.Linq;
+
+    using ENews.Common;
+    using ENews.Data.Common.Repositories;
+    using ENews.Data.Models;
+
     public class RolesService : IRolesService
     {
         private readonly IDeletableEntityRepository<ApplicationRole> roleRepository;

@@ -16,6 +16,7 @@ namespace ENews.Common
         public const string ProfilePictureFill = "https://simpleicon.com/wp-content/uploads/user1.png";
 
 
+
         public const string Country = "Bulgaria";
 
         // Roles names
