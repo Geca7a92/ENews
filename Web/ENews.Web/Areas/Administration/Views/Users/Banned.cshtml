@@ -1,5 +1,5 @@
-﻿@model ENews.Web.ViewModels.Administration.Users.IndexUsersViewModel
-
+﻿@using ENews.Common
+@model ENews.Web.ViewModels.Administration.Users.IndexUsersViewModel
 
 @{
     ViewData["Title"] = "Banned";
@@ -18,16 +18,27 @@
             <li class="nav-item">
                 <a class="nav-link active" href="">Blocked users</a>
             </li>
+            <li class=" flex-grow-1"></li>
+            <li class="nav-item">
+                <form method="get" asp-action="Banned" asp-route-sortBy="@ViewData["currentSortOrder"]">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+                </form>
+            </li>
         </ul>
     </div>
     <table class="table table-responsive-lg">
         <thead class="thead-light">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
+                    <a class="nav-link nav-item" asp-area="Administration" asp-controller="Users" asp-action="Banned" asp-route-sortBy="@ViewData[GlobalConstants.EmailSortBtn]" asp-route-search="@ViewData["search"]">
+                        @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
+                    <a class="nav-link nav-item" asp-area="Administration" asp-controller="Users" asp-action="Banned" asp-route-sortBy="@ViewData[GlobalConstants.UsernameSortBtn]" asp-route-search="@ViewData["search"]">
+                        @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
+                    </a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RolesNames)
@@ -85,57 +96,4 @@
     </table>
 </div>
 
-<nav aria-label="Page navigation example" class="center">
-    <ul class="pagination mt-50 justify-content-center">
-
-        @*First page*@
-        @if (this.Model.CurrentPage != 1)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-area="Administration" asp-controller="Users" asp-action="Banned" asp-route-page="1">1</a>
-            </li>
-        }
-        @*Pages before current page*@
-        @for (int i = this.Model.CurrentPage - 2; i < this.Model.CurrentPage; i++)
-        {
-            @if (i > 1)
-            {
-                <li class="page-item">
-                    <a class="page-link"
-                       asp-area="Administration" asp-controller="Users" asp-action="Banned"
-                       asp-route-page="@i">@i</a>
-                </li>
-            }
-        }
-        @*Current page*@
-        @{
-            <li class="page-item active">
-                <a class="page-link"
-                   asp-area="Administration" asp-controller="Users" asp-action="Banned"
-                   asp-route-page="@this.Model.CurrentPage">@this.Model.CurrentPage</a>
-            </li>
-        }
-        @*Pages after current page*@
-        @for (int i = this.Model.CurrentPage + 1; i <= this.Model.CurrentPage + 2; i++)
-        {
-            @if (i < this.Model.PagesCount)
-            {
-
-                <li class="page-item">
-                    <a class="page-link"
-                       asp-area="Administration" asp-controller="Users" asp-action="Banned"
-                       asp-route-page="@i">@i</a>
-                </li>
-            }
-        }
-        @*Last page*@
-        @if (this.Model.CurrentPage != this.Model.PagesCount)
-        {
-            <li class="page-item">
-                <a class="page-link"
-                   asp-area="Administration" asp-controller="Users" asp-action="Banned"
-                   asp-route-page="@(this.Model.PagesCount)">@this.Model.PagesCount</a>
-            </li>
-        }
-    </ul>
-</nav>
+<partial name="_Paging" />

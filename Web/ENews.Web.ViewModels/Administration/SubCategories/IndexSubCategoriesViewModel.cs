@@ -2,12 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class IndexSubCategoriesViewModel
+    using ENews.Web.ViewModels.Shared.Paging;
+
+    public class IndexSubCategoriesViewModel : PagingViewModel
     {
-        public int CurrentPage { get; set; }
-
-        public int PagesCount { get; set; }
-
         public IEnumerable<IndexSubCategoryViewModel> SubCategories { get; set; }
     }
 }

@@ -5,5 +5,7 @@
         string GetAdministratorId();
 
         string GetRoleNameById(string roleId);
+
+        string GetReporterId();
     }
 }

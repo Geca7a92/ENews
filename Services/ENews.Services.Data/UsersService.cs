@@ -41,10 +41,75 @@
             await this.userRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<IndexUserViewModel> GetAll(int? take = null, int skip = 0)
+        public IEnumerable<IndexUserViewModel> GetAll(string sortBy, string search, int? take = null, int skip = 0)
         {
-            var users
-                = this.userRepository.All().Where(u => u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()).OrderByDescending(c => c.CreatedOn).Skip(skip).Take(take.Value).To<IndexUserViewModel>().ToList();
+            var users = new List<IndexUserViewModel>();
+            switch (sortBy)
+            {
+                case "emailDesc":
+                    users = this.userRepository.All()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .OrderByDescending(c => c.Email)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "emailAsc":
+                    users = this.userRepository.All()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .OrderBy(c => c.Email)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "createdOnDesc":
+                    users = this.userRepository.All()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .OrderByDescending(c => c.CreatedOn)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "createdOnAsc":
+                    users = this.userRepository.All()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .OrderBy(c => c.CreatedOn)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "usernameAsc":
+                    users = this.userRepository.All()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .OrderBy(c => c.UserName)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "usernameDesc":
+                    users = this.userRepository.All()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .OrderByDescending(c => c.UserName)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                default:
+                    users = this.userRepository.All()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .OrderBy(c => c.CreatedOn)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+            }
 
             foreach (var user in users)
             {
@@ -57,12 +122,113 @@
             return users;
         }
 
-        public IEnumerable<IndexUserViewModel> GetAllBanned(int? take = null, int skip = 0)
+        public IEnumerable<IndexUserViewModel> GetAllBanned(string sortBy, string search, int? take = null, int skip = 0)
         {
-            var users
-                = this.userRepository.AllWithDeleted()
-                .Where(u => u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
-                .Where(u => u.IsDeleted)
+            var users = new List<IndexUserViewModel>();
+
+            switch (sortBy)
+            {
+                case "emailDesc":
+                    users = this.userRepository.AllWithDeleted()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .Where(u => u.IsDeleted)
+                        .OrderByDescending(c => c.Email)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "emailDesc2":
+                    users = this.userRepository.AllWithDeleted()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .Where(u => u.IsDeleted)
+                        .OrderByDescending(c => c.Email)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "emailAsc":
+                    users = this.userRepository.AllWithDeleted()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .Where(u => u.IsDeleted)
+                        .OrderBy(c => c.Email)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "createdOnDesc":
+                    users = this.userRepository.AllWithDeleted()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .Where(u => u.IsDeleted)
+                        .OrderByDescending(c => c.CreatedOn)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "createdOnAsc":
+                    users = this.userRepository.AllWithDeleted()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .Where(u => u.IsDeleted)
+                        .OrderBy(c => c.CreatedOn)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "usernameAsc":
+                    users = this.userRepository.AllWithDeleted()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .Where(u => u.IsDeleted)
+                        .OrderBy(c => c.UserName)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                case "usernameDesc":
+                    users = this.userRepository.AllWithDeleted()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .Where(u => u.IsDeleted)
+                        .OrderByDescending(c => c.UserName)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+                default:
+                    users = this.userRepository.AllWithDeleted()
+                        .Where(u => search != null ? u.UserName.ToLower().Contains(search.ToLower()) && (u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any()) : u.Roles.Any(r => r.RoleId != this.rolesService.GetAdministratorId()) || !u.Roles.Any())
+                        .Where(u => u.IsDeleted)
+                        .OrderBy(c => c.CreatedOn)
+                        .Skip(skip)
+                        .Take(take.Value)
+                        .To<IndexUserViewModel>()
+                        .ToList();
+                    break;
+            }
+
+            foreach (var user in users)
+            {
+                foreach (var role in user.Roles)
+                {
+                    user.RolesNames.Add(this.rolesService.GetRoleNameById(role.RoleId));
+                }
+            }
+
+            return users;
+        }
+
+        public IEnumerable<IndexUserViewModel> GetAllReporters(int? take = 10, int skip = 0)
+        {
+            var roleId = this.rolesService.GetReporterId();
+            var test = this.userRepository.AllWithDeleted()
+                .Where(u => u.Roles.Any(r => r.RoleId == roleId)).Select(x => x.UserName).ToList();
+
+            var users = this.userRepository.AllWithDeleted()
+                .Where(u => u.Roles.Any(r => r.RoleId == roleId))
                 .OrderByDescending(c => c.CreatedOn)
                 .Skip(skip)
                 .Take(take.Value)
@@ -79,6 +245,14 @@
 
             return users;
         }
+
+        //public IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id)
+        //{
+        //    IQueryable<SubCategory> query
+        //        = this.subCategoryRepository.All().OrderBy(x => x.Title).Where(x => x.CategoryId == id);
+
+        //    return query.To<T>().ToList();
+        //}
 
         public async Task AddReporterRoleToUser(string userId)
         {
@@ -111,14 +285,28 @@
             return this.userRepository.All().Where(a => !a.Roles.Any()).Count();
         }
 
-        public int GetCountofActiveMembersAndUsers()
+        public int GetCountofActiveAccountsByUsername(string search)
         {
-            return this.userRepository.All().Count();
+            if (string.IsNullOrEmpty(search))
+            {
+                return this.userRepository.All().Count();
+            }
+            else
+            {
+                return this.userRepository.All().Where(u => u.UserName.Contains(search)).Count();
+            }
         }
 
-        public int GetCountofBannedMembersAndUsers()
+        public int GetCountofBannedUsersByName(string search)
         {
-            return this.userRepository.AllWithDeleted().Where(u => u.IsDeleted).Count();
+            if (string.IsNullOrEmpty(search))
+            {
+                return this.userRepository.AllWithDeleted().Where(u => u.IsDeleted).Count();
+            }
+            else
+            {
+                return this.userRepository.AllWithDeleted().Where(u => u.IsDeleted && u.UserName.Contains(search)).Count();
+            }
         }
     }
 }

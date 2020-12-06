@@ -1,5 +1,7 @@
 ﻿namespace ENews.Web.Areas.Administration.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using ENews.Common;
@@ -12,29 +14,29 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class UsersController : Controller
+    public class UsersController : BaseAdminController
     {
-        private readonly ApplicationDbContext context;
         private readonly IPagingService pagingService;
         private readonly IUsersService usersService;
 
         public UsersController(
-            ApplicationDbContext context,
             IPagingService pagingService,
             IUsersService usersService)
         {
-            this.context = context;
             this.pagingService = pagingService;
             this.usersService = usersService;
         }
 
-        public IActionResult Banned(int page = 1)
+        public IActionResult Banned(string sortBy, string search, int page = 1)
         {
+            this.SortBy(sortBy);
+            this.Search(search);
+
             var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
 
-            var result = this.usersService.GetAllBanned(GlobalConstants.AdministrationItemsPerPage, skip);
+            var result = this.usersService.GetAllBanned(sortBy, search, GlobalConstants.AdministrationItemsPerPage, skip);
 
-            var usersCount = this.usersService.GetCountofBannedMembersAndUsers();
+            var usersCount = this.usersService.GetCountofBannedUsersByName(search);
 
             var model = new IndexUsersViewModel()
             {
@@ -46,13 +48,16 @@
             return this.View(model);
         }
 
-        public IActionResult Active(int page = 1)
+        public IActionResult Active(string sortBy, string search, int page = 1)
         {
+            this.SortBy(sortBy);
+            this.Search(search);
+
             var skip = this.pagingService.CountSkip(page, GlobalConstants.AdministrationItemsPerPage);
 
-            var result = this.usersService.GetAll(GlobalConstants.AdministrationItemsPerPage, skip);
+            var result = this.usersService.GetAll(sortBy, search, GlobalConstants.AdministrationItemsPerPage, skip);
 
-            var usersCount = this.usersService.GetCountofActiveMembersAndUsers();
+            var usersCount = this.usersService.GetCountofActiveAccountsByUsername(search);
 
             var model = new IndexUsersViewModel()
             {
@@ -109,6 +114,13 @@
 
             await this.usersService.RemoveRepoertRoleFromUser(id);
             return this.RedirectToAction(nameof(this.Active));
+        }
+
+        public IActionResult GetReporters()
+        {
+            var res = this.usersService.GetAllReporters();
+            var test = Newtonsoft.Json.JsonConvert.SerializeObject(res);
+            return this.Json(res);
         }
     }
 }

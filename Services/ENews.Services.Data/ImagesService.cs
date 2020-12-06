@@ -13,7 +13,7 @@
         private readonly IDeletableEntityRepository<Image> imageRepository;
 
         public ImagesService(
-            ICloudinaryService cloudinaryService, 
+            ICloudinaryService cloudinaryService,
             IDeletableEntityRepository<Image> imageRepository)
         {
             this.cloudinaryService = cloudinaryService;

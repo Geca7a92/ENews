@@ -31,7 +31,6 @@
         public async Task<int> CreateAsync(ArticleCreateInputModel model, string userId)
         {
             var mainImgId = await this.imagesService.CreateAsync(model.MainImage);
-
             var article = new Article
             {
                 AuthorId = userId,
@@ -64,7 +63,6 @@
             {
                 query = query.Take(take.Value);
             }
-
 
             return query.To<T>().ToList();
         }

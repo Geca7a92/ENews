@@ -1,5 +1,7 @@
 ﻿namespace ENews.Web.ViewComponents
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using ENews.Data.Models;
@@ -32,7 +34,7 @@
             ApplicationUser currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
             if (currentUser == null)
             {
-                model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>(count);
+                model.Articles = this.LocalNews(count);
             }
             else if (currentUser.AddressId != null)
             {
@@ -40,7 +42,7 @@
 
                 if (addres.Region == null)
                 {
-                    model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>(count);
+                    model.Articles = this.LocalNews(count);
                 }
                 else
                 {
@@ -50,10 +52,16 @@
             }
             else
             {
-                model.Articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>(count);
+                model.Articles = this.LocalNews(count);
             }
 
             return this.View(model);
+        }
+
+        public List<ArticlePreviewViewModel> LocalNews(int count)
+        {
+            var articles = this.articleService.GetLatesLocalArticles<ArticlePreviewViewModel>(count);
+            return articles.ToList();
         }
     }
 }

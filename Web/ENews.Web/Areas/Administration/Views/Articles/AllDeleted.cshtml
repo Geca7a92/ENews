@@ -25,7 +25,6 @@
                     <a class="nav-link" asp-area="Administration" asp-controller="Articles" asp-action="AllActive">Active articles</a>
                 </li>
                 <li class="nav-item active">
-                    
                     <a class="nav-link active" href="">@ViewData["Title"]</a>
                 </li>
             }
@@ -115,57 +114,5 @@
         </tbody>
     </table>
 </div>
-<nav aria-label="Page navigation example" class="center">
-    <ul class="pagination mt-50 justify-content-center">
 
-        @*First page*@
-        @if (this.Model.CurrentPage != 1)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-area="Administration" asp-controller="Articles" asp-action="AllDeleted" asp-route-page="1">1</a>
-            </li>
-        }
-        @*Pages before current page*@
-        @for (int i = this.Model.CurrentPage - 2; i < this.Model.CurrentPage; i++)
-        {
-            @if (i > 1)
-            {
-                <li class="page-item">
-                    <a class="page-link"
-                       asp-area="Administration" asp-controller="Articles" asp-action="AllDeleted"
-                       asp-route-page="@i">@i</a>
-                </li>
-            }
-        }
-        @*Current page*@
-        @{
-            <li class="page-item active">
-                <a class="page-link"
-                   asp-area="Administration" asp-controller="Articles" asp-action="AllDeleted"
-                   asp-route-page="@this.Model.CurrentPage">@this.Model.CurrentPage</a>
-            </li>
-        }
-        @*Pages after current page*@
-        @for (int i = this.Model.CurrentPage + 1; i <= this.Model.CurrentPage + 2; i++)
-        {
-            @if (i < this.Model.PagesCount)
-            {
-
-                <li class="page-item">
-                    <a class="page-link"
-                       asp-area="Administration" asp-controller="Articles" asp-action="AllDeleted"
-                       asp-route-page="@i">@i</a>
-                </li>
-            }
-        }
-        @*Last page*@
-        @if (this.Model.CurrentPage != this.Model.PagesCount)
-        {
-            <li class="page-item">
-                <a class="page-link"
-                   asp-area="Administration" asp-controller="Articles" asp-action="AllDeleted"
-                   asp-route-page="@(this.Model.PagesCount)">@this.Model.PagesCount</a>
-            </li>
-        }
-    </ul>
-</nav>
+<partial name="_Paging" />

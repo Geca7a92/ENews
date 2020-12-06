@@ -7,19 +7,21 @@
 
     public interface IUsersService
     {
-        IEnumerable<IndexUserViewModel> GetAll(int? take = null, int skip = 0);
+        IEnumerable<IndexUserViewModel> GetAll(string sortBy, string search, int? take = null, int skip = 0);
+
+        IEnumerable<IndexUserViewModel> GetAllReporters(int? take = 10, int skip = 0);
 
         IEnumerable<T> GetTopMembers<T>();
 
-        IEnumerable<IndexUserViewModel> GetAllBanned(int? take = null, int skip = 0);
+        IEnumerable<IndexUserViewModel> GetAllBanned(string sortBy, string search, int? take = null, int skip = 0);
 
         int GetCountOfMembers();
 
         int GetCountOfUsers();
 
-        int GetCountofActiveMembersAndUsers();
+        int GetCountofActiveAccountsByUsername(string search);
 
-        int GetCountofBannedMembersAndUsers();
+        int GetCountofBannedUsersByName(string search);
 
         Task UndeleteById(string id);
 

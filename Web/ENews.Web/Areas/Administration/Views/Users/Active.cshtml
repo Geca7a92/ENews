@@ -1,7 +1,6 @@
 ﻿@using ENews.Common
 @model ENews.Web.ViewModels.Administration.Users.IndexUsersViewModel
 
-
 @{
     ViewData["Title"] = "Active";
 }
@@ -19,22 +18,36 @@
             <li class="nav-item">
                 <a class="nav-link" asp-area="Administration" asp-controller="Users" asp-action="Banned">Blocked users</a>
             </li>
+            <li class=" flex-grow-1"></li>
+            <li class="nav-item">
+                <form method="get" asp-action="Active">
+                    <input type="text" hidden="hidden" name="sortBy" value="@ViewData["currentSortOrder"]">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+                </form>
+            </li>
         </ul>
     </div>
     <table class="table table-responsive-lg">
         <thead class="thead-light">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
+                    <a class="nav-link nav-item" asp-area="Administration" asp-controller="Users" asp-action="Active" asp-route-sortBy="@ViewData[GlobalConstants.EmailSortBtn]" asp-route-search="@ViewData["search"]">
+                        @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
+                    <a class="nav-link nav-item" asp-area="Administration" asp-controller="Users" asp-action="Active" asp-route-sortBy="@ViewData[GlobalConstants.UsernameSortBtn]" asp-route-search="@ViewData["search"]">
+                        @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
+                    </a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RolesNames)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Users.FirstOrDefault().CreatedOn)
+                    <a class="nav-link nav-item" asp-area="Administration" asp-controller="Users" asp-action="Active" asp-route-sortBy="@ViewData[GlobalConstants.CreatedOnSortBtn]" asp-route-search="@ViewData["search"]">
+                        @Html.DisplayNameFor(model => model.Users.FirstOrDefault().CreatedOn)
+                    </a>
                 </th>
                 <th>
                     Action
@@ -44,7 +57,7 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="OrderByEmail" style="display: normal">
             @foreach (var item in Model.Users)
             {
                 <tr>
@@ -80,7 +93,7 @@
                     <td>
                         @if (item.RolesNames.Any(r => r == GlobalConstants.ReporterRoleName))
                         {
-                        <a asp-action="RemoveRoleReporter" asp-route-id="@item.Id">Remove role reporter</a>
+                            <a asp-action="RemoveRoleReporter" asp-route-id="@item.Id">Remove role reporter</a>
                         }
                         else
                         {
@@ -91,58 +104,78 @@
             }
         </tbody>
     </table>
+    <button class="btn btn-primary" asp-area="Administration" asp-controller="Users" asp-action="GetReporters" onclick="ShowReportersTable(); loadReporters();" id="showReporterBtn">Show me Reporters</button>
+    <button class="btn btn-primary" onclick="upDateReporters();" id="showReporterBtn">Test</button>
+    <button class="btn btn-dark" onclick="HideReporterTable()" id="hideReporterBtn" style="display: none">Hide Reporters</button>
+    <h1 id="testJs"></h1>
+    <table class="table table-responsive-lg" style="display: none" id="reporterTable">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="reporterTableBody">
+        </tbody>
+    </table>
 </div>
-<nav aria-label="Page navigation example" class="center">
-    <ul class="pagination mt-50 justify-content-center">
 
-        @*First page*@
-        @if (this.Model.CurrentPage != 1)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-area="Administration" asp-controller="Users" asp-action="Active" asp-route-page="1">1</a>
-            </li>
-        }
-        @*Pages before current page*@
-        @for (int i = this.Model.CurrentPage - 2; i < this.Model.CurrentPage; i++)
-        {
-            @if (i > 1)
-            {
-                <li class="page-item">
-                    <a class="page-link"
-                       asp-area="Administration" asp-controller="Users" asp-action="Active"
-                       asp-route-page="@i">@i</a>
-                </li>
+<partial name="_Paging" />
+
+@section Scripts{
+    <script>
+        function OrderByEmailClick() {
+            if ($("#OrderByEmail").is(":visible")) {
+                $("#OrderByEmail").hide();
+            }
+            else {
+                $("#OrderByEmail").show();
             }
         }
-        @*Current page*@
-        @{
-            <li class="page-item active">
-                <a class="page-link"
-                   asp-area="Administration" asp-controller="Users" asp-action="Active"
-                   asp-route-page="@this.Model.CurrentPage">@this.Model.CurrentPage</a>
-            </li>
-        }
-        @*Pages after current page*@
-        @for (int i = this.Model.CurrentPage + 1; i <= this.Model.CurrentPage + 2; i++)
-        {
-            @if (i < this.Model.PagesCount)
-            {
 
-                <li class="page-item">
-                    <a class="page-link"
-                       asp-area="Administration" asp-controller="Users" asp-action="Active"
-                       asp-route-page="@i">@i</a>
-                </li>
+        function ShowReportersTable() {
+            $("#reporterTable").show();
+            $("#hideReporterBtn").show();
+            $("#showReporterBtn").hide();
+        }
+        function HideReporterTable() {
+            document.getElementById("reporterTableBody").innerHTML = "";
+            $("#reporterTable").hide();
+            $("#hideReporterBtn").hide();
+            $("#showReporterBtn").show();
+        }
+
+        function loadReporters() {
+
+            $(document).ready(function () {
+                $.getJSON("/Administration/Users/GetReporters",
+                    function (json) {
+                        var tr;
+                        for (var i = 0; i < json.length; i++) {
+                            tr = $('<tr/>');
+                            tr.append("<td>" + json[i].userName);
+                            tr.append("<td>" + json[i].email);
+                            tr.append("<td>" + !json[i].isDeleted);
+                            tr.append("<td>" + ('<a>' + "Ban"));
+                            $('#reporterTableBody').append(tr);
+                        }
+                    })
+            })
+
+        }
+
+        function upDateReporters() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById().innerHTML = "";
+                    alert(this.responseText);
+                }
             }
+            xhr.open("GET", "/Administration/Users/GetReporters", true);
+            xhr.send();
         }
-        @*Last page*@
-        @if (this.Model.CurrentPage != this.Model.PagesCount)
-        {
-            <li class="page-item">
-                <a class="page-link"
-                   asp-area="Administration" asp-controller="Users" asp-action="Active"
-                   asp-route-page="@(this.Model.PagesCount)">@this.Model.PagesCount</a>
-            </li>
-        }
-    </ul>
-</nav>
+    </script>
+}

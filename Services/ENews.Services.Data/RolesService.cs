@@ -20,6 +20,12 @@
             return this.roleRepository.All().Where(r => r.Name == GlobalConstants.AdministratorRoleName).FirstOrDefault().Id;
         }
 
+        public string GetReporterId()
+        {
+            var res = this.roleRepository.AllWithDeleted().FirstOrDefault(r => r.Name == GlobalConstants.ReporterRoleName).Id;
+            return res;
+        }
+
         public string GetRoleNameById(string roleId)
         {
             var name = this.roleRepository.GetByIdWithDeletedAsync(roleId).Result.Name;

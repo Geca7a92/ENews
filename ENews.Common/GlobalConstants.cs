@@ -4,7 +4,7 @@ namespace ENews.Common
 {
     public static class GlobalConstants
     {
-        public const int ArticlePerPage = 4;
+        public const int ArticlePerPage = 1;
         public const int AdministrationItemsPerPage = 10;
 
         public const string SystemEmail = "ENews@gmail.com";
@@ -15,7 +15,21 @@ namespace ENews.Common
         //public const string ProfilePictureFill = "https://www.searchpng.com/wp-content/uploads/2019/02/Deafult-Profile-Pitcher.png";
         public const string ProfilePictureFill = "https://simpleicon.com/wp-content/uploads/user1.png";
 
+        // Sorting
+        // --Email
+        public const string EmailSortBtn = "emailSort";
+        public const string EmailSortTypeAsc = "emailAsc";
+        public const string EmailSortTypeDesc = "emailDesc";
 
+        // --CreatedOn
+        public const string CreatedOnSortBtn = "createdOnSort";
+        public const string CreatedOnTypeAsc = "createdOnAsc";
+        public const string CreatedTypeOnDesc = "createdOnDesc";
+
+        // --UserName
+        public const string UsernameSortBtn = "usernameSort";
+        public const string UsernameTypeAsc = "usernameAsc";
+        public const string UsernamepeOnDesc = "usernameDesc";
 
         public const string Country = "Bulgaria";
 
@@ -60,5 +74,7 @@ namespace ENews.Common
         public static readonly string[] SportSubcategories = { "Football", "MotoSport", "Fighting", "Chess" };
 
         public static readonly string[] CultureSubcategories = { "Film", "Art", "Books", "Tv" };
+
+
     }
 }

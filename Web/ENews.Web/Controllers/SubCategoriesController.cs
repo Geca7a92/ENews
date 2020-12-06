@@ -32,7 +32,7 @@
                 return this.NotFound();
             }
 
-            var skip = this.pagingService.CountSkip(page,GlobalConstants.ArticlePerPage);
+            var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
             viewModel.SubCategoryArticles = this.articleService.GetAllBySubCategoryId<ArticlePreviewViewModel>(viewModel.Id, GlobalConstants.ArticlePerPage, skip);
 
@@ -40,7 +40,7 @@
 
             viewModel.PagesCount = this.pagingService.PagesCount(articlesCount, GlobalConstants.ArticlePerPage);
 
-            viewModel.CurrentPage = this.pagingService.SetPage(page,viewModel.PagesCount);
+            viewModel.CurrentPage = this.pagingService.SetPage(page, viewModel.PagesCount);
 
             return this.View(viewModel);
         }

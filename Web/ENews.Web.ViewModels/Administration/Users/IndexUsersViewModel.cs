@@ -2,12 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class IndexUsersViewModel
+    using ENews.Web.ViewModels.Shared.Paging;
+
+    public class IndexUsersViewModel : PagingViewModel
     {
-        public int CurrentPage { get; set; }
-
-        public int PagesCount { get; set; }
-
         public IEnumerable<IndexUserViewModel> Users { get; set; }
     }
 }

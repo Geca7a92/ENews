@@ -15,14 +15,14 @@
         [Fact]
         public async Task TestGetById()
         {
-
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
 
             var moqSe = new Mock<ISettingsService>();
 
             var repository = new EfRepository<Address>(new ApplicationDbContext(options));
-            var service = new AddressesService(repository, moqSe.Object);
+
+            var service = new AddressesService(repository);
 
             var addres = new Address()
             {

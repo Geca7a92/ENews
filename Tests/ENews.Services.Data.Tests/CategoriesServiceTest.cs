@@ -337,7 +337,7 @@
             var service = new CategoriesService(repository);
 
             AutoMapperConfig.RegisterMappings(typeof(IndexCategoryViewModel).GetTypeInfo().Assembly);
-            var result = service.GetCategoryById<IndexCategoryViewModel>(55).GetAwaiter().GetResult();
+            var result = service.GetCategoryById<IndexCategoryViewModel>(int.MaxValue).GetAwaiter().GetResult();
 
             Assert.Null(result);
         }
