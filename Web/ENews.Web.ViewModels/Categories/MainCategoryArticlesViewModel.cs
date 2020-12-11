@@ -1,13 +1,12 @@
-﻿using ENews.Data.Models;
-using ENews.Services.Mapping;
-using ENews.Web.ViewModels.Shared.Paging;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ENews.Web.ViewModels.Categories
+﻿namespace ENews.Web.ViewModels.Categories
 {
-    public class MainCategoryArticlesViewModel : PagingViewModel, IMapFrom<Category>
+    using System.Collections.Generic;
+
+    using ENews.Data.Models;
+    using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Shared.Paging;
+
+    public class MainCategoryArticlesViewModel : ArticlesPagingViewModel, IMapFrom<Category>
     {
         public int Id { get; set; }
 

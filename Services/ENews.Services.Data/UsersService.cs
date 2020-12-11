@@ -10,6 +10,7 @@
     using ENews.Services.Mapping;
     using ENews.Web.ViewModels.Administration.Users;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
     public class UsersService : IUsersService
     {
@@ -246,14 +247,6 @@
             return users;
         }
 
-        //public IEnumerable<T> GetSubCategoriesOfCategoryId<T>(int id)
-        //{
-        //    IQueryable<SubCategory> query
-        //        = this.subCategoryRepository.All().OrderBy(x => x.Title).Where(x => x.CategoryId == id);
-
-        //    return query.To<T>().ToList();
-        //}
-
         public async Task AddReporterRoleToUser(string userId)
         {
             var user = this.userRepository.All().FirstOrDefault(u => u.Id == userId);
@@ -307,6 +300,13 @@
             {
                 return this.userRepository.AllWithDeleted().Where(u => u.IsDeleted && u.UserName.Contains(search)).Count();
             }
+        }
+
+        public async Task<T> GetUserByUsername<T>(string username)
+        {
+            var user = await this.userRepository.All().Where(u => u.UserName == username).To<T>().FirstOrDefaultAsync();
+
+            return user;
         }
     }
 }

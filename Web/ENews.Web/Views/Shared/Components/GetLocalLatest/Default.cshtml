@@ -16,14 +16,14 @@
     <!-- Single Post -->
     <div class="single-blog-post style-2">
         <div class="post-thumb">
-            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id"><img src="@article.PictureImageUrl" alt=""></a>
+            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@article.Title.Replace(' ', '-')" asp-route-id="@article.Id"><img src="@article.PictureImageUrl" alt=""></a>
         </div>
         <div class="post-data">
-            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id" class="post-title">
+            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@article.Title.Replace(' ', '-')" asp-route-id="@article.Id" class="post-title">
                 <h6>@article.Title</h6>
             </a>
             <div class="post-meta">
-                <div class="post-date"><a href="#">@article.CreatedOn.ToString("dddd, dd MMMM yyyy")</a></div>
+                <div class="post-date"><p>@article.CreatedOn.ToString("dddd, dd MMMM yyyy")</p></div>
             </div>
         </div>
     </div>

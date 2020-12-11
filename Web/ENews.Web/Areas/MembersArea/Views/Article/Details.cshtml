@@ -79,7 +79,7 @@
                 <a asp-action="Active">Back to list</a>
             </li>
             <li>
-                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@Model.Id">To Article!</a>
+                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@Model.Title.Replace(' ', '-')" asp-route-id="@Model.Id">To Article!</a>
             </li>
         }
     </ul>

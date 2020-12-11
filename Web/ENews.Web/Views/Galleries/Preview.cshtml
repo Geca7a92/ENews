@@ -82,7 +82,7 @@
             <div class="text-right">
                 @if (this.Model.ArticleId != 0)
                 {
-                    <a asp-controller="Articles" asp-action="Index" asp-area="" asp-route-id="@Model.ArticleId" class="btn btn-primary btn-lg btn-block">To article!</a>
+                    <a asp-controller="Articles" asp-action="Index" asp-route-title="@Model.ArticleTitle.Replace(' ', '-')"  asp-route-id="@Model.ArticleId" class="btn btn-primary btn-lg btn-block">To article!</a>
                 }
             </div>
         </div>

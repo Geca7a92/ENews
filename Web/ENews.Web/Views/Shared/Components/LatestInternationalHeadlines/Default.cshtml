@@ -2,6 +2,6 @@
 <ul>
     @foreach (var article in Model.Articles)
     {
-        <li><a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id">@article.Title</a></li>
+        <li><a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@article.Title.Replace(' ', '-')" asp-route-id="@article.Id">@article.Title</a></li>
     }
 </ul>

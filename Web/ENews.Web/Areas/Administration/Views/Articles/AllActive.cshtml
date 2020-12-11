@@ -69,7 +69,7 @@
             {
                 <tr>
                     <td>
-                        <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@item.Id">
+                        <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@item.Title.Replace(' ', '-')" asp-route-id="@item.Id">
                             @Html.DisplayFor(modelItem => item.Title)
                         </a>
                     </td>

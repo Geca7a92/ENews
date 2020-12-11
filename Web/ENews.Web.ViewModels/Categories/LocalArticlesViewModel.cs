@@ -2,12 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class LocalArticlesViewModel
+    using ENews.Web.ViewModels.Shared.Paging;
+
+    public class LocalArticlesViewModel : ArticlesPagingViewModel
     {
-        public int CurrentPage { get; set; }
-
-        public int PagesCount { get; set; }
-
         public IEnumerable<ArticlePreviewViewModel> CategoryArticles { get; set; }
     }
 }

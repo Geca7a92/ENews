@@ -1,0 +1,104 @@
+﻿@model ENews.Web.ViewModels.MembersArea.Articles.ArticleCreateInputModel;
+@{
+    @using ENews.Data.Models.Enums;
+    ViewData["Title"] = "Edit";
+    var categories = Model.CategoriesDropDown.Select(c => new SelectListItem(c.Title, c.Id.ToString()));
+}
+
+<div class="container-fluid">
+    <form method="post" asp-area="MembersArea" asp-controller="Article" asp-action="Create" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="@Model.Title"></label>
+            <input asp-for="@Model.Title" class="form-control" />
+            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Content"></label>
+            <textarea asp-for="@Model.Content" class="form-control"></textarea>
+            <span asp-validation-for="@Model.Content" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.CategoryId"></label>
+            <select id="ddlcategory" asp-for="@Model.CategoryId" asp-items="categories" class="form-control"></select>
+            <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.SubCategoryId"></label>
+            <select id="ddlsubCategory" class="form-control" asp-for="@Model.SubCategoryId" asp-items="@(new SelectList(string.Empty, "Value", "Text"))"></select>
+            <span asp-validation-for="@Model.SubCategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.VideoUrl"></label>
+            <input asp-for="@Model.VideoUrl" class="form-control" />
+            <span asp-validation-for="@Model.VideoUrl" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="img-fluid">
+                <label asp-for="@Model.MainImage"></label>
+                <input type="file" asp-for="@Model.MainImage" class="image-upload" />
+                <span asp-validation-for="@Model.MainImage" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="img-fluid">
+                <label asp-for="@Model.GalleryContent"></label>
+                <input asp-for="@Model.GalleryContent" />
+                <span asp-validation-for="@Model.GalleryContent" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <input class="form-check-input" name="regionCheck" type="radio" onclick="showRegionList()">
+                <label class="form-check-label" for="exampleRadios1">Local news?</label>
+            </div>
+            <div>
+                <input class="form-check-input" name="regionCheck" type="radio" onclick="hideRegionList()">
+                <label class="form-check-label" for="exampleRadios1">Foreign news?</label>
+            </div>
+        </div>
+
+        <div id="SelectRegion" style="display:none">
+            <div class="form-group">
+                <label asp-for="@Model.Region"></label>
+                <select id="SetRegion" asp-for="@Model.Region" asp-items="@Html.GetEnumSelectList<Region>()" class="form-control"></select>
+                <span asp-validation-for="@Model.Region" class="text-danger"></span>
+            </div>
+        </div>
+
+        <input type="submit" class="btn btn-primary" />
+    </form>
+</div>
+
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>
+
+@section Scripts{
+
+    <script>
+        function showRegionList() {
+            $("#SelectRegion").show();
+        }
+    </script>
+
+    <script>
+        function hideRegionList() {
+            $("#SelectRegion").hide();
+            $("#SetRegion").val(null);
+        }
+    </script>
+    <script>
+        window.onload = function setRegionToNull() {
+            $("#SetRegion").val(null);
+        }
+    </script>
+
+    <script src="~/js/getSubCategories.js" asp-append-version="true"></script>
+}

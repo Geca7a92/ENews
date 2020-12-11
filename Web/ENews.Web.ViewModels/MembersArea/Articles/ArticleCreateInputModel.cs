@@ -29,13 +29,13 @@
         public int SubCategoryId { get; set; }
 
         [Display(Name = "Gallery content")]
-        [AllowedExtensions(new string[] { ".jpg", ".png" })]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" })]
         [MaxFileSize(1024 * 1024)]
         public ICollection<IFormFile> GalleryContent { get; set; }
 
         [Required]
         [Display(Name = "Main image")]
-        [AllowedExtensions(new string[] { ".jpg", ".png" })]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" })]
         [MaxFileSize(1024 * 1024)]
         public IFormFile MainImage { get; set; }
 

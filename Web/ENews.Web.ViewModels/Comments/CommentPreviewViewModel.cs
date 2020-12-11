@@ -13,6 +13,8 @@
 
         public string UserProfilePictureImageUrl { get; set; }
 
+        public string ArticleTitle { get; set; }
+
         public int ArticleId { get; set; }
 
         public string Content { get; set; }

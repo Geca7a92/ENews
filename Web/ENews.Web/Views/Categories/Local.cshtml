@@ -9,7 +9,6 @@
 <br />
 <!-- ##### Blog Area Start ##### -->
 <div class="blog-area section-padding-0-80">
-    <div class="container">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="blog-posts-area">
@@ -18,18 +17,18 @@
                     {
                         <div class="single-blog-post featured-post mb-30">
                             <div class="post-thumb">
-                                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id"><img src="@article.PictureImageUrl" style='height: 100%; width: 100%; object-fit: contain' alt=""></a>
+                                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@article.Title.Replace(' ', '-')" asp-route-id="@article.Id"><img src="@article.PictureImageUrl" style='height: 100%; width: 100%; object-fit: contain' alt=""></a>
 
 
                             </div>
                             <div class="post-data">
                                 <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@article.CategoryTitle" class="post-catagory">@article.CategoryTitle</a>
-                                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id" class="post-title">
+                                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@article.Title.Replace(' ', '-')" asp-route-id="@article.Id" class="post-title">
                                     <h6>@article.Title</h6>
                                 </a>
                                 <div class="post-meta">
                                     <p class="post-author">
-                                        By <a href="#">
+                                        By <a asp-controller="Users" asp-action="Index" asp-route-username="@article.AuthorUserName">
                                             @if (article.AuthorFirstName == null)
                                             {
                                                 @article.AuthorUserName
@@ -43,102 +42,15 @@
                                     <p class="post-excerp">@article.ContetPreview</p>
                                     <!-- Post Like & Post Comment -->
                                     <div class="d-flex align-items-center">
-                                        <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id" class="post-like"><i class="fa fa-eye text-muted fsize-3"></i> <span>@article.SeenCount</span></a>
-                                        <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@article.Id" class="post-comment"><img src="~/img/core-img/chat.png" alt=""> <span>@article.CommentsCount</span></a>
+                                        <p class="post-like"><i class="fa fa-eye text-muted fsize-3"></i> <span>@article.SeenCount</span></p>
+                                        <p class="post-comment"><img src="~/img/core-img/chat.png" alt=""> <span>@article.CommentsCount</span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-                @*ToDo
-                    <li class="page-item"><a class="page-link" href="#">...</a></li>*@
-                <nav>
-                    <ul class="pagination justify-content-center">
-
-                        @*Previous page*@
-                        @*@if (this.Model.CurrentPage == 1)
-                        {
-                            <li class="page-item disabled m-1">
-                                <a class="page-link" href="#">Previous</a>
-                            </li>
-                        }
-
-                        else
-                        {
-                            <li class="page-item m-1">
-                                <a class="page-link"
-                                   asp-route-page="@(this.Model.CurrentPage - 1)">Previous</a>
-                            </li>
-                        }*@
-
-                        @*First page*@
-                        @if (this.Model.CurrentPage != 1)
-                        {
-                            <li class="page-item m-1">
-                                <a class="page-link"
-                                   asp-route-page="1">1</a>
-                            </li>
-                        }
-
-                        @*Pages before current page*@
-                        @for (int i = this.Model.CurrentPage - 2; i < this.Model.CurrentPage; i++)
-                        {
-                            @if (i > 1)
-                            {
-                                <li class="page-item m-1">
-                                    <a class="page-link"
-                                       asp-route-page="@i">@i</a>
-                                </li>
-                            }
-                        }
-
-                        @*Current page*@
-                        @{
-                            <li class="page-item active m-1">
-                                <a class="page-link"
-                                   asp-route-page="@this.Model.CurrentPage">@this.Model.CurrentPage</a>
-                            </li>
-                        }
-
-                        @*Pages after current page*@
-                        @for (int i = this.Model.CurrentPage + 1; i <= this.Model.CurrentPage + 2; i++)
-                        {
-                            @if (i < this.Model.PagesCount)
-                            {
-
-                                <li class="page-item m-1">
-                                    <a class="page-link"
-                                       asp-route-page="@i">@i</a>
-                                </li>
-                            }
-                        }
-
-                        @*Last page*@
-                        @if (this.Model.CurrentPage != this.Model.PagesCount)
-                        {
-                            <li class="page-item m-1">
-                                <a class="page-link"
-                                   asp-route-page="@(this.Model.PagesCount)">@this.Model.PagesCount</a>
-                            </li>
-                        }
-
-                        @*Next page*@
-                        @*@if (this.Model.CurrentPage == this.Model.PagesCount)
-                        {
-                            <li class="page-item disabled m-1">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="page-item m-1">
-                                <a class="page-link"
-                                   asp-route-page="@(this.Model.CurrentPage + 1)">Next</a>
-                            </li>
-                        }*@
-                    </ul>
-                </nav>
+                <partial name="_ArticlesPaging" />
             </div>
             <div class="col-12 col-lg-4">
                 <div class="blog-sidebar-area">
@@ -156,5 +68,4 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>

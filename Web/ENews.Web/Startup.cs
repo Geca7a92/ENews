@@ -3,6 +3,7 @@
     using System.Reflection;
 
     using CloudinaryDotNet;
+    using ENews.Common;
     using ENews.Data;
     using ENews.Data.Common;
     using ENews.Data.Common.Repositories;
@@ -99,7 +100,7 @@
 
                 if (env.IsDevelopment())
                 {
-                    //dbContext.Database.EnsureDeleted();
+                    // dbContext.Database.EnsureDeleted();
                     dbContext.Database.Migrate();
                 }
 
@@ -114,6 +115,7 @@
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithReExecute("/Home/Error");
                 app.UseHsts();
             }
 
@@ -130,9 +132,11 @@
                 endpoints =>
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute("category", "{name}", new { controller = "Categories", action = "Index" });
+                        endpoints.MapControllerRoute("articlePreview", "Article/{id?}/{title}", new { controller = "Articles", action = "Index" });
+                        endpoints.MapControllerRoute(GlobalConstants.CategoryRoute, "{name}", new { controller = "Categories", action = "Index" });
                         endpoints.MapControllerRoute("subCategory", "{categoryName}/{subCategoryName}", new { controller = "SubCategories", action = "Index" });
-                        endpoints.MapControllerRoute("local", "Local/{region}", new { controller = "Categories", action = "LocalByRegion" });
+                        endpoints.MapControllerRoute("local", GlobalConstants.Country, new { controller = "Categories", action = "Local" });
+                        endpoints.MapControllerRoute(GlobalConstants.LocalByRegionRoute, $"{GlobalConstants.Country}/{{name}}", new { controller = "Categories", action = "LocalByRegion" });
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });

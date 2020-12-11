@@ -24,7 +24,7 @@
 
         Task CreateCategoryAsync(CategoryCreateInputModel inputModel);
 
-        T GetCategoryByName<T>(string name);
+        Task<T> GetCategoryByName<T>(string name);
 
         Task<bool> CategoryExistsById(int id);
 

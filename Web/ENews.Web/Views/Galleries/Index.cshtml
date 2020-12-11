@@ -24,11 +24,11 @@
                                         <a asp-area="" asp-controller="Galleries" asp-action="Preview" asp-route-id="@Model.LastGallery.Id" class="btn btn-primary">Preview</a>
                                     </div>
                                     <div class="row">
-                                        <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@Model.LastGallery.ArticleId" class="btn btn-secondary">Article</a>
+                                        <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@Model.LastGallery.ArticleTitle.Replace(' ', '-')" asp-route-id="@Model.LastGallery.ArticleId" class="btn btn-secondary">Article</a>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <p class="text-right small text-muted">By <strong>@Model.LastGallery.ArticleAuthorUserName</strong></p>
+                                    <p class="text-right small text-muted"><a asp-controller="Users" asp-action="Index" asp-route-username="@Model.LastGallery.ArticleAuthorUserName">By <strong>@Model.LastGallery.ArticleAuthorUserName</strong></a></p>
                                     <p class="text-right small text-muted">@Model.LastGallery.CreatedOn.ToString("dd/MM/yyyy")</p>
                                 </div>
                             </div>
@@ -55,11 +55,11 @@
                                             <a asp-area="" asp-controller="Galleries" asp-action="Preview" asp-route-id="@gallery.Id" class="btn btn-primary">Preview</a>
                                         </div>
                                         <div class="row">
-                                            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@gallery.ArticleId" class="btn btn-secondary">Article</a>
+                                            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@gallery.ArticleTitle.Replace(' ', '-')" asp-route-id="@gallery.ArticleId" class="btn btn-secondary">Article</a>
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <p class="text-right small text-muted">By <strong>@gallery.ArticleAuthorUserName</strong></p>
+                                        <p class="text-right small text-muted"><a asp-controller="Users" asp-action="Index" asp-route-username="@gallery.ArticleAuthorUserName">By <strong>@gallery.ArticleAuthorUserName</strong></a></p>
                                         <p class="text-right small text-muted">@gallery.CreatedOn.ToString("dd/MM/yyyy")</p>
                                     </div>
                                 </div>

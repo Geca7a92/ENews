@@ -45,13 +45,13 @@
             return query.To<T>().ToList();
         }
 
-        public T GetCategoryByName<T>(string name)
+        public async Task<T> GetCategoryByName<T>(string name)
         {
             var category = this.categoryRepository.All()
                 .Where(x => x.Title == name)
-                .To<T>().FirstOrDefault();
+                .To<T>().FirstOrDefaultAsync();
 
-            return category;
+            return await category;
         }
 
         public async Task<T> GetCategoryById<T>(int id)

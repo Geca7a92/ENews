@@ -5,7 +5,6 @@
 }
 
 <div class="blog-area section-padding-0-80">
-    <div class="container">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="blog-posts-area">
@@ -23,7 +22,7 @@
                             <div class="post-meta">
 
                                 <p class="post-author">
-                                    By <a href="#">
+                                    By <a asp-controller="Users" asp-action="Index" asp-route-username="@Model.AuthorUserName">
                                         @if (Model.AuthorFirstName == null)
                                         {
                                             @Model.AuthorUserName
@@ -61,18 +60,10 @@
                             }
                         </div>
                         <div class="author-info">
-                            @if (string.IsNullOrWhiteSpace(@Model.AuthorFirstName))
-                            {
-                                <a href="#" class="author-name">@Model.AuthorUserName, <span>The Author</span></a>
-
-                            }
-                            else
-                            {
-                                <a href="#" class="author-name">@Model.AuthorFullName, <span>The Author</span></a>
-                            }
+                            <a asp-controller="Users" asp-action="Index" asp-route-username="@Model.AuthorUserName" class="author-name">@(string.IsNullOrWhiteSpace(Model.AuthorFirstName) ? Model.AuthorUserName : Model.AuthorFullName), <span>The Author</span></a>                      
                             @if (string.IsNullOrWhiteSpace(@Model.AuthorBiography))
                             {
-                                <p>Donec turpis erat, scelerisque id euismod sit amet, fermentum vel dolor. Nulla facilisi. Sed pellen tesque lectus et accu msan aliquam. Fusce lobortis cursus quam, id mattis sapien.</p>
+                                <p>@GlobalConstants.BiographyFiller</p>
                             }
                             else
                             {
@@ -121,8 +112,8 @@
                                         </div>
                                         <!-- Comment Meta -->
                                         <div class="comment-meta">
-                                            <a href="#" class="post-author">@comment.UserUserName</a>
-                                            <a href="#" class="post-date">@comment.CreatedOn.ToString("dddd, dd MMMM yyyy HH:mm:ss")</a>
+                                            <a asp-controller="Users" asp-action="Index" asp-route-username="@comment.UserUserName" class="post-author">@comment.UserUserName</a>
+                                            <p class="post-date">@comment.CreatedOn.ToString("dddd, dd MMMM yyyy HH:mm:ss")</p>
                                             <p>@comment.Content</p>
                                         </div>
                                     </div>
@@ -193,7 +184,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 

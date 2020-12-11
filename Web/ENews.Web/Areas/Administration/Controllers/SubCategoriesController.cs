@@ -19,18 +19,15 @@
     [Area("Administration")]
     public class SubCategoriesController : Controller
     {
-        private readonly ApplicationDbContext context;
         private readonly ISubCategoriesService subCategoriesService;
         private readonly IPagingService pagingService;
         private readonly ICategoriesService categoriesService;
 
         public SubCategoriesController(
-            ApplicationDbContext context,
             ISubCategoriesService subCategoriesService,
             IPagingService pagingService,
             ICategoriesService categoriesService)
         {
-            this.context = context;
             this.subCategoriesService = subCategoriesService;
             this.pagingService = pagingService;
             this.categoriesService = categoriesService;

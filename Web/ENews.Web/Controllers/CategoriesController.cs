@@ -1,5 +1,6 @@
 ﻿namespace ENews.Web.Controllers
 {
+    using System.Threading.Tasks;
 
     using ENews.Common;
     using ENews.Data.Models.Enums;
@@ -25,14 +26,17 @@
             this.pagingService = pagingService;
         }
 
-        public IActionResult Index(string name, int page = 1)
+        public async Task<IActionResult> Index(string name, int page = 1)
         {
-            var viewModel = this.categoriesService.GetCategoryByName<MainCategoryArticlesViewModel>(name);
+            var viewModel = await this.categoriesService.GetCategoryByName<MainCategoryArticlesViewModel>(name);
 
             if (viewModel == null)
             {
                 return this.NotFound();
             }
+
+            viewModel.Route = GlobalConstants.CategoryRoute;
+            viewModel.CategoryName = name;
 
             var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
@@ -62,20 +66,22 @@
             return this.View(viewModel);
         }
 
-        public IActionResult LocalByRegion(Region region, int page = 1)
+        public IActionResult LocalByRegion(Region name, int page = 1)
         {
-            if (region == 0)
+            if (name == 0)
             {
                 return this.NotFound();
             }
 
-            var viewModel = new RegionArticlesViewModel() { Region = region };
+            var viewModel = new RegionArticlesViewModel() { CategoryName = name.ToString() };
+
+            viewModel.Route = GlobalConstants.LocalByRegionRoute;
 
             var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
-            viewModel.CategoryArticles = this.articlesService.GetLatestByRegion<ArticlePreviewViewModel>(region, GlobalConstants.ArticlePerPage, skip);
+            viewModel.CategoryArticles = this.articlesService.GetLatestByRegion<ArticlePreviewViewModel>(name, GlobalConstants.ArticlePerPage, skip);
 
-            viewModel.PagesCount = this.pagingService.GetPagesCountByRegion(region);
+            viewModel.PagesCount = this.pagingService.GetPagesCountByRegion(name);
 
             viewModel.CurrentPage = this.pagingService.SetPage(page, viewModel.PagesCount);
 

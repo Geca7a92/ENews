@@ -204,7 +204,20 @@
 
         public IEnumerable<T> GetLatesMostViewed<T>(int? take = null, int skip = 0)
         {
-            var articles = this.articleRepository.All().OrderByDescending(a => a.SeenCount).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow).Skip(skip);
+            IQueryable<Article> articles;
+            var days = 7;
+
+            while (true)
+            {
+                articles = this.articleRepository.All().OrderByDescending(a => a.SeenCount).Where(a => a.CreatedOn.AddDays(days) > DateTime.UtcNow).Skip(skip);
+                if (articles.Count() > 4)
+                {
+                    break;
+                }
+
+                days++;
+            }
+
             if (take.HasValue)
             {
                 articles = articles.Take(take.Value);
@@ -215,7 +228,20 @@
 
         public IEnumerable<T> GetLatesMostCommented<T>(int? take = null, int skip = 0)
         {
-            var articles = this.articleRepository.All().OrderByDescending(a => a.Comments.Count()).Where(a => a.CreatedOn.AddDays(7) > DateTime.UtcNow && a.Comments.Count() > 0).Skip(skip);
+            IQueryable<Article> articles;
+            var days = 7;
+
+            while (true)
+            {
+                articles = this.articleRepository.All().OrderByDescending(a => a.Comments.Count()).Where(a => a.CreatedOn.AddDays(days) > DateTime.UtcNow && a.Comments.Count() > 0).Skip(skip);
+                if (articles.Count() > 5)
+                {
+                    break;
+                }
+
+                days++;
+            }
+
             if (take.HasValue)
             {
                 articles = articles.Take(take.Value);

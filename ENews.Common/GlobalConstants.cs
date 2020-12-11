@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace ENews.Common
+﻿namespace ENews.Common
 {
     public static class GlobalConstants
     {
-        public const int ArticlePerPage = 1;
+        public const int ArticlePerPage = 4;
         public const int AdministrationItemsPerPage = 10;
 
         public const string SystemEmail = "ENews@gmail.com";
@@ -31,6 +29,11 @@ namespace ENews.Common
         public const string UsernameTypeAsc = "usernameAsc";
         public const string UsernamepeOnDesc = "usernameDesc";
 
+        // Routes
+
+        public const string CategoryRoute = "category";
+        public const string LocalByRegionRoute = "local";
+
         public const string Country = "Bulgaria";
 
         // Roles names
@@ -40,6 +43,8 @@ namespace ENews.Common
 
         // Users seeding details
         public const string PhoneNumber = "0123456789";
+
+        public const string BiographyFiller = "Donec turpis erat, scelerisque id euismod sit amet, fermentum vel dolor. Nulla facilisi. Sed pellen tesque lectus et accu msan aliquam. Fusce lobortis cursus quam, id mattis sapien.";
 
         // Admin account info
         public const string AdminPassword = "adminadmin";

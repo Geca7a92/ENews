@@ -16,7 +16,7 @@
                 }
             </div>
             <div class="comments-text">
-                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@comment.ArticleId">@comment.UserUserName <span>on</span> @comment.Content</a>
+                <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@comment.ArticleTitle.Replace(' ', '-')" asp-route-id="@comment.ArticleId">@comment.UserUserName <span>on</span> @comment.Content</a>
                 <p class="post-date"><span>@comment.CreatedOn.ToString("h:mm tt")</span> | <span>@comment.CreatedOn.ToString("MMMM dd")</span></p>
             </div>
         </div>

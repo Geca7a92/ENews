@@ -87,7 +87,7 @@
 
                         }
                         <div class="team-info">
-                            <h5>@employee.UserName</h5>
+                            <a asp-controller="users" asp-action="Index" asp-route-username="@employee.UserName"><h5>@employee.UserName</h5></a>
                             @if (!(string.IsNullOrEmpty(employee.FirstName)))
                             {
                                 <h6>@employee.FirstName @employee.LastName</h6>

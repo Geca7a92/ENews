@@ -1,12 +1,12 @@
-﻿using ENews.Data.Models;
-using ENews.Data.Models.Enums;
-using ENews.Services.Mapping;
-using System;
-using System.Net;
-using System.Text.RegularExpressions;
-
-namespace ENews.Web.ViewModels
+﻿namespace ENews.Web.ViewModels
 {
+    using System;
+    using System.Net;
+    using System.Text.RegularExpressions;
+
+    using ENews.Data.Models;
+    using ENews.Data.Models.Enums;
+    using ENews.Services.Mapping;
 
     public class ArticlePreviewViewModel : IMapFrom<Article>
     {

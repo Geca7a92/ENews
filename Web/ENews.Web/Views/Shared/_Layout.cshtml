@@ -94,7 +94,7 @@
                                 <ul>
                                     <li class="active"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                                     <li>
-                                        <a asp-area="" asp-controller="Categories" asp-action="Local">Bulgaria</a>
+                                        <a asp-area="" asp-controller="Categories" asp-action="Local" class="nav-link text-dark">Bulgaria</a>
                                         <div class="megamenu">
                                             @for (int i = 1; i <= Html.GetEnumSelectList<Region>().Count(); i++)
                                             {
@@ -104,7 +104,7 @@
                                                         @for (int x = @i - 6; x <= @i; x++)
                                                         {
                                                             <li>
-                                                                <a asp-area="" asp-controller="Categories" asp-action="LocalByRegion" asp-route-region="@((Region)x)"> @(((Region)x).ToString().Replace("_", " ")) </a>
+                                                                <a asp-area="" asp-controller="Categories" asp-action="LocalByRegion" asp-route-name="@((Region)x)"> @(((Region)x).ToString().Replace("_", " ")) </a>
                                                             </li>
                                                         }
                                                     </ul>
@@ -113,7 +113,7 @@
                                         </div>
                                     </li>
                                     <vc:categories></vc:categories>
-                                    <li><a asp-area="" asp-controller="Galleries" asp-action="Index">Galleries</a></li>
+                                    <li><a asp-area="" asp-controller="Galleries" asp-action="Index" class="nav-link text-dark">Galleries</a></li>
                                 </ul>
                             </div>
                             <!-- Nav End -->

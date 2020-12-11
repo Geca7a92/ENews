@@ -15,6 +15,8 @@
 
         IEnumerable<IndexUserViewModel> GetAllBanned(string sortBy, string search, int? take = null, int skip = 0);
 
+        Task<T> GetUserByUsername<T>(string username);
+
         int GetCountOfMembers();
 
         int GetCountOfUsers();

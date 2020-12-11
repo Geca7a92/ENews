@@ -193,7 +193,7 @@
             var service = new CategoriesService(repository);
 
             AutoMapperConfig.RegisterMappings(typeof(IndexCategoryViewModel).GetTypeInfo().Assembly);
-            var result = service.GetCategoryByName<IndexCategoryViewModel>(categoryName);
+            var result = service.GetCategoryByName<IndexCategoryViewModel>(categoryName).GetAwaiter().GetResult();
 
             Assert.Equal(category.Title, result.Title);
         }

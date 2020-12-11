@@ -1,4 +1,4 @@
-﻿@model ENews.Web.ViewModels.Shared.Paging.PagingViewModel
+﻿@model ENews.Web.ViewModels.Shared.Paging.ArticlesPagingViewModel
 
 <nav aria-label="Page navigation example" class="center">
     <ul class="pagination mt-50 justify-content-center">
@@ -7,7 +7,7 @@
         @if (this.Model.CurrentPage != 1)
         {
             <li class="page-item">
-                <a class="page-link" asp-route="@ViewData["route"]" asp-route-name="" asp-route-page="1" asp-route-sortBy="@ViewData["currentSortOrder"]" asp-route-search="@ViewData["search"]">1</a>
+                <a class="page-link" asp-route="@Model.Route" asp-route-name="@Model.CategoryName" asp-route-page="1">1</a>
             </li>
         }
         @*Pages before current page*@
@@ -17,7 +17,7 @@
             {
                 <li class="page-item">
                     <a class="page-link"
-                       asp-route="@ViewData["route"]" asp-route-page="@i" asp-route-sortBy="@ViewData["currentSortOrder"]">@i</a>
+                       asp-route="@Model.Route" asp-route-page="@i" asp-route-name="@Model.CategoryName">@i</a>
                 </li>
             }
         }
@@ -25,7 +25,7 @@
         @{
             <li class="page-item active">
                 <a class="page-link"
-                   asp-route="@ViewData["route"]" asp-route-page="@this.Model.CurrentPage" asp-route-sortBy="@ViewData["currentSortOrder"]" asp-route-search="@ViewData["search"]">@this.Model.CurrentPage</a>
+                   asp-route="@Model.Route" asp-route-page="@this.Model.CurrentPage" asp-route-name="@Model.CategoryName">@this.Model.CurrentPage</a>
             </li>
         }
         @*Pages after current page*@
@@ -36,7 +36,7 @@
 
                 <li class="page-item">
                     <a class="page-link"
-                       asp-route="@ViewData["route"]" asp-route-page="@i" asp-route-sortBy="@ViewData["currentSortOrder"]" asp-route-search="@ViewData["search"]">@i</a>
+                       asp-route="@Model.Route" asp-route-page="@i" asp-route-name="@Model.CategoryName">@i</a>
                 </li>
             }
         }
@@ -45,7 +45,7 @@
         {
             <li class="page-item">
                 <a class="page-link"
-                   asp-route="@ViewData["route"]" asp-route-page="@(this.Model.PagesCount)" asp-route-sortBy="@ViewData["currentSortOrder"]" asp-route-search="@ViewData["search"]">@this.Model.PagesCount</a>
+                   asp-route="@Model.Route" asp-route-page="@(this.Model.PagesCount)" asp-route-name="@Model.CategoryName">@this.Model.PagesCount</a>
             </li>
         }
     </ul>
