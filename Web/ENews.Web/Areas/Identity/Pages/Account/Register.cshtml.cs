@@ -77,7 +77,7 @@ namespace ENews.Web.Areas.Identity.Pages.Account
             public Region? Region { get; set; }
 
             [Display(Name = "Profile picture")]
-            [AllowedExtensions(new string[] { ".jpg", ".png" })]
+            [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" })]
             [MaxFileSize(1024 * 1024)]
             public IFormFile MainImage { get; set; }
         }

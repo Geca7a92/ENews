@@ -40,7 +40,7 @@
                     <span asp-validation-for="Input.MainImage" class="text-danger"></span>
                 </div>
             </div>
-            <div>
+            <div class="form-group">
                 <div>
                     <input class="form-check-input" name="regionCheck" type="radio" onclick="showRegionList()">
                     <label class="form-check-label" for="exampleRadios1">Select local state</label>
@@ -50,7 +50,6 @@
                     <label class="form-check-label" for="exampleRadios1">Non local</label>
                 </div>
             </div>
-
             <div id="SelectRegion" style="display:none">
                 <div class="form-group">
                     <label asp-for="Input.Region"></label>

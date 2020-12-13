@@ -23,6 +23,8 @@
 
         public bool IsDeleted { get; set; }
 
+        public bool MyProfile { get; set; } = false;
+
         public string ProfilePictureImageUrl { get; set; }
     }
 }

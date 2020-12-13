@@ -1,6 +1,5 @@
 ﻿@using ENews.Common;
 @model ENews.Web.ViewModels.Users.UserProfileViewModel;
-@using ENews.Common
 @using ENews.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
@@ -25,7 +24,10 @@
                     {
                         <img src="@Model.ProfilePictureImageUrl" alt="..." width="130" class="rounded mb-2 img-thumbnail">
                     }
-                    <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                    @if (Model.MyProfile)
+                    {
+                        <a asp-area="Identity" asp-controller="Account" asp-action="Manage" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                    }
                 </div>
                 <div class="media-body mb-5 text-white">
                     <h4 class="mt-0 mb-0 text-info">
