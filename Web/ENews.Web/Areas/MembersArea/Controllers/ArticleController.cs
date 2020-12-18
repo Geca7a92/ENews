@@ -1,5 +1,6 @@
 ﻿namespace ENews.Web.Areas.MembersArea.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using ENews.Common;
@@ -147,6 +148,50 @@
             var subCategories = this.subCategoriesService
                 .GetSubCategoriesOfCategoryId<SubCategoriesDropDownViewModel>(id);
             return this.Json(subCategories);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var article = await this.articleService.GetArticleById<ArticleCreateInputModel>((int)id);
+
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+
+            var isAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
+            var isOwner = await this.articleService.CheckArticleOwnership(currentUser.Id, (int)id);
+
+            if (!isOwner && !isAdmin)
+            {
+                return this.Redirect("/MembersArea/Article/Active");
+            }
+
+            article.CategoriesDropDown = this.categoriesService.GetAllCategoriesWithAnySubCategories<CategoriesDropDownViewModel>();
+
+            if (article == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(article);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ArticleCreateInputModel input, int id)
+        {
+            this.ModelState.Remove("MainImage");
+            if (!this.ModelState.IsValid)
+            {
+                input.CategoriesDropDown = this.categoriesService.GetAllCategoriesWithAnySubCategories<CategoriesDropDownViewModel>();
+                return this.View(input);
+            }
+
+            await this.articleService.Update(input, id);
+
+            return this.RedirectToAction(nameof(this.Active));
         }
     }
 }

@@ -42,11 +42,14 @@
                                 <div class="d-flex align-items-center post-like--comments">
                                     <i class="fa fa-eye text-muted fsize-3"></i> <span>@Model.SeenCount</span>
                                     <img class="post-comment" src="~/img/core-img/chat.png" alt=""> <span>@Model.CommentsCount</span>
+                                    <div class="flex-grow-1"></div>
+                                    <a href="@string.Format("{0}{1}://{2}{3}",GlobalConstants.FacebookShare, this.Context.Request.Scheme, this.Context.Request.Host.Value.ToString(), this.Context.Request.Path)">FaceBook</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    @*var absUrl = string.Format("{0}://{1}{2}", Request.Scheme,
+                    Request.Host, routeUrl);*@
                     <!-- About Author -->
                     <div class="blog-post-author d-flex">
                         <div class="author-thumbnail">
@@ -60,7 +63,7 @@
                             }
                         </div>
                         <div class="author-info">
-                            <a asp-controller="Users" asp-action="Index" asp-route-username="@Model.AuthorUserName" class="author-name">@(string.IsNullOrWhiteSpace(Model.AuthorFirstName) ? Model.AuthorUserName : Model.AuthorFullName), <span>The Author</span></a>                      
+                            <a asp-controller="Users" asp-action="Index" asp-route-username="@Model.AuthorUserName" class="author-name">@(string.IsNullOrWhiteSpace(Model.AuthorFirstName) ? Model.AuthorUserName : Model.AuthorFullName), <span>The Author</span></a>
                             @if (string.IsNullOrWhiteSpace(@Model.AuthorBiography))
                             {
                                 <p>@GlobalConstants.BiographyFiller</p>

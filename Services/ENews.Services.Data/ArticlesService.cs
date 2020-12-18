@@ -17,15 +17,18 @@
         private readonly IDeletableEntityRepository<Article> articleRepository;
         private readonly IImagesService imagesService;
         private readonly IGalleriesService galleryService;
+        private readonly IUsersService usersService;
 
         public ArticlesService(
             IDeletableEntityRepository<Article> articleRepository,
             IImagesService imagesService,
-            IGalleriesService galleryService)
+            IGalleriesService galleryService,
+            IUsersService usersService)
         {
             this.articleRepository = articleRepository;
             this.imagesService = imagesService;
             this.galleryService = galleryService;
+            this.usersService = usersService;
         }
 
         public async Task<int> CreateAsync(ArticleCreateInputModel model, string userId)
@@ -53,6 +56,20 @@
             await this.articleRepository.SaveChangesAsync();
 
             return article.Id;
+        }
+
+        public async Task<int> Update(ArticleCreateInputModel model, int articleId)
+        {
+            var article = await this.articleRepository.GetByIdWithDeletedAsync(articleId);
+            article.Title = model.Title;
+            article.Content = model.Content;
+            article.CategoryId = model.CategoryId;
+            article.SubCategoryId = model.SubCategoryId;
+            article.VideoUrl = model.VideoUrl;
+
+
+            this.articleRepository.Update(article);
+            return await this.articleRepository.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetAllByAtuthorId<T>(string id, int? take = null, int skip = 0)
@@ -342,6 +359,19 @@
             }
 
             return articles.To<T>().ToList();
+        }
+
+        public async Task<bool> CheckArticleOwnership(string userId, int articleId)
+        {
+            var article = await this.articleRepository.GetByIdWithDeletedAsync(articleId);
+            if (article.AuthorId == userId)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

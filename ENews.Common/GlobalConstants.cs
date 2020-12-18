@@ -30,11 +30,13 @@
         public const string UsernamepeOnDesc = "usernameDesc";
 
         // Routes
-
         public const string CategoryRoute = "category";
         public const string LocalByRegionRoute = "local";
 
         public const string Country = "Bulgaria";
+
+        // SharingUrls
+        public const string FacebookShare = "https://www.facebook.com/sharer/sharer.php?u=";
 
         // Roles names
         public const string AdministratorRoleName = "Administrator";

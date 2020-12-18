@@ -1,5 +1,7 @@
 ﻿namespace ENews.Web.ViewModels.Users
 {
+    using System.Collections.Generic;
+
     using ENews.Data.Models;
     using ENews.Services.Mapping;
 
@@ -26,5 +28,7 @@
         public bool MyProfile { get; set; } = false;
 
         public string ProfilePictureImageUrl { get; set; }
+
+        public ICollection<ArticlePreviewViewModel> MyArticles { get; set; }
     }
 }

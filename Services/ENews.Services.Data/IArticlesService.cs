@@ -64,6 +64,8 @@
 
         int GetSumAllSeens();
 
+        Task<bool> CheckArticleOwnership(string userId, int articleId);
+
         Task<Article> GetbyIdHard(int id);
 
         Task<T> GetArticleById<T>(int id);
@@ -71,6 +73,8 @@
         Task<T> GetArticleByIdWithDeleted<T>(int id);
 
         Task<int> CreateAsync(ArticleCreateInputModel model, string userId);
+
+        Task<int> Update(ArticleCreateInputModel model, int articleId);
 
         DateTime LastesArticleCreationDate();
     }

@@ -2,13 +2,12 @@
 @{
     this.ViewData["Title"] = "Galleries";
 }
-
-<div class="container-fluid container">
+<div class="blog-area section-padding-0-80">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-12 col-lg-8">
             @if (Model.LastGallery != null)
             {
-                <div class="row p-2">
+                <div class="single-blog-post featured-post mb-30">
                     <div class="card flex-fill p-1">
                         <div class="card-header">
                             <h4 class="card-title text-center">@Model.LastGallery.ArticleTitle</h4>
@@ -36,7 +35,7 @@
                     </div>
                 </div>
             }
-            <div class="row p-2">
+            <div class="row p-3">
                 @foreach (var gallery in Model.LastestGalleries)
                 {
                     <div class="col-md-6 pb-1 p-0">
@@ -74,7 +73,7 @@
             <div class="blog-sidebar-area">
 
                 <!-- Latest Posts Widget -->
-                <div class="latest-posts-widget mb-30">
+                <div class="latest-posts-widget mb-50">
                     <vc:lates-articles count="5" , skip="0"></vc:lates-articles>
                 </div>
                 <!-- Popular News Widget -->

@@ -81,6 +81,10 @@
             <li>
                 <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@Model.Title.Replace(' ', '-')" asp-route-id="@Model.Id">To Article!</a>
             </li>
+            <li>
+                <a asp-area="MembersArea" asp-controller="Article" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+
+            </li>
         }
     </ul>
 
