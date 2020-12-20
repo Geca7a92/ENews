@@ -67,7 +67,6 @@
             article.SubCategoryId = model.SubCategoryId;
             article.VideoUrl = model.VideoUrl;
 
-
             this.articleRepository.Update(article);
             return await this.articleRepository.SaveChangesAsync();
         }
@@ -227,7 +226,7 @@
             while (true)
             {
                 articles = this.articleRepository.All().OrderByDescending(a => a.SeenCount).Where(a => a.CreatedOn.AddDays(days) > DateTime.UtcNow).Skip(skip);
-                if (articles.Count() > 4)
+                if (articles.Count() > 4 || days > 365)
                 {
                     break;
                 }
@@ -251,7 +250,7 @@
             while (true)
             {
                 articles = this.articleRepository.All().OrderByDescending(a => a.Comments.Count()).Where(a => a.CreatedOn.AddDays(days) > DateTime.UtcNow && a.Comments.Count() > 0).Skip(skip);
-                if (articles.Count() > 5)
+                if (articles.Count() > 5 || days > 365)
                 {
                     break;
                 }

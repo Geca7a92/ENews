@@ -19,7 +19,6 @@ namespace ENews.Data.Seeding
                 await SeedCategoryAsync(dbContext, "Society");
                 await SeedCategoryAsync(dbContext, "Sport");
                 await SeedCategoryAsync(dbContext, "Culture");
-                await SeedCategoryAsync(dbContext, "Bulgaria");
             }
         }
 

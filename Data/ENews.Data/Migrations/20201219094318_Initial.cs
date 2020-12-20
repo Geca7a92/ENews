@@ -3,10 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ENews.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Region = table.Column<int>(nullable: true),
+                    City = table.Column<string>(maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -36,11 +50,27 @@ namespace ENews.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
-                    Desctription = table.Column<string>(maxLength: 200, nullable: true)
+                    Description = table.Column<string>(maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Galleries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Galleries", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,6 +120,8 @@ namespace ENews.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false)
                 },
@@ -102,43 +134,6 @@ namespace ENews.Data.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    Content = table.Column<string>(maxLength: 255, nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    ArticleId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Galleries",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    ArticleId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Galleries", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,38 +187,22 @@ namespace ENews.Data.Migrations
                     FirstName = table.Column<string>(maxLength: 30, nullable: true),
                     LastName = table.Column<string>(maxLength: 30, nullable: true),
                     Biography = table.Column<string>(maxLength: 500, nullable: true),
-                    AddressId = table.Column<int>(nullable: false),
+                    AddressId = table.Column<int>(nullable: true),
                     ProfilePictureId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_AspNetUsers_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_AspNetUsers_Images_ProfilePictureId",
                         column: x => x.ProfilePictureId,
                         principalTable: "Images",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserId = table.Column<string>(nullable: true),
-                    Area = table.Column<int>(nullable: true),
-                    City = table.Column<string>(maxLength: 50, nullable: true),
-                    AddressText = table.Column<string>(maxLength: 150, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Addresses_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -239,14 +218,15 @@ namespace ENews.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Content = table.Column<string>(maxLength: 2000, nullable: false),
+                    Content = table.Column<string>(maxLength: 25000, nullable: false),
+                    SeenCount = table.Column<int>(nullable: false),
                     VideoUrl = table.Column<string>(nullable: true),
                     PictureId = table.Column<int>(nullable: false),
                     GalleryId = table.Column<int>(nullable: true),
                     AuthorId = table.Column<string>(nullable: false),
                     SubCategoryId = table.Column<int>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
-                    Area = table.Column<int>(nullable: true)
+                    Region = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,6 +241,12 @@ namespace ENews.Data.Migrations
                         name: "FK_Articles_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Articles_Galleries_GalleryId",
+                        column: x => x.GalleryId,
+                        principalTable: "Galleries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -362,12 +348,36 @@ namespace ENews.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_ApplicationUserId",
-                table: "Addresses",
-                column: "ApplicationUserId",
-                unique: true,
-                filter: "[ApplicationUserId] IS NOT NULL");
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Content = table.Column<string>(maxLength: 255, nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    ArticleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_AuthorId",
@@ -378,6 +388,13 @@ namespace ENews.Data.Migrations
                 name: "IX_Articles_CategoryId",
                 table: "Articles",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Articles_GalleryId",
+                table: "Articles",
+                column: "GalleryId",
+                unique: true,
+                filter: "[GalleryId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_IsDeleted",
@@ -427,6 +444,13 @@ namespace ENews.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_AddressId",
+                table: "AspNetUsers",
+                column: "AddressId",
+                unique: true,
+                filter: "[AddressId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_IsDeleted",
                 table: "AspNetUsers",
                 column: "IsDeleted");
@@ -469,12 +493,6 @@ namespace ENews.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Galleries_ArticleId",
-                table: "Galleries",
-                column: "ArticleId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Galleries_IsDeleted",
                 table: "Galleries",
                 column: "IsDeleted");
@@ -499,52 +517,14 @@ namespace ENews.Data.Migrations
                 table: "SubCategories",
                 column: "CategoryId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Comments_AspNetUsers_UserId",
-                table: "Comments",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Comments_Articles_ArticleId",
-                table: "Comments",
-                column: "ArticleId",
-                principalTable: "Articles",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Galleries_Articles_ArticleId",
-                table: "Galleries",
-                column: "ArticleId",
-                principalTable: "Articles",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.CreateIndex(
+                name: "IX_SubCategories_IsDeleted",
+                table: "SubCategories",
+                column: "IsDeleted");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Articles_AspNetUsers_AuthorId",
-                table: "Articles");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Articles_Categories_CategoryId",
-                table: "Articles");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_SubCategories_Categories_CategoryId",
-                table: "SubCategories");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Articles_Images_PictureId",
-                table: "Articles");
-
-            migrationBuilder.DropTable(
-                name: "Addresses");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -570,22 +550,25 @@ namespace ENews.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Articles");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "SubCategories");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "Galleries");
-
-            migrationBuilder.DropTable(
-                name: "Articles");
-
-            migrationBuilder.DropTable(
-                name: "SubCategories");
         }
     }
 }

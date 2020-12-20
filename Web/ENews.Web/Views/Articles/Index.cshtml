@@ -43,7 +43,7 @@
                                     <i class="fa fa-eye text-muted fsize-3"></i> <span>@Model.SeenCount</span>
                                     <img class="post-comment" src="~/img/core-img/chat.png" alt=""> <span>@Model.CommentsCount</span>
                                     <div class="flex-grow-1"></div>
-                                    <a href="@string.Format("{0}{1}://{2}{3}",GlobalConstants.FacebookShare, this.Context.Request.Scheme, this.Context.Request.Host.Value.ToString(), this.Context.Request.Path)">FaceBook</a>
+                                    <a href="@string.Format("{0}{1}://{2}{3}",GlobalConstants.FacebookShare, this.Context.Request.Scheme, this.Context.Request.Host.Value.ToString(), this.Context.Request.Path)" class="faf fa fa-facebook"></a>
                                 </div>
                             </div>
                         </div>

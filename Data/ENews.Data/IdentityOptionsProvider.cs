@@ -11,7 +11,7 @@
             options.Password.RequireUppercase = false;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = 4;
-            options.SignIn.RequireConfirmedAccount = true;
+            options.SignIn.RequireConfirmedAccount = false;
         }
     }
 }

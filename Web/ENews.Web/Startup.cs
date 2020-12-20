@@ -101,8 +101,9 @@
                 if (env.IsDevelopment())
                 {
                     // dbContext.Database.EnsureDeleted();
-                    dbContext.Database.Migrate();
                 }
+
+                //dbContext.Database.Migrate();
 
                 new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }

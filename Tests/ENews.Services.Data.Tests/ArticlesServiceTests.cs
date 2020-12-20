@@ -1,36 +1,31 @@
 ﻿namespace ENews.Services.Data.Tests
 {
-    using System;
     using System.Linq;
     using System.Reflection;
 
     using ENews.Data.Models;
     using ENews.Data.Models.Enums;
+    using ENews.Data.Repositories;
+    using ENews.Services.Data.Tests.Models;
     using ENews.Services.Data.Tests.Repositories;
     using ENews.Services.Data.Tests.Seed;
     using ENews.Services.Mapping;
-    using ENews.Web.ViewModels.Comments;
-    using Ganss.XSS;
     using Moq;
     using Xunit;
 
     public class ArticlesServiceTests
     {
+        public ArticlesServiceTests()
+        {
+            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+        }
+
         [Fact]
         public void GetArticleById()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var result = service.GetArticleById<ArticleDumyModel>(article.Id).GetAwaiter().GetResult();
 
             Assert.Equal(article.Title, result.Title);
@@ -40,18 +35,10 @@
         public void GetCount()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCount();
+
             Assert.Equal(1, result);
         }
 
@@ -59,19 +46,9 @@
         public void GetSumAllSeensTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetSumAllSeens();
 
             Assert.Equal(3, result);
@@ -81,19 +58,9 @@
         public void DeleteByIdTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
 
             service.DeleteById(article.Id).GetAwaiter();
             Assert.Equal(1, repository.All().Count());
@@ -103,41 +70,23 @@
         public void AddToSeenCountTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var seenCount = article.SeenCount;
 
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-            service.AddToSeenCount(article.Id);
+            service.AddToSeenCount(article.Id).GetAwaiter().GetResult();
 
             Assert.Equal(seenCount + 1, article.SeenCount);
         }
+
         //bool ArticleExist(int id);
 
         [Fact]
         public void ArticleExistTrueTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var result = service.ArticleExist(article.Id);
 
             Assert.True(result);
@@ -147,15 +96,8 @@
         public void ArticleExistFalseTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-            var result = service.ArticleExist(article.Id);
+            var service = this.GetArticlesService(repository);
+            var result = service.ArticleExist(1);
 
             Assert.False(result);
         }
@@ -164,19 +106,8 @@
         public void GetCountByCategoryIdTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountByCategoryId(1);
 
             Assert.Equal(1, result);
@@ -186,20 +117,9 @@
         public void GetCountBySubCategoryIdOneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountBySubCategoryId(1);
 
             Assert.Equal(1, result);
@@ -209,18 +129,8 @@
         public void GetCountBySubCategoryIdNoMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountBySubCategoryId(1);
 
             Assert.Equal(0, result);
@@ -230,18 +140,8 @@
         public void GetCountOfLocalArticlesNoResultTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountOfLocalArticles();
 
             Assert.Equal(0, result);
@@ -251,20 +151,9 @@
         public void GetCountOfLocalArticlesOneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var articleWithRegion = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(articleWithRegion).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var articleWithRegion = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountOfLocalArticles();
 
             Assert.Equal(1, result);
@@ -274,18 +163,8 @@
         public void GetCountByAuthorRealIdTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountByAuthorId("ads");
 
             Assert.Equal(1, result);
@@ -295,18 +174,8 @@
         public void GetCountByAuthorIdFakeIdTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountByAuthorId("FAKE");
 
             Assert.Equal(0, result);
@@ -316,17 +185,8 @@
         public void GetCountByAuthorIdDeletedRealIdTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
 
             var result = service.GetCountByAuthorIdDeleted("ads");
 
@@ -337,18 +197,8 @@
         public void GetCountByAuthorIdDeletedFakeIdTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountByAuthorIdDeleted("FAKE");
 
             Assert.Equal(0, result);
@@ -358,20 +208,9 @@
         public void GetCountByRegionOneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountByRegion(Region.Burgas);
 
             Assert.Equal(1, result);
@@ -381,20 +220,9 @@
         public void GetCountByRegionNoMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetCountByRegion(Region.Sofia);
 
             Assert.Equal(0, result);
@@ -404,20 +232,9 @@
         public void LastesArticleCreationDateTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
-
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.LastesArticleCreationDate();
 
             Assert.Equal(secondArticle.CreatedOn, result);
@@ -427,21 +244,10 @@
         public void GetLatestByRegionOneMatchTest()
         {
             var region = Region.Burgas;
-
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatestByRegion<ArticleDumyModel>(region);
 
             Assert.Single(result);
@@ -451,21 +257,10 @@
         public void GetLatestByRegionNoMatcheshTest()
         {
             var region = Region.Sofia_District;
-
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatestByRegion<ArticleDumyModel>(region);
 
             Assert.Empty(result);
@@ -475,19 +270,9 @@
         public void GetAllByCategoryIdOneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetAllByCategoryId<ArticleDumyModel>(1);
 
             Assert.Single(result);
@@ -497,19 +282,9 @@
         public void GetAllByCategoryIdNoMatchesTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetAllByCategoryId<ArticleDumyModel>(5);
 
             Assert.Empty(result);
@@ -519,19 +294,9 @@
         public void GetAllBySubCategoryIdNoMatchesTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetAllBySubCategoryId<ArticleDumyModel>(5);
 
             Assert.Empty(result);
@@ -541,19 +306,9 @@
         public void GetAllBySubCategoryIdOneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetAllBySubCategoryId<ArticleDumyModel>(1);
 
             Assert.Single(result);
@@ -563,19 +318,9 @@
         public void GetAllByAtuthorIdOneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetAllByAtuthorId<ArticleDumyModel>(article.AuthorId);
 
             Assert.Single(result);
@@ -585,19 +330,9 @@
         public void GetAllByAtuthorIdNoMatchesTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetAllByAtuthorId<ArticleDumyModel>("FAKENAME");
 
             Assert.Empty(result);
@@ -607,19 +342,9 @@
         public void GetLatesByCreatedTwoMatchesOnTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatesByCreatedOn<ArticleDumyModel>();
 
             Assert.Equal(2, result.Count());
@@ -629,19 +354,9 @@
         public void GetLatesWithVideosOneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatesWithVideos<ArticleDumyModel>();
 
             Assert.Single(result);
@@ -651,17 +366,8 @@
         public void GetLatesWithVideosNoMatchesTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatesWithVideos<ArticleDumyModel>();
 
             Assert.Empty(result);
@@ -671,24 +377,15 @@
         public void UndeleteByIdTest()
         {
             var repository = ArticleRepository.Create();
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
 
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
             repository.Delete(article);
             repository.SaveChangesAsync().GetAwaiter().GetResult();
-
             Assert.Equal(1, repository.All().Count());
 
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
+            var service = this.GetArticlesService(repository);
 
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
             service.UndeleteById(article.Id).GetAwaiter();
 
             Assert.Equal(2, repository.All().Count());
@@ -698,22 +395,13 @@
         public void GetAllByAtuthorIdDeletedOneMatchTest()
         {
             var repository = ArticleRepository.Create();
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
 
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
             repository.Delete(article);
             repository.SaveChangesAsync().GetAwaiter().GetResult();
 
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var service = this.GetArticlesService(repository);
             var result = service.GetAllByAtuthorIdDeleted<ArticleDumyModel>(article.AuthorId);
 
             Assert.Single(result);
@@ -723,20 +411,9 @@
         public void GetAllByAtuthorIdDeletedNoMatchesTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetAllByAtuthorIdDeleted<ArticleDumyModel>(article.AuthorId);
 
             Assert.Empty(result);
@@ -746,20 +423,9 @@
         public void GetLatesMostViewedTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatesMostViewed<ArticleDumyModel>();
 
             Assert.Equal(secondArticle.Id, result.First().Id);
@@ -769,22 +435,10 @@
         public void GetLatesInternationalArticlesTwoMatchesTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-            var thirdArticle = SeedArticle.CreateThirdArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.AddAsync(thirdArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var thirdArticle = this.CreateArticle(repository, SeedArticle.CreateThirdArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatesInternationalArticles<ArticleDumyModel>();
 
             Assert.Equal(2, result.Count());
@@ -794,22 +448,10 @@
         public void GetLatesInternationalArticlesoneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-            var thirdArticle = SeedArticle.CreateThirdArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.AddAsync(thirdArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var thirdArticle = this.CreateArticle(repository, SeedArticle.CreateThirdArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatesInternationalArticles<ArticleDumyModel>(1);
 
             Assert.Single(result);
@@ -819,22 +461,10 @@
         public void GetLatesLocalArticlesOneMatchTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-            var thirdArticle = SeedArticle.CreateThirdArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.AddAsync(thirdArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var thirdArticle = this.CreateArticle(repository, SeedArticle.CreateThirdArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatesLocalArticles<ArticleDumyModel>();
 
             Assert.Single(result);
@@ -844,22 +474,10 @@
         public void GetLatesMostCommentedTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-            var thirdArticle = SeedArticle.CreateThirdArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.AddAsync(thirdArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var thirdArticle = this.CreateArticle(repository, SeedArticle.CreateThirdArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLatesMostCommented<ArticleDumyModel>();
 
             Assert.Empty(result);
@@ -869,73 +487,32 @@
         public void GetLastByCreatedOnTest()
         {
             var repository = ArticleRepository.Create();
-
-            var imagesMoq = new Mock<IImagesService>();
-            var galleriesMoq = new Mock<IGalleriesService>();
-
-            var article = SeedArticle.Create();
-            var secondArticle = SeedArticle.CreateSecondArticle();
-            var thirdArticle = SeedArticle.CreateThirdArticle();
-
-            repository.AddAsync(article).GetAwaiter().GetResult();
-            repository.AddAsync(secondArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-            repository.AddAsync(thirdArticle).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object);
-
-            AutoMapperConfig.RegisterMappings(typeof(ArticleDumyModel).GetTypeInfo().Assembly);
+            var article = this.CreateArticle(repository, SeedArticle.Create());
+            var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
+            var thirdArticle = this.CreateArticle(repository, SeedArticle.CreateThirdArticle());
+            var service = this.GetArticlesService(repository);
             var result = service.GetLastByCreatedOn<ArticleDumyModel>();
 
             Assert.Equal(thirdArticle.Id, result.Id);
         }
 
+        private ArticlesService GetArticlesService(EfDeletableEntityRepository<Article> repository)
+        {
+            var imagesMoq = new Mock<IImagesService>();
+            var galleriesMoq = new Mock<IGalleriesService>();
+            var usersMoq = new Mock<IUsersService>();
+            var service = new ArticlesService(repository, imagesMoq.Object, galleriesMoq.Object, usersMoq.Object);
+
+            return service;
+        }
+
+        private Article CreateArticle(EfDeletableEntityRepository<Article> repository, Article article)
+        {
+            repository.AddAsync(article).GetAwaiter().GetResult();
+            repository.SaveChangesAsync().GetAwaiter().GetResult();
+            return article;
+        }
+
         //Task<int> CreateAsync(ArticleCreateInputModel model, string userId);
-    }
-
-    public class ArticleDumyModel : IMapFrom<Article>
-    {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
-
-        public string CategoryTitle { get; set; }
-
-        public int CategoryId { get; set; }
-
-        public string SubCategoryTitle { get; set; }
-
-        public string PictureImageUrl { get; set; }
-
-        public int SeenCount { get; set; }
-
-        public int CommentsCount { get; set; }
-
-        public string Content { get; set; }
-
-        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
-
-        public string AuthorBiography { get; set; }
-
-        public string AuthorUserName { get; set; }
-
-        public string AuthorFirstName { get; set; }
-
-        public string AuthorProfilePictureImageUrl { get; set; }
-
-        public string AuthorLastName { get; set; }
-
-        public int AuthorArticlesCount { get; set; }
-
-        public DateTime AuthorCreatedOn { get; set; }
-
-        public string AuthorFullName => $"{this.AuthorFirstName} {this.AuthorLastName}";
-
-        public DateTime CreatedOn { get; set; }
-
-        public int? GalleryId { get; set; }
-
-        public CreateCommentInputModel CommentModel { get; set; }
     }
 }

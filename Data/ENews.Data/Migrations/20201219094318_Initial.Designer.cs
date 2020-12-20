@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ENews.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200411121037_gallery-chnage")]
-    partial class gallerychnage
+    [Migration("20201219094318_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -28,25 +28,14 @@ namespace ENews.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AddressText")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("Area")
-                        .HasColumnType("int");
-
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.HasKey("Id");
+                    b.Property<int?>("Region")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique()
-                        .HasFilter("[ApplicationUserId] IS NOT NULL");
+                    b.HasKey("Id");
 
                     b.ToTable("Addresses");
                 });
@@ -100,7 +89,7 @@ namespace ENews.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("Biography")
@@ -176,6 +165,10 @@ namespace ENews.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId")
+                        .IsUnique()
+                        .HasFilter("[AddressId] IS NOT NULL");
+
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
@@ -198,9 +191,6 @@ namespace ENews.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Area")
-                        .HasColumnType("int");
-
                     b.Property<string>("AuthorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -210,8 +200,8 @@ namespace ENews.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(25000);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -229,6 +219,12 @@ namespace ENews.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PictureId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Region")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeenCount")
                         .HasColumnType("int");
 
                     b.Property<int>("SubCategoryId")
@@ -274,7 +270,7 @@ namespace ENews.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Desctription")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -572,15 +568,12 @@ namespace ENews.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ENews.Data.Models.Address", b =>
-                {
-                    b.HasOne("ENews.Data.Models.ApplicationUser", "ApplicationUser")
-                        .WithOne("Address")
-                        .HasForeignKey("ENews.Data.Models.Address", "ApplicationUserId");
-                });
-
             modelBuilder.Entity("ENews.Data.Models.ApplicationUser", b =>
                 {
+                    b.HasOne("ENews.Data.Models.Address", "Address")
+                        .WithOne("ApplicationUser")
+                        .HasForeignKey("ENews.Data.Models.ApplicationUser", "AddressId");
+
                     b.HasOne("ENews.Data.Models.Image", "ProfilePicture")
                         .WithMany()
                         .HasForeignKey("ProfilePictureId");

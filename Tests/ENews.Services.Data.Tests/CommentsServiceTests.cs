@@ -1,10 +1,10 @@
 ﻿namespace ENews.Services.Data.Tests
 {
-    using System;
     using System.Linq;
     using System.Reflection;
-
     using ENews.Data.Models;
+    using ENews.Data.Repositories;
+    using ENews.Services.Data.Tests.Models;
     using ENews.Services.Data.Tests.Repositories;
     using ENews.Services.Data.Tests.Seed;
     using ENews.Services.Mapping;
@@ -13,56 +13,50 @@
 
     public class CommentsServiceTests
     {
+        public CommentsServiceTests()
+        {
+            AutoMapperConfig.RegisterMappings(typeof(CommentDummyModel).GetTypeInfo().Assembly);
+
+        }
+
         [Fact]
         public void CreateAsyncTest()
         {
             var repository = CommentRepository.Create();
+            var comment = this.CreateComment(repository, SeedComment.Create());
+            var service = this.GetCommentService(repository);
 
-            var comment = SeedComment.Create();
-
-            repository.AddAsync(comment).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
-
-            var service = new CommentsService(repository);
-
-            AutoMapperConfig.RegisterMappings(typeof(CreateCommentInputModel).GetTypeInfo().Assembly);
             service.CreateAsync(new CreateCommentInputModel { Content = "New comment" }).GetAwaiter();
 
             Assert.Equal(2, repository.All().Count());
         }
 
-        //Not working
         [Fact]
         public void GetLatesByCreatedOnTest()
         {
             var repository = CommentRepository.Create();
 
-            var comment = SeedComment.Create();
-            var secondComment = SeedComment.CreateSecond();
-            var thirdComment = SeedComment.CreateThird();
+            var comment = this.CreateComment(repository, SeedComment.Create());
+            var secondComment = this.CreateComment(repository, SeedComment.CreateSecond());
+            var thirdComment = this.CreateComment(repository, SeedComment.CreateThird());
+            var service = this.GetCommentService(repository);
 
-            repository.AddAsync(comment).GetAwaiter().GetResult();
-            repository.SaveChangesAsync().GetAwaiter().GetResult();
+            var result = service.GetLatesByCreatedOn<CommentDummyModel>(1);
 
-            var service = new CommentsService(repository);
-
-            AutoMapperConfig.RegisterMappings(typeof(CommentPreviewViewModel).GetTypeInfo().Assembly);
-            var result = service.GetLatesByCreatedOn<CommentPreviewViewModel>(1);
-
-            Assert.Equal(0, result.Count());
+            Assert.Empty(result);
         }
 
-        public class CommentDummy : IMapFrom<Comment>
+        private CommentsService GetCommentService(EfDeletableEntityRepository<Comment> repository)
         {
-            public string UserId { get; set; }
+            var service = new CommentsService(repository);
+            return service;
+        }
 
-            public string UserUserName { get; set; }
-
-            public int ArticleId { get; set; }
-
-            public string Content { get; set; }
-
-            public DateTime CreatedOn { get; set; }
+        private Comment CreateComment(EfDeletableEntityRepository<Comment> repository, Comment comment)
+        {
+            repository.AddAsync(comment).GetAwaiter().GetResult();
+            repository.SaveChangesAsync().GetAwaiter().GetResult();
+            return comment;
         }
     }
 }

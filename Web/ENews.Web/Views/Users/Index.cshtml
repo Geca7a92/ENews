@@ -16,14 +16,16 @@
         <div class="px-4 pt-0 pb-4 cover">
             <div class="media align-items-end profile-head">
                 <div class="profile mr-3">
-                    @if (string.IsNullOrWhiteSpace(Model.ProfilePictureImageUrl))
-                    {
-                        <img src="@GlobalConstants.ProfilePictureFill" alt="..." width="130" class="rounded mb-2 img-thumbnail">
-                    }
-                    else
-                    {
-                        <img src="@Model.ProfilePictureImageUrl" alt="..." width="130" class="rounded mb-2 img-thumbnail">
-                    }
+                    <a href="#">
+                        @if (string.IsNullOrWhiteSpace(Model.ProfilePictureImageUrl))
+                        {
+                            <img src="@GlobalConstants.ProfilePictureFill" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                        }
+                        else
+                        {
+                            <img src="@Model.ProfilePictureImageUrl" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                        }
+                    </a>
                     @if (Model.MyProfile)
                     {
                         <a asp-area="Identity" asp-controller="Account" asp-action="Manage" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>

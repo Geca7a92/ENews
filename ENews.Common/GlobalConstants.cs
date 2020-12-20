@@ -46,7 +46,8 @@
         // Users seeding details
         public const string PhoneNumber = "0123456789";
 
-        public const string BiographyFiller = "Donec turpis erat, scelerisque id euismod sit amet, fermentum vel dolor. Nulla facilisi. Sed pellen tesque lectus et accu msan aliquam. Fusce lobortis cursus quam, id mattis sapien.";
+        public const string BiographyFiller = "Donec turpis erat, scelerisque id euismod sit amet, fermentum vel dolor. Nulla facilisi. " +
+            "Sed pellen tesque lectus et accu msan aliquam. Fusce lobortis cursus quam, id mattis sapien.";
 
         // Admin account info
         public const string AdminPassword = "adminadmin";
