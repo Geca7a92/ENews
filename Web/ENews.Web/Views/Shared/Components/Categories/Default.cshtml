@@ -6,12 +6,12 @@
 @foreach (var category in Model.Categories)
 {
     <li>
-        <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-categoryName="@category.Title" class="nav-link text-dark">@category.Title</a>
+        <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-data="@category.Title" class="nav-link text-dark">@category.Title</a>
         <ul class="dropdown">
             @foreach (var subCategory in category.SubCategories)
             {
                 <li>
-                    <a asp-area="" asp-controller="SubCategories" asp-action="Index" asp-route-categoryName="@category.Title" asp-route-subCategoryName="@subCategory.Title" class="nav-link text-dark">@subCategory.Title</a>
+                    <a asp-area="" asp-controller="SubCategories" asp-action="Index" asp-route-subData="@category.Title" asp-route-data="@subCategory.Title" class="nav-link text-dark">@subCategory.Title</a>
                 </li>
             }
         </ul>

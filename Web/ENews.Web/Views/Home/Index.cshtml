@@ -24,7 +24,7 @@ else
                                 <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@Model.LatestArticle.Title.Replace(' ', '-')" asp-route-id="@Model.LatestArticle.Id"><img src="@Model.LatestArticle.PictureImageUrl" alt=""></a>
                             </div>
                             <div class="post-data">
-                                <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-categoryName="@Model.LatestArticle.CategoryTitle" class="post-catagory">@Model.LatestArticle.CategoryTitle</a>
+                                <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-data="@Model.LatestArticle.CategoryTitle" class="post-catagory">@Model.LatestArticle.CategoryTitle</a>
                                 <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@Model.LatestArticle.Title.Replace(' ', '-')" asp-route-id="@Model.LatestArticle.Id" class="post-title">
                                     <h6>@Model.LatestArticle.Title</h6>
                                 </a>
@@ -62,7 +62,7 @@ else
                                     <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@item.Title.Replace(' ', '-')" asp-route-id="@item.Id"><img src="@item.PictureImageUrl" style='height: 100%; width: 100%; object-fit: contain' alt=""></a>
                                 </div>
                                 <div class="post-data">
-                                    <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-categoryName="@item.CategoryTitle" class="post-catagory">@item.CategoryTitle</a>
+                                    <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-data="@item.CategoryTitle" class="post-catagory">@item.CategoryTitle</a>
                                     <div class="post-meta">
                                         <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@item.Title.Replace(' ', '-')" asp-route-id="@item.Id" class="post-title">
                                             <h6>@item.Title</h6>
@@ -106,7 +106,7 @@ else
                                 <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@item.Title.Replace(' ', '-')" asp-route-id="@item.Id"><img src="@item.PictureImageUrl" style='height: 100%; width: 100%; object-fit: contain' alt=""></a>
                             </div>
                             <div class="post-data">
-                                <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-categoryName="@item.CategoryTitle" class="post-catagory">@item.CategoryTitle</a>
+                                <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-data="@item.CategoryTitle" class="post-catagory">@item.CategoryTitle</a>
                                 <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@item.Title.Replace(' ', '-')" asp-route-id="@item.Id" class="post-title">
                                     <h6>@item.Title</h6>
                                 </a>

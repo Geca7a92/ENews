@@ -23,9 +23,9 @@
             this.pagingService = pagingService;
         }
 
-        public IActionResult Index(string subCategoryName, int page = 1)
+        public IActionResult Index(string data, int page = 1)
         {
-            var viewModel = this.subCategoriesService.GetSubCategoryByName<SubCategoryArticlesViewModel>(subCategoryName);
+            var viewModel = this.subCategoriesService.GetSubCategoryByName<SubCategoryArticlesViewModel>(data);
 
             if (viewModel == null)
             {
@@ -34,8 +34,8 @@
 
             var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
             viewModel.Route = GlobalConstants.SubCategoryRoute;
-            viewModel.CategoryName = viewModel.CategoryTitle;
-            viewModel.SubCategoryName = subCategoryName;
+            viewModel.Data = data;
+            viewModel.SubData = viewModel.CategoryTitle;
 
             viewModel.SubCategoryArticles = this.articleService.GetAllBySubCategoryId<ArticlePreviewViewModel>(viewModel.Id, GlobalConstants.ArticlePerPage, skip);
 

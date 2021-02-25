@@ -120,7 +120,7 @@
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();  
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
@@ -134,11 +134,11 @@
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("articlePreview", "Article/{id?}/{title}", new { controller = "Articles", action = "Index" });
-                        endpoints.MapControllerRoute(GlobalConstants.CategoryRoute, "{categoryName}", new { controller = "Categories", action = "Index" });
-                        endpoints.MapControllerRoute(GlobalConstants.SubCategoryRoute, "{categoryName}/{subCategoryName}", new { controller = "SubCategories", action = "Index" });
-                        endpoints.MapControllerRoute(GlobalConstants.UsernameRoute, "articles/{username}", new { controller = "Users", action = "Articles" });
+                        endpoints.MapControllerRoute(GlobalConstants.CategoryRoute, "{data}", new { controller = "Categories", action = "Index" });
+                        endpoints.MapControllerRoute(GlobalConstants.SubCategoryRoute, "{subData}/{data}", new { controller = "SubCategories", action = "Index" });
+                        endpoints.MapControllerRoute(GlobalConstants.UsernameRoute, "articles/{data}", new { controller = "Users", action = "Articles" });
                         endpoints.MapControllerRoute(GlobalConstants.LocalRoute, GlobalConstants.Country, new { controller = "Categories", action = "Local" });
-                        endpoints.MapControllerRoute(GlobalConstants.LocalByRegionRoute, $"{GlobalConstants.Country}/{{categoryName}}", new { controller = "Categories", action = "LocalByRegion" });
+                        endpoints.MapControllerRoute(GlobalConstants.LocalByRegionRoute, $"{GlobalConstants.Country}/{{data}}", new { controller = "Categories", action = "LocalByRegion" });
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });

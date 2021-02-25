@@ -20,7 +20,7 @@
                         </div>
                         <div class="post-data">
                             @*<a asp-area="" asp-controller="SubCategories" asp-action="Index" asp-route-categoryName="@category.Title" asp-route-subCategoryName="@subCategory.Title"></a>*@
-                            <a asp-area="" asp-controller="SubCategories" asp-action="Index" asp-route-categoryName="@article.CategoryTitle" asp-route-subCategoryName="@article.SubCategoryTitle" class="post-catagory">@article.SubCategoryTitle</a>
+                            <a asp-area="" asp-controller="SubCategories" asp-action="Index" asp-route-subData="@article.CategoryTitle" asp-route-data="@article.SubCategoryTitle" class="post-catagory">@article.SubCategoryTitle</a>
                             <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@article.Title.Replace(' ', '-')" asp-route-id="@article.Id" class="post-title">
                                 <h6>@article.Title</h6>
                             </a>

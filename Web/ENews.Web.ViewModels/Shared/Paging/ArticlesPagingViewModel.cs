@@ -4,11 +4,9 @@
 
     public class ArticlesPagingViewModel : PagingViewModel
     {
-        public string CategoryName { get; set; }
+        public string Data { get; set; }
 
-        public string Username { get; set; }
-
-        public string SubCategoryName { get; set; }
+        public string SubData { get; set; }
 
         public string Route { get; set; }
     }

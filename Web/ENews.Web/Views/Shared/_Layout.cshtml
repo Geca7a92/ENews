@@ -104,7 +104,7 @@
                                                         @for (int x = @i - 6; x <= @i; x++)
                                                         {
                                                             <li>
-                                                                <a asp-area="" asp-controller="Categories" asp-action="LocalByRegion" asp-route-categoryName="@((Region)x)"> @(((Region)x).ToString().Replace("_", " ")) </a>
+                                                                <a asp-area="" asp-controller="Categories" asp-action="LocalByRegion" asp-route-data="@((Region)x)"> @(((Region)x).ToString().Replace("_", " ")) </a>
                                                             </li>
                                                         }
                                                     </ul>

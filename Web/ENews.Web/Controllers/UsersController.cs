@@ -45,9 +45,9 @@
             return this.View(model);
         }
 
-        public async Task<IActionResult> Articles(string username, int page = 1)
+        public async Task<IActionResult> Articles(string data, int page = 1)
         {
-            var viewModel = await this.usersService.GetUserByUsername<UserArticlesViewModel>(username);
+            var viewModel = await this.usersService.GetUserByUsername<UserArticlesViewModel>(data);
 
             if (viewModel == null)
             {
@@ -55,6 +55,7 @@
             }
 
             viewModel.Route = GlobalConstants.UsernameRoute;
+            viewModel.Data = data;
 
             var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
