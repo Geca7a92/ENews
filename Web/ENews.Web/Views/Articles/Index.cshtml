@@ -17,7 +17,7 @@
                             <img src="@Model.PictureImageUrl" style='height: 100%; width: 100%; object-fit: contain' />
                         </div>
                         <div class="post-data">
-                            <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@Model.CategoryTitle" class="post-catagory">@Model.CategoryTitle</a>
+                            <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-categoryName="@Model.CategoryTitle" class="post-catagory">@Model.CategoryTitle</a>
                             <h3 class="post-title">@Model.Title</h3>
                             <div class="post-meta">
 

@@ -22,21 +22,35 @@
 
         IEnumerable<T> GetAllByAtuthorIdDeleted<T>(string id, int? take = null, int skip = 0);
 
+        //Org
         IEnumerable<T> GetLatesByCreatedOn<T>(int? take = null, int skip = 0);
+
+        //Test
+        Task<IEnumerable<T>> GetLatesByCreatedOnAsync<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetLatesWithVideos<T>(int? take = null, int skip = 0);
 
+        //Test
+        Task<IEnumerable<T>> GetLatesWithVideosAsync<T>(int? take = null, int skip = 0);
+
         IEnumerable<T> GetLatesMostViewed<T>(int? take = null, int skip = 0);
+
+        //Test
+        Task<IEnumerable<T>> GetLatesMostViewedAsync<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetLatestByRegion<T>(Region region, int? take = null, int skip = 0);
 
         IEnumerable<T> GetLatesInternationalArticles<T>(int? take = null, int skip = 0);
 
+        //Test
+        Task<IEnumerable<T>> GetLatesInternationalArticlesAsync<T>(int? take = null, int skip = 0);
+
         IEnumerable<T> GetLatesLocalArticles<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetLatesMostCommented<T>(int? take = null, int skip = 0);
 
-        T GetLastByCreatedOn<T>();
+        //Eddited
+        Task<T> GetLastByCreatedOn<T>();
 
         bool ArticleExist(int id);
 

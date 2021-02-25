@@ -108,6 +108,18 @@
             return query.To<T>().ToList();
         }
 
+        public async Task<IEnumerable<T>> GetLatesByCreatedOnAsync<T>(int? take = null, int skip = 0)
+        {
+            IQueryable<Article> query
+                = this.articleRepository.All().OrderByDescending(x => x.CreatedOn).Skip(skip);
+            if (take != null)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return await query.To<T>().ToListAsync();
+        }
+
         public async Task<Article> GetbyIdHard(int id)
         {
             var article = await this.articleRepository.GetByIdWithDeletedAsync(id);
@@ -327,9 +339,9 @@
             return articles.To<T>().ToList();
         }
 
-        public T GetLastByCreatedOn<T>()
+        public async Task<T> GetLastByCreatedOn<T>()
         {
-            var article = this.articleRepository.All().OrderByDescending(a => a.CreatedOn).To<T>().FirstOrDefault();
+            var article = await this.articleRepository.All().OrderByDescending(a => a.CreatedOn).To<T>().FirstOrDefaultAsync();
             return article;
         }
 
@@ -371,6 +383,52 @@
             {
                 return false;
             }
+        }
+
+        public async Task<IEnumerable<T>> GetLatesMostViewedAsync<T>(int? take = null, int skip = 0)
+        {
+            IQueryable<Article> articles;
+            var days = 7;
+
+            while (true)
+            {
+                articles = this.articleRepository.All().OrderByDescending(a => a.SeenCount).Where(a => a.CreatedOn.AddDays(days) > DateTime.UtcNow).Skip(skip);
+                if (articles.Count() > 4 || days > 365)
+                {
+                    break;
+                }
+
+                days++;
+            }
+
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return await articles.To<T>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetLatesInternationalArticlesAsync<T>(int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All().Where(a => !a.Region.HasValue).OrderByDescending(a => a.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return await articles.To<T>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetLatesWithVideosAsync<T>(int? take = null, int skip = 0)
+        {
+            var articles = this.articleRepository.All().Where(a => !string.IsNullOrEmpty(a.VideoUrl)).OrderByDescending(a => a.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                articles = articles.Take(take.Value);
+            }
+
+            return await articles.To<T>().ToListAsync();
         }
     }
 }

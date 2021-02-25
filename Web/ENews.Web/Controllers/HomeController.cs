@@ -1,9 +1,11 @@
 ﻿namespace ENews.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     using ENews.Services.Data;
     using ENews.Web.ViewModels;
+    using ENews.Web.ViewModels.Articles;
     using ENews.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
@@ -20,16 +22,17 @@
             this.usersService = usersService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new IndexViewModel()
             {
-                LatestArticle = this.articleService.GetLastByCreatedOn<ArticlePreviewViewModel>(),
-                LatestTwoArticles = this.articleService.GetLatesByCreatedOn<ArticlePreviewViewModel>(2, 1),
-                LatestPopularNews = this.articleService.GetLatesMostViewed<ArticlePreviewViewModel>(4),
-                LatestWorldNews = this.articleService.GetLatesInternationalArticles<ArticlePreviewViewModel>(9),
-                LatestVideos = this.articleService.GetLatesWithVideos<ArticlesVideoPreview>(3),
+                LatestArticle = await this.articleService.GetLastByCreatedOn<ArticlePreviewViewModel>(),
+                LatestTwoArticles = await this.articleService.GetLatesByCreatedOnAsync<ArticleBaseViewModel>(2, 1),
+                LatestPopularNews = await this.articleService.GetLatesMostViewedAsync<ArticleBaseViewModel>(4),
+                LatestWorldNews = await this.articleService.GetLatesInternationalArticlesAsync<ArticleBaseViewModel>(9),
+                LatestVideos = await this.articleService.GetLatesWithVideosAsync<ArticlesVideoPreview>(3),
             };
+
             return this.View(model);
         }
 

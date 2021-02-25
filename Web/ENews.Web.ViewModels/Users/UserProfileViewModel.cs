@@ -4,6 +4,7 @@
 
     using ENews.Data.Models;
     using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Articles;
 
     public class UserProfileViewModel : IMapFrom<ApplicationUser>
     {
@@ -29,6 +30,6 @@
 
         public string ProfilePictureImageUrl { get; set; }
 
-        public ICollection<ArticlePreviewViewModel> MyArticles { get; set; }
+        public IEnumerable<ArticleBaseViewModel> MyArticles { get; set; }
     }
 }

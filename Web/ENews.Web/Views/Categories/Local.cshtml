@@ -22,7 +22,7 @@
 
                             </div>
                             <div class="post-data">
-                                <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@article.CategoryTitle" class="post-catagory">@article.CategoryTitle</a>
+                                <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-categoryName="@article.CategoryTitle" class="post-catagory">@article.CategoryTitle</a>
                                 <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@article.Title.Replace(' ', '-')" asp-route-id="@article.Id" class="post-title">
                                     <h6>@article.Title</h6>
                                 </a>

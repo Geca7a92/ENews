@@ -5,7 +5,7 @@
         <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@Model.Title.Replace(' ', '-')" asp-route-id="@Model.Id"><img src="@Model.PictureImageUrl" alt=""></a>
     </div>
     <div class="post-data">
-        <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-name="@Model.CategoryTitle" class="post-catagory">@Model.CategoryTitle</a>
+        <a asp-area="" asp-controller="Categories" asp-action="Index" asp-route-categoryName="@Model.CategoryTitle" class="post-catagory">@Model.CategoryTitle</a>
         <div class="post-meta">
             <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-title="@Model.Title.Replace(' ', '-')" asp-route-id="@Model.Id" class="post-title">
                 <h6>@Model.Title</h6>

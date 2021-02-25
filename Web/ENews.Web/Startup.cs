@@ -134,10 +134,11 @@
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("articlePreview", "Article/{id?}/{title}", new { controller = "Articles", action = "Index" });
-                        endpoints.MapControllerRoute(GlobalConstants.CategoryRoute, "{name}", new { controller = "Categories", action = "Index" });
-                        endpoints.MapControllerRoute("subCategory", "{categoryName}/{subCategoryName}", new { controller = "SubCategories", action = "Index" });
-                        endpoints.MapControllerRoute("local", GlobalConstants.Country, new { controller = "Categories", action = "Local" });
-                        endpoints.MapControllerRoute(GlobalConstants.LocalByRegionRoute, $"{GlobalConstants.Country}/{{name}}", new { controller = "Categories", action = "LocalByRegion" });
+                        endpoints.MapControllerRoute(GlobalConstants.CategoryRoute, "{categoryName}", new { controller = "Categories", action = "Index" });
+                        endpoints.MapControllerRoute(GlobalConstants.SubCategoryRoute, "{categoryName}/{subCategoryName}", new { controller = "SubCategories", action = "Index" });
+                        endpoints.MapControllerRoute(GlobalConstants.UsernameRoute, "articles/{username}", new { controller = "Users", action = "Articles" });
+                        endpoints.MapControllerRoute(GlobalConstants.LocalRoute, GlobalConstants.Country, new { controller = "Categories", action = "Local" });
+                        endpoints.MapControllerRoute(GlobalConstants.LocalByRegionRoute, $"{GlobalConstants.Country}/{{categoryName}}", new { controller = "Categories", action = "LocalByRegion" });
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });

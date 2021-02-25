@@ -33,6 +33,9 @@
             }
 
             var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
+            viewModel.Route = GlobalConstants.SubCategoryRoute;
+            viewModel.CategoryName = viewModel.CategoryTitle;
+            viewModel.SubCategoryName = subCategoryName;
 
             viewModel.SubCategoryArticles = this.articleService.GetAllBySubCategoryId<ArticlePreviewViewModel>(viewModel.Id, GlobalConstants.ArticlePerPage, skip);
 

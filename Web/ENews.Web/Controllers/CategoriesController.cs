@@ -26,9 +26,9 @@
             this.pagingService = pagingService;
         }
 
-        public async Task<IActionResult> Index(string name, int page = 1)
+        public async Task<IActionResult> Index(string categoryName, int page = 1)
         {
-            var viewModel = await this.categoriesService.GetCategoryByName<MainCategoryArticlesViewModel>(name);
+            var viewModel = await this.categoriesService.GetCategoryByName<MainCategoryArticlesViewModel>(categoryName);
 
             if (viewModel == null)
             {
@@ -36,7 +36,7 @@
             }
 
             viewModel.Route = GlobalConstants.CategoryRoute;
-            viewModel.CategoryName = name;
+            viewModel.CategoryName = categoryName;
 
             var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
@@ -55,6 +55,8 @@
         {
             var viewModel = new LocalArticlesViewModel();
 
+            viewModel.Route = GlobalConstants.LocalRoute;
+
             var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
             viewModel.CategoryArticles = this.articlesService.GetLatesLocalArticles<ArticlePreviewViewModel>(GlobalConstants.ArticlePerPage, skip);
@@ -66,22 +68,22 @@
             return this.View(viewModel);
         }
 
-        public IActionResult LocalByRegion(Region name, int page = 1)
+        public IActionResult LocalByRegion(Region categoryName, int page = 1)
         {
-            if (name == 0)
+            if (categoryName == 0)
             {
                 return this.NotFound();
             }
 
-            var viewModel = new RegionArticlesViewModel() { CategoryName = name.ToString() };
+            var viewModel = new RegionArticlesViewModel() { CategoryName = categoryName.ToString() };
 
             viewModel.Route = GlobalConstants.LocalByRegionRoute;
 
             var skip = this.pagingService.CountSkip(page, GlobalConstants.ArticlePerPage);
 
-            viewModel.CategoryArticles = this.articlesService.GetLatestByRegion<ArticlePreviewViewModel>(name, GlobalConstants.ArticlePerPage, skip);
+            viewModel.CategoryArticles = this.articlesService.GetLatestByRegion<ArticlePreviewViewModel>(categoryName, GlobalConstants.ArticlePerPage, skip);
 
-            viewModel.PagesCount = this.pagingService.GetPagesCountByRegion(name);
+            viewModel.PagesCount = this.pagingService.GetPagesCountByRegion(categoryName);
 
             viewModel.CurrentPage = this.pagingService.SetPage(page, viewModel.PagesCount);
 

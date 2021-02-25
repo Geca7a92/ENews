@@ -1,29 +1,14 @@
 ﻿namespace ENews.Web.ViewModels
 {
-    using System;
     using System.Net;
     using System.Text.RegularExpressions;
 
     using ENews.Data.Models;
     using ENews.Data.Models.Enums;
-    using ENews.Services.Mapping;
+    using ENews.Web.ViewModels.Articles;
 
-    public class ArticlePreviewViewModel : IMapFrom<Article>
+    public class ArticlePreviewViewModel : ArticleBaseViewModel
     {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
-
-        public string CategoryTitle { get; set; }
-
-        public string SubCategoryTitle { get; set; }
-
-        public string PictureImageUrl { get; set; }
-
-        public int SeenCount { get; set; }
-
-        public int CommentsCount { get; set; }
-
         public string AuthorUserName { get; set; }
 
         public string AuthorFirstName { get; set; }
@@ -37,8 +22,6 @@
         public Gallery Gallery { get; set; }
 
         public string Content { get; set; }
-
-        public DateTime CreatedOn { get; set; }
 
         public Region? Region { get; set; }
 

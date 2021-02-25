@@ -491,7 +491,7 @@
             var secondArticle = this.CreateArticle(repository, SeedArticle.CreateSecondArticle());
             var thirdArticle = this.CreateArticle(repository, SeedArticle.CreateThirdArticle());
             var service = this.GetArticlesService(repository);
-            var result = service.GetLastByCreatedOn<ArticleDumyModel>();
+            var result = service.GetLastByCreatedOn<ArticleDumyModel>().GetAwaiter().GetResult();
 
             Assert.Equal(thirdArticle.Id, result.Id);
         }

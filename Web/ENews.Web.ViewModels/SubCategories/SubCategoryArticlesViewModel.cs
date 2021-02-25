@@ -6,7 +6,7 @@
     using ENews.Services.Mapping;
     using ENews.Web.ViewModels.Shared.Paging;
 
-    public class SubCategoryArticlesViewModel : PagingViewModel, IMapFrom<SubCategory>
+    public class SubCategoryArticlesViewModel : ArticlesPagingViewModel, IMapFrom<SubCategory>
     {
         public int Id { get; set; }
 

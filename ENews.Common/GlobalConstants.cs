@@ -31,7 +31,10 @@
 
         // Routes
         public const string CategoryRoute = "category";
-        public const string LocalByRegionRoute = "local";
+        public const string UsernameRoute = "byUsername";
+        public const string SubCategoryRoute = "subCategory";
+        public const string LocalRoute = "local";
+        public const string LocalByRegionRoute = "localByregion";
 
         public const string Country = "Bulgaria";
 

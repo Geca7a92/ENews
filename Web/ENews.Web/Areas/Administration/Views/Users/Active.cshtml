@@ -65,7 +65,9 @@
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
+                        <a asp-area="" asp-controller="Users" asp-action="Index" asp-route-username="@item.UserName">
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </a>
                     </td>
                     <td>
                         <div class="row">
