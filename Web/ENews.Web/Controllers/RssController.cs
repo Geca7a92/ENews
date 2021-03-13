@@ -19,7 +19,7 @@
             this.articlesService = articlesService;
         }
 
-        public ActionResult ENews()
+        public ActionResult EUNews()
         {
             XNamespace ns = "http://www.w3.org/2005/Atom";
             var rss = new XElement("rss", new XAttribute("version", "2.0"), new XAttribute(XNamespace.Xmlns + "atom", ns));
@@ -32,7 +32,7 @@
                 new XElement("language", "en-us"),
                 new XElement("copyright", $"Copyright 2020-{DateTime.UtcNow.Year} Georgi Georgiev"),
                 new XElement("lastBuildDate", this.articlesService.LastesArticleCreationDate().ToUniversalTime().ToString("r")),
-                new XElement(ns + "link", new XAttribute("href", "https://localhost:44319/Rss/Enews"), new XAttribute("rel", "self"), new XAttribute("type", "application/rss+xml")),
+                new XElement(ns + "link", new XAttribute("href", $"{GlobalConstants.SystemUrl}Rss/EUnews"), new XAttribute("rel", "self"), new XAttribute("type", "application/rss+xml")),
                 new XElement(
                     "image",
                     new XElement("url", $"{GlobalConstants.SystemImageUrl}"),
@@ -46,7 +46,7 @@
                 postInRss.Add(new XElement("title", article.Title));
                 postInRss.Add(new XElement("image", article.PictureImageUrl));
                 postInRss.Add(new XElement("description", article.SanitizedContent));
-                postInRss.Add(new XElement("link", $"{GlobalConstants.SystemArticlePreviewUrl}" + article.Id));
+                postInRss.Add(new XElement("link", $"{GlobalConstants.SystemArticlePreviewUrl}{article.Id}/{article.Title}"));
                 postInRss.Add(new XElement("author", $"{article.AuthorFirstName} {article.AuthorLastName}"));
                 postInRss.Add(new XElement("pubDate", article.CreatedOn.ToUniversalTime().ToString("r")));
                 postInRss.Add(new XElement("guid", article.Title + "#When" + article.CreatedOn.ToUniversalTime()

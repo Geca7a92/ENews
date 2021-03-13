@@ -86,6 +86,7 @@
             services.AddTransient<IAddressesService, AddressesService>();
             services.AddTransient<IImagesService, ImagesService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IWeatherService, WeatherService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,7 +121,7 @@
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();  
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

@@ -6,23 +6,21 @@
 
 @if (this.SignInManager.IsSignedIn(this.User))
 {
-    @*<vc:user-navbar-details></vc:user-navbar-details>*@
-    @*<a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(this.User.Identity.Name)!</a>*@
-    <a asp-area="" asp-controller="Users" asp-action="Index" asp-route-username="@this.User.Identity.Name">Hello @this.User.Identity.Name</a>
-    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ReporterRoleName))
+<a asp-area="" asp-controller="Users" asp-action="Index" asp-route-username="@this.User.Identity.Name">Hello @this.User.Identity.Name</a>
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ReporterRoleName))
     {
-        <a asp-area="MembersArea" asp-controller="Article" asp-action="Active">Members Area</a>
+<a asp-area="MembersArea" asp-controller="Article" asp-action="Active">Members Area</a>
     }
     if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
     {
-        <a asp-area="Administration" asp-controller="Home" asp-action="Index" title="Admin">Admin</a>
+<a asp-area="Administration" asp-controller="Home" asp-action="Index" title="Admin">Admin</a>
     }
-    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
-        <button type="submit" class="btn btn-dark">Logout</button>
-    </form>
+<form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
+    <button type="submit" class="btn btn-dark">Logout</button>
+</form>
 }
 else
 {
-    <a asp-area="Identity" asp-page="/Account/Register">Register</a>
-    <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+<a asp-area="Identity" asp-page="/Account/Register">Register</a>
+<a asp-area="Identity" asp-page="/Account/Login">Login</a>
 }

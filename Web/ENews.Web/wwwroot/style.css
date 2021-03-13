@@ -478,7 +478,10 @@ textarea:focus {
 .hero-area {
   position: relative;
   z-index: 1;
-  padding: 50px 0 80px; }
+  /*padding: 50px 0 80px; }*/
+  padding: 50px 0 40px; }
+  /*padding: 50px 0 0px; }*/
+
   .hero-area .breaking-news-area {
     position: relative;
     z-index: 1; }

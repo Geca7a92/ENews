@@ -36,7 +36,7 @@
     </environment>
 </head>
 
-<body>
+<body onload="geolocate()">
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">
 
@@ -127,7 +127,7 @@
     <!-- ##### Hero Area Start ##### -->
     <div class="hero-area">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row">
                 <div class="col-12 col-lg-8">
                     <!-- Latest News Widget -->
                     <div class="breaking-news-area d-flex align-items-center">
@@ -150,11 +150,34 @@
                 </div>
 
                 <!-- Hero Add -->
-                <div class="col-12 col-lg-4">
-                    <div class="hero-add">
-                        <a href="https://www.google.com/" target="_blank"><img src="https://colorlib.com/preview/theme/newspaper/img/bg-img/hero-add.gif" alt=""></a>
+                <div class="col-12 col-lg-4" id="weatherPanel" style="display:none">
+                    <div class="card">
+                        <div class=" card-header" style="white-space:nowrap">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 id="cityName" style="text-align:left">Name</h5>
+                                </div>
+                                <div class="col">
+                                    <h6 class="text-muted" style="text-align:center" id="description"></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div id="icon" class="pl-2"><img id="wicon" src="" alt="Weather icon"></div>
+                                <div id="temp" class="pl-2">C</div>
+                            </div>
+                            <div class="col-8">
+                                <div class="pr-2" id="wind" style="text-align:right">m/s</div>
+                                <div class="pr-2" id="pressure" style="text-align:right">Pa</div>
+                                <div class="pr-2" id="humidity" style="text-align:right">%</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                @*<div id="heroAdd" class="hero-add card-header">
+                        <a href="https://www.google.com/" target="_blank"><img src="https://colorlib.com/preview/theme/newspaper/img/bg-img/hero-add.gif" alt=""></a>
+                    </div>*@
             </div>
         </div>
     </div>
@@ -203,7 +226,7 @@
                                 <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
                                 <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
                                 <li>
-                                    <a asp-area="" asp-controller="Rss" asp-action="ENews"><strong>RSS</strong></a>
+                                    <a asp-area="" asp-controller="Rss" asp-action="EUNews"><strong>RSS</strong></a>
                                 </li>
                             </ul>
                         </div>
@@ -260,8 +283,6 @@
             </div>
         </div>
     </footer>
-
-    "
 
     <environment names="Development">
         @*NEW*@
