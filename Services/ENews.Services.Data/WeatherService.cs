@@ -1,8 +1,11 @@
 ﻿namespace ENews.Services.Data
 {
+    using System;
+    using System.Globalization;
+    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-
+    using ENews.Web.ViewModels.Weather;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
@@ -43,6 +46,22 @@
             var json = JsonConvert.DeserializeObject(str);
             T model = JsonConvert.DeserializeObject<T>(str);
             return model;
+        }
+
+        public string GetUserCityByIp(string ip)
+        {
+            IpInfo ipInfo = new IpInfo();
+            try
+            {
+                string info = new WebClient().DownloadString("http://ipinfo.io/" + ip);
+                ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
+            }
+            catch (Exception)
+            {
+                ipInfo.City = null;
+            }
+
+            return ipInfo.City;
         }
     }
 }

@@ -7,5 +7,7 @@
         Task<T> GetData<T>(string cityName);
 
         Task<string> GetCityName(string latitude, string longitude);
+
+        string GetUserCityByIp(string ip);
     }
 }

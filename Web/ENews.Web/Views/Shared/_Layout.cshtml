@@ -36,7 +36,7 @@
     </environment>
 </head>
 
-<body onload="geolocate()">
+<body onload="getWeatherData()">
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">
 
@@ -151,8 +151,8 @@
 
                 <!-- Hero Add -->
                 <div class="col-12 col-lg-4" id="weatherPanel" style="display:none">
-                    <div class="card">
-                        <div class=" card-header" style="white-space:nowrap">
+                    <div class="card" style="white-space:nowrap; border-radius: inherit">
+                        <div class=" card-header">
                             <div class="row">
                                 <div class="col">
                                     <h5 id="cityName" style="text-align:left">Name</h5>
